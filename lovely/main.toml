@@ -11,7 +11,7 @@ position = "at"
 payload = '''if Ceres.COMPAT.cryptid then
     if AUT.card_type == 'Joker' or (AUT.badges and AUT.badges.force_rarity) then card_type = ({localize('k_common'), localize('k_uncommon'), localize('k_rare'), localize('k_legendary'), ['cry_epic'] = 'Epic', ['cry_exotic'] = 'Exotic', ['cere_epic'] = 'Epic', ['cere_divine'] = 'Divine'})[card.config.center.rarity] end
 else
-    if AUT.card_type == 'Joker' or (AUT.badges and AUT.badges.force_rarity) then card_type = ({localize('k_common'), localize('k_uncommon'), localize('k_rare'), localize('k_legendary'), ['cere_epic'] = 'Epic', ['cere_divine'] = 'Divine'})[card.config.center.rarity] end
+    if AUT.card_type == 'Joker' or (AUT.badges and AUT.badges.force_rarity) then card_type = ({localize('k_common'), localize('k_uncommon'), localize('k_rare'), localize('k_legendary'), ['cere_divine'] = 'Divine'})[card.config.center.rarity] end
 end'''
 match_indent = true
 
@@ -23,21 +23,6 @@ position = "at"
 payload = "card = create_card('Joker', _context.area, nil, 0.99, nil, nil, nil, 'rta')"
 match_indent = true
 
-[[patches]]
-[patches.pattern]
-target = "functions/misc_functions.lua"
-pattern = "legendary = G.C.RARITY[4],"
-position = "after"
-payload = "cere_epic = G.C.RARITY['cere_epic'], heart = G.C.SUITS.Hearts, diamond = G.C.SUITS.Diamonds, spade = G.C.SUITS.Spades, club = G.C.SUITS.Clubs,"
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = "rarity = (_legendary and 4) or (rarity > 0.95 and 3) or (rarity > 0.7 and 2) or 1"
-position = "at"
-payload = '''rarity = (type(rarity) == 'string' and rarity) or (_legendary and 4) or (rarity > 0.99 and 'cere_epic') or (rarity > 0.95 and 3) or (rarity > 0.7 and 2) or 1'''
-match_indent = true
 
 # this uses joker retrigger api by MathisFun_
 

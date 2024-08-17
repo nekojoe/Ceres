@@ -191,7 +191,6 @@ end
 
 -- custom rarity based on Cryptid, which was based on Relic-Jokers
 
-G.C.RARITY['cere_epic'] = Ceres.C['epic']
 G.C.RARITY['cere_divine'] = Ceres.C['divine']
 
 local insert_pool_ref = SMODS.insert_pool
@@ -306,10 +305,6 @@ function SMODS.current_mod.process_loc_text()
         },
     }
 end
-
--- jokers in the epic pool
-
-G.P_JOKER_RARITY_POOLS["cere_epic"] = {ben}
 
 -- picks new cards for jokers, same way idol and rebate do
 
