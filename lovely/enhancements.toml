@@ -1,0 +1,95 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''if (not v.shattered) and (not v.destroyed) then'''
+position = "before"
+payload = '''if v.burnt then
+    draw_card(G.play, G.burnt, it*100/play_count,'down', false, v)
+    it = it + 1
+end'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''if (not v.shattered) and (not v.destroyed) then'''
+position = "at"
+payload = '''if (not v.shattered) and (not v.destroyed) and (not v.burnt) and (not v.shredded) then'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = '''self.deck = CardArea('''
+position = "before"
+payload = '''self.burnt = CardArea(
+        0, 0,
+        CAI.discard_W,CAI.discard_H,
+        {card_limit = 500, type = 'discard'})'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''G.discard.T.x = G.jokers.T.x + G.jokers.T.w/2 + 0.3 + 15'''
+position = "before"
+payload = '''G.burnt.T.x = G.jokers.T.x + G.jokers.T.w/2 + 0.3 + 15
+G.burnt.T.y = 4.2
+G.burnt:hard_set_VT()'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''G.GAME.voucher_restock = nil'''
+position = "before"
+payload = '''G.FUNCS.draw_from_burnt_to_discard()'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''local cards_destroyed = {}'''
+position = "before"
+payload = '''local traded = {}'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''if scoring_hand[i].ability.name == 'Glass Card' and not scoring_hand[i].debuff and pseudorandom('glass') < G.GAME.probabilities.normal/scoring_hand[i].ability.extra then'''
+position = "before"
+payload = '''if scoring_hand[i].traded and not scoring_hand[i].debuff then traded[#traded+1] = scoring_hand[i] end'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''for i=1, #cards_destroyed do'''
+position = "before"
+payload = '''for i=1, #traded do
+    G.E_MANAGER:add_event(Event({
+        func = function()
+            play_sound('tarot1')
+            traded[i]:juice_up()
+            traded[i]:start_dissolve()
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    traded[i]:remove()
+                    traded[i] = nil
+                    return true
+                end
+            }))
+            return true
+        end
+        }))
+end'''
+match_indent = true
+
+

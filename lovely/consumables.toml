@@ -1,0 +1,28 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+# for fool reversal
+
+[[patches]]
+[patches.pattern]
+target = 'functions/misc_functions.lua'
+pattern = '''if card.config.center.set == 'Tarot' or card.config.center.set == 'Planet' then'''
+position = "before"
+payload = '''if card.config.center.set == 'reversed_tarot' then
+    G.E_MANAGER:add_event(Event({
+        trigger = 'immediate',
+        func = function()
+        G.E_MANAGER:add_event(Event({
+            trigger = 'immediate',
+            func = function()
+            G.GAME.last_reversed_tarot = card.config.center_key
+                return true
+            end
+        }))
+            return true
+        end
+    }))
+    end'''
+match_indent = true
