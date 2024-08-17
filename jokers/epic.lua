@@ -10,7 +10,7 @@ local epic_joker_atlas = SMODS.Atlas{
 
 -- custom epic jokers
 
-local ben = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.epic.enabled and SMODS.Joker{
+local ben = false and Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.epic.enabled and SMODS.Joker{
     key = 'ben',
     name = 'Ben',
     rarity = 3,
@@ -50,7 +50,7 @@ local ben = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.epi
 
     calculate = function(self, card, context)
         if context.joker_main then
-            if pseudorandom('ben') < G.GAME.chips / G.GAME.blind.chips then
+            if pseudorandom('ben') < tonumber(G.GAME.chips) / tonumber(G.GAME.blind.chips) then
                 G.GAME.chips = G.GAME.blind.chips
                 G.hand_text_area.game_chips:juice_up()
                 G.E_MANAGER:add_event(Event({func = function()
