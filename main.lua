@@ -113,7 +113,7 @@ Ceres.FUNCS.copy = function(obj, seen)
 end
 
 -- for testing
-_RELEASE_MODE = false
+--_RELEASE_MODE = false
 function love.conf(t)
 	t.console = true
 end
