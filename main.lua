@@ -153,7 +153,7 @@ Ceres.ITEMS = {
         'jokers/divine.lua',
     },
     consumables = {
-        'consumables/planets.lua',
+        --'consumables/planets.lua', -- not needed as of now really
         'consumables/spectrals.lua',
         'consumables/reversed_tarots.lua',
     },
@@ -172,7 +172,7 @@ Ceres.ITEMS = {
         'suits/suits.lua',
     },
     hands = {
-        'hands/hands.lua',
+        --'hands/hands.lua',
     },
     perks = {
         'perks/perk_enhancements.lua',
