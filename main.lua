@@ -98,7 +98,7 @@ end
 
 -- function for rounding because ofc lua doesnt have one
 Ceres.FUNCS.round = function(num, numDecimalPlaces)
-    return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num))
+    return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num or 0))
 end
 
 -- function for copying tables, stolen from somewhere online i cant remember where sorry

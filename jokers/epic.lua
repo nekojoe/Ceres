@@ -35,12 +35,17 @@ local ben = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.epi
             local chips = G.GAME.chips or 0
             local blind_chips = G.GAME.blind.chips or 0
             local percent = (G.GAME.chips / G.GAME.blind.chips) * 100 or 0
-            var = Ceres.FUNCS.round(tonumber(percent), 0)
+            if percent then 
+                var = Ceres.FUNCS.round(tonumber(percent), 0)
+            else
+                var = 0
+            end
             if var > 100 then
                 var = 100
             end
+            return {vars = {var}}
         end
-        return {vars = {var}}
+        return {vars = {0}}
     end,
 
     calculate = function(self, card, context)
