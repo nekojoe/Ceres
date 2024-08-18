@@ -320,6 +320,13 @@ return {
 					'selected card in hand',
 				}
 			},
+			['c_cere_consecrated_essence'] = {
+				['name'] = 'Consecrated Essence',
+				['text'] = {
+					'{C:dark_edition}Whispers emanate{}',
+					'{C:dark_edition}from within...{}',
+				}
+			},
 		},
 		['Perk'] = {
 			['pk_cere_prototype'] = {

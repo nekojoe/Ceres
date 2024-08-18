@@ -128,3 +128,104 @@ local camouflage = Ceres.SETTINGS.card_effects.editions.enabled and Ceres.SETTIN
         return true end }))
     end,
 }
+
+local con_ess_pool = {
+    Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.themed.enabled and Ceres.SETTINGS.jokers.themed.csm.enabled and 'j_cere_makima',
+    Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.themed.enabled and Ceres.SETTINGS.jokers.themed.bleach.enabled and 'j_cere_aizen'
+}
+
+local function get_divine_pool(_type, _rarity, _legendary, _append)
+    --create the pool
+    G.ARGS.TEMP_POOL = EMPTY(G.ARGS.TEMP_POOL)
+    local _pool, _starting_pool, _pool_key, _pool_size = G.ARGS.TEMP_POOL, nil, '', 0
+
+    local rarity = 'cere_divine'
+    local _starting_pool, _pool_key = con_ess_pool, 'Joker'..'cere_divine'
+
+    --cull the pool
+    for k, v in ipairs(_starting_pool) do
+        local add = nil
+        if not (G.GAME.used_jokers[v] and not next(find_joker("Showman"))) then
+            add = true
+        end
+
+        if add then 
+            _pool[#_pool + 1] = v
+            _pool_size = _pool_size + 1
+        else
+            _pool[#_pool + 1] = 'UNAVAILABLE'
+        end
+    end
+
+    --if pool is empty
+    if _pool_size == 0 then
+        _pool[#_pool + 1] = "j_joker"
+    end
+
+    return _pool, _pool_key
+end
+
+local function create_divine()
+    local _pool, _pool_key = get_divine_pool()
+    local center = pseudorandom_element(_pool, pseudoseed(_pool_key))
+    local it = 1
+    while center == 'UNAVAILABLE' do
+        it = it + 1
+        center = pseudorandom_element(_pool, pseudoseed(_pool_key..'_resample'..it))
+    end
+    print(tostring(center))
+    
+    local card = Card(G.jokers.T.x + G.jokers.T.w/2, G.jokers.T.y, G.CARD_W, G.CARD_H, nil, G.P_CENTERS[center],
+    {bypass_discovery_center = true,
+    bypass_discovery_ui = false,
+    discover = true,
+    bypass_back = G.GAME.selected_back.pos})
+    if G.GAME.modifiers.all_eternal then
+        card:set_eternal(true)
+    end
+    card:start_materialize()
+    local edition = poll_edition('edi'..'cere'..G.GAME.round_resets.ante)
+    card:set_edition(edition)
+    check_for_unlock({type = 'have_edition'})
+
+    return card
+end
+
+local consecrated_essence = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.divine.enabled and
+(Ceres.SETTINGS.jokers.themed.enabled and (Ceres.SETTINGS.jokers.themed.bleach.enabled or Ceres.SETTINGS.jokers.themed.csm.enabled))
+and SMODS.Consumable{
+    key = 'consecrated_essence',
+    set = 'Spectral',
+    pos = {
+        x = 2,
+        y = 0,
+    },
+    soul_pos = {
+        x = 2,
+        y = 1,
+    },
+    atlas = 'spectrals',
+    unlocked = true,
+    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    hidden = true,
+    soul_set = 'Spectral',
+    soul_rate = 0.0001,
+
+    can_use = function(self, card)
+        if #G.jokers.cards < G.jokers.config.card_limit or self.area == G.jokers then
+            return true
+        end
+        return false
+    end,
+
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            play_sound('timpani')
+            local card = create_divine()
+            card:add_to_deck()
+            G.jokers:emplace(card)
+            card:juice_up(0.3, 0.5)
+            return true end }))
+        delay(0.6)
+    end
+}

@@ -124,7 +124,9 @@ end
 Ceres.DEV = false
 
 -- for testing
-_RELEASE_MODE = not Ceres.DEV
+if Ceres.DEV then
+    _RELEASE_MODE = false
+end
 function love.conf(t)
 	t.console = true
 end

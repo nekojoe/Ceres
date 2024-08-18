@@ -20,7 +20,7 @@ local makima = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.themed.en
         x = 0,
         y = 1,
     },
-    cost = 80,
+    cost = 50,
     config = {
         Emult_mod = 1,
         extra = 0.01,
@@ -73,7 +73,7 @@ local aizen = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.themed.ena
         x = 1,
         y = 1,
     },
-    cost = 80,
+    cost = 50,
     config = {
         Emult_mod = 1,
         extra = 0.01,
@@ -118,4 +118,4 @@ local aizen = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.themed.ena
             }
         end
     end,
-}
+} or false
