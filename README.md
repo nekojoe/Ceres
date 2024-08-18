@@ -24,11 +24,12 @@ fixing them.
 # current features
 
 at the time of writing this, this mod adds:
-- 14 new jokers
+- 13 new jokers (2 currently unobtainable tho)
 - 9 new tarot cards
-- 2 new planet cards
+- 2 new planet cards (currently removed because i didnt have to time to fix properly lol)
 - 2 new spectral cards
-- 7 new card enhancements
+- 7 new card enhancements like effects
+- 2 new vouchers
 - 2 new editions
 - 4 new booster packs
 - 5 new blinds
@@ -64,6 +65,12 @@ also something very important to note, is that i would like to implement unlock 
 i know thats not something everyone would like so in the misc options you can enable unlock all / discover all. unlock all is enabled
 by default when the settings file is created, because otherwise you would have no way to unlock any locked items, so i urge you to
 keep that setting on until i have sorted out proper unlock requirements
+
+# stuff ive had to disable for the time being
+
+- ben joker, incompatible with talisman i think, he cant handle big numbers
+- the planet cards for the time being, maybe due to incompat with bunco i think, they were locked behind
+one of the unobtainable jokers anyway
 
 # last few notes
 

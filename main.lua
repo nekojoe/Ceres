@@ -31,16 +31,21 @@ Ceres.DEFAULT_SETTINGS = {
         },
         enabled = true,
     },
-    editions = {
-        colourblind = { enabled = true },
-        sneaky = { enabled = true },
-        enabled = true,
-    },
-    enhancements = {
-        illusion = { enabled = true },
-        cobalt = { enabled = true },
-        perks = { enabled = true },
-        enabled = true,
+    card_effects = {
+        editions = {
+            colourblind = { enabled = true },
+            sneaky = { enabled = true },
+            enabled = true,
+        },
+        enhancements = {
+            illusion = { enabled = true },
+            cobalt = { enabled = true },
+            enabled = true,
+        },
+        perks = {
+            enabled = true,
+        },
+        enabled = true
     },
     suits = {
         crowns = { enabled = false },
@@ -50,6 +55,7 @@ Ceres.DEFAULT_SETTINGS = {
     },
     consumables = {
         reversed_tarots = { enabled = true },
+        vouchers = { enabled = true },
         enabled = true,
     },
     blinds = {
@@ -58,9 +64,9 @@ Ceres.DEFAULT_SETTINGS = {
         enabled = true,
     },
     misc = {
-        --joker_levels = { enabled = true },
         unlock_all = { enabled = true }, -- has to be until i get round to unlock checks
         discover_all = { enabled = false },
+        redeem_all = { enabled = false },
     }
 }
 Ceres.MOD_PATH = lovely.mod_dir .. '/Ceres/'
@@ -98,6 +104,9 @@ end
 
 -- function for rounding because ofc lua doesnt have one
 Ceres.FUNCS.round = function(num, numDecimalPlaces)
+    if type(num) == 'table' then
+        return 0
+    end
     return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num or 0))
 end
 
@@ -112,8 +121,10 @@ Ceres.FUNCS.copy = function(obj, seen)
     return res
 end
 
+Ceres.DEV = true
+
 -- for testing
---_RELEASE_MODE = false
+_RELEASE_MODE = not Ceres.DEV
 function love.conf(t)
 	t.console = true
 end
@@ -148,7 +159,6 @@ Ceres.ITEMS = {
         'jokers/common.lua',
         'jokers/uncommon.lua',
         'jokers/rare.lua',
-        'jokers/epic.lua',
         'jokers/legendary.lua',
         'jokers/divine.lua',
     },
@@ -175,12 +185,16 @@ Ceres.ITEMS = {
         --'hands/hands.lua',
     },
     perks = {
-        'perks/perk_enhancements.lua',
+        'perks/perk_conv.lua',
         'perks/perk_boosters.lua',
+        'perks/perks.lua',
+    },
+    vouchers = {
+        'vouchers/perk_vouchers.lua',
     },
     api = {
-        'api/RetriggerAPI.lua'
-    }
+        'api/RetriggerAPI.lua',
+    },
 }
 
 for k, v in pairs(Ceres.ITEMS) do
@@ -212,6 +226,7 @@ function get_badge_colour(key)
     if key == 'cere_epic' then return Ceres.C.epic end
     if key == 'cere_divine' then return Ceres.C.divine end
     if key == 'cere_moon' then return G.C.SECONDARY_SET.Planet end
+    if key == 'cere_perk_card' then return G.C.GREEN end
     return ref_return
 end
 
@@ -222,10 +237,9 @@ SMODS.current_mod.config_tab = function()
   	local _buttons = {
     	{label = 'Jokers', toggle_ref = ref_table.jokers, button_ref = 'cere_change_page', ref_page = 'jokers_rarities'},
     	{label = 'Consumables', toggle_ref = ref_table.consumables, button_ref = 'cere_change_page', ref_page = 'consumables'},
-    	{label = 'Enhancements', toggle_ref = ref_table.enhancements, button_ref = 'cere_change_page', ref_page = 'enhancements'},
+    	{label = 'Card Effects', toggle_ref = ref_table.card_effects, button_ref = 'cere_change_page', ref_page = 'card_effects'},
     	{label = 'Blinds', toggle_ref = ref_table.blinds, button_ref = 'cere_change_page', ref_page = 'blinds'},
       	{label = 'Suits', toggle_ref = ref_table.suits, button_ref = 'cere_change_page', ref_page = 'suits'},
-      	{label = 'Editions', toggle_ref = ref_table.editions, button_ref = 'cere_change_page', ref_page = 'editions'},
 		{label = 'Miscellaneous', button_ref = 'cere_change_page', ref_page = 'misc', remove_enable = true,},
   	}
     return {
@@ -334,32 +348,6 @@ function pick_from_deck(seed)
             id = 14,
         }
     end
-end
-
--- necessary for burnt cards returning to deck and any temp jokers getting destroyed
-
-G.FUNCS.draw_from_burnt_to_discard = function()
-    local burnt_count = #G.burnt.cards
-    for i=1, burnt_count do
-        G.burnt.cards[i].burnt = false
-        draw_card(G.burnt,G.discard, i*100/burnt_count,'down', nil, nil, 0.07)
-    end
-end
-
-G.TEMP = {}
-
-local end_round_ref = end_round
-function end_round()
-    for _, card in pairs(G.TEMP) do
-        card:start_dissolve()
-        G.E_MANAGER:add_event(Event({
-            func = function()
-                card:remove()
-                return true
-            end
-        }))
-    end
-    end_round_ref()
 end
 
 ----------------------------------------------

@@ -92,6 +92,9 @@ function eval_card(card, context, callback)
             center:calculate(context, ret, card)
             enhancement_calculated = true
         end
+        if card.ability.set == 'Perk' and center.calculate and type(center.calculate) == 'function' then
+            center:calculate(context, ret, card)
+        end
         local jokers = card:calculate_joker(context, callback)
         if jokers then 
             ret.jokers = jokers
@@ -117,6 +120,9 @@ function eval_card(card, context, callback)
         if card.ability.set == 'Enhanced' and center.calculate and type(center.calculate) == 'function' then
             center:calculate(context, ret)
             enhancement_calculated = true
+        end
+        if card.ability.set == 'Perk' and center.calculate and type(center.calculate) == 'function' then
+            center:calculate(context, ret, card)
         end
         local jokers = card:calculate_joker(context, callback)
         if jokers then 

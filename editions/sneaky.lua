@@ -1,6 +1,6 @@
 SMODS.Shader({key = 'sneaky', path = 'sneaky.fs'})
 
-local sneaky = Ceres.SETTINGS.editions.enabled and Ceres.SETTINGS.editions.sneaky.enabled and SMODS.Edition({
+local sneaky = Ceres.SETTINGS.card_effects.editions.enabled and Ceres.SETTINGS.card_effects.editions.sneaky.enabled and SMODS.Edition({
     key = "sneaky",
     loc_txt = {
         name = "Sneaky",

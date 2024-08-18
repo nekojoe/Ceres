@@ -3,6 +3,7 @@ return {
 		['dictionary'] = {
 			['k_moon'] = 'Moon',
 			['k_perk_pack'] = 'Perk Pack',
+			['k_perk_card'] = 'Perk Card',
 		},
 		['suits_plural'] = {
 			['cere_Leaves'] = 'Leaves',
@@ -70,62 +71,20 @@ return {
 			['m_cere_illusion'] = {
                 ['name'] = 'Illusion Card',
                 ['text'] = {
-					"{C:green}#1# in #3#{} chance",
-					"for {X:chips,C:white} X#2# {} chips",
-					"{C:green}#1# in #4#{} chance",
-					"to be retriggered",
+					'{C:green}#1# in #3#{} chance',
+					'for {X:chips,C:white} X#2# {} chips',
+					'{C:green}#1# in #4#{} chance',
+					'to be retriggered',
 				},
             },
 			['m_cere_cobalt'] = {
-                ['name'] = "Cobalt Card",
+                ['name'] = 'Cobalt Card',
                 ['text'] = {
-                    "{X:chips,C:white} X#1# {} chips",
-                    "while this card",
-                    "stays in hand"
+                    '{X:chips,C:white} X#1# {} chips',
+                    'while this card',
+                    'stays in hand'
                 }
             },
-			-- perk enhancements
-			['m_cere_prototype'] = {
-                ['name'] = 'Prototype',
-                ['text'] = {
-					'On play create a',
-					'{C:spectral}temporary{} {C:attention}#1#{}',
-					'and {C:red}burn{} this card.',
-				},
-			},
-			['m_cere_dirty_napkin'] = {
-                ['name'] = "Dirty Napkin",
-                ['text'] = {
-					'On play create a',
-					'{C:spectral}temporary{} {C:attention}#1#{}',
-					'and {C:red}burn{} this card.',
-				},
-			},
-			['m_cere_reward_card'] = {
-                ['name'] = "Reward Card",
-                ['text'] = {
-					'On play lose {C:money}$#1#{},',
-					'create a {C:attention}#2#{},',
-					'and {C:red}burn{} this card.',
-				},
-			},
-			['m_cere_business_card'] = {
-                ['name'] = "Business Card",
-                ['text'] = {
-					'On play lose {C:money}$#1#{},',
-					'create a {C:attention}#2#{},',
-					'and {C:red}burn{} this card.',
-				},
-			},
-			['m_cere_trading_card'] = {
-                ['name'] = "Trading Card",
-                ['text'] = {
-					'On play destroy any {C:attention}scoring{}',
-					'cards that aren\'t trading cards,',
-					'create a random {C:attention}enhanced{} card',
-					'in hand, and {C:red}burn{} this card.',
-				},
-			},
 		},
 		['reversed_tarot'] = {
 			['c_cere_reversed_fool'] = {
@@ -153,11 +112,11 @@ return {
                 }
             },
 			['c_cere_reversed_chariot'] = {
-                ['name'] = "The Chariot Reversal",
+                ['name'] = 'The Chariot Reversal',
                 ['text'] = {
-                    "Enhances {C:attention}#1#{} selected",
-                    "card into a",
-                    "{C:attention}#2#"
+                    'Enhances {C:attention}#1#{} selected',
+                    'card into a',
+                    '{C:attention}#2#'
                 }
 			},
 			['c_cere_reversed_hanged_man'] = {
@@ -362,36 +321,103 @@ return {
 				}
 			},
 		},
+		['Perk'] = {
+			['pk_cere_prototype'] = {
+                ['name'] = 'Prototype',
+                ['text'] = {
+					'On, play create a',
+					'{C:spectral}temporary{} {C:attention}#1#{}',
+					'and {C:red}burn{} this card.',
+				},
+			},
+			['pk_cere_dirty_napkin'] = {
+                ['name'] = 'Dirty Napkin',
+                ['text'] = {
+					'On, play create a',
+					'{C:spectral}temporary{} {C:attention}#1#{}',
+					'and {C:red}burn{} this card.',
+				},
+			},
+			['pk_cere_reward_card'] = {
+                ['name'] = 'Reward Card',
+                ['text'] = {
+					'On play, lose {C:money}$#1#{},',
+					'create a {C:attention}#2#{},',
+					'and {C:red}burn{} this card.',
+				},
+			},
+			['pk_cere_business_card'] = {
+                ['name'] = 'Business Card',
+                ['text'] = {
+					'On play, lose {C:money}$#1#{},',
+					'create a {C:attention}#2#{},',
+					'and {C:red}burn{} this card.',
+				},
+			},
+			['pk_cere_trading_card'] = {
+                ['name'] = 'Trading Card',
+                ['text'] = {
+					'On play, destroy any {C:attention}scoring{}',
+					'cards. Create a random {C:attention}enhanced{}',
+					'card in hand for each card destroyed,',
+					'and {C:red}burn{} this card.',
+				},
+			},
+			['pk_cere_plus_two'] = {
+                ['name'] = '+2 Card',
+                ['text'] = {
+					'On play, {C:attention}+#1#{} hand size,',
+					'{C:red}burn{} this card.',
+				},
+			},
+		},
+		['Voucher'] = {
+            ['v_cere_card_spread'] = {
+                ['name'] = 'Card Spread',
+                ['text'] = {
+                    '{C:green}Perk cards{} give {C:attention}+1{} hand',
+                    'size while in hand',
+                },
+            },
+            ['v_cere_six_fingers'] = {
+                ['name'] = 'Sixth... Finger?',
+                ['text'] = {
+                    'Allows selecting a {C:green}Perk{}',
+                    '{C:green}card{} as an extra sixth',
+					'card to play',
+                },
+            },
+		},
 		['Other'] = {
 			['p_cere_perk_normal_1'] = {
 				['name'] = 'Perk Pack',
 				['text'] = {
-					"Choose {C:attention}#1#{} of up to",
-					"{C:attention}#2#{C:green} Perk cards{} to",
+					'Choose {C:attention}#1#{} of up to',
+					'{C:attention}#2#{C:green} Perk cards{} to',
 					'add to your deck',
 				}
 			},
 			['p_cere_perk_normal_2'] = {
 				['name'] = 'Perk Pack',
 				['text'] = {
-					"Choose {C:attention}#1#{} of up to",
-					"{C:attention}#2#{C:green} Perk cards{} to",
+					'Choose {C:attention}#1#{} of up to',
+					'{C:attention}#2#{C:green} Perk cards{} to',
 					'add to your deck',
 				}
 			},
 			['p_cere_perk_jumbo'] = {
 				['name'] = 'Jumbo Perk Pack',
 				['text'] = {
-					"Choose {C:attention}#1#{} of up to",
-					"{C:attention}#2#{C:green} Perk cards{} to",
+					'Choose {C:attention}#1#{} of up to',
+					'{C:attention}#2#{C:green} Perk cards{} to',
 					'add to your deck',
 				}
 			},
 			['p_cere_perk_mega'] = {
 				['name'] = 'Mega Perk Pack',
 				['text'] = {
-					"Choose {C:attention}#1#{} of up to",
-					"{C:attention}#2#{C:green} Perk cards{} to",
+					'Choose {C:attention}#1#{} of up to',
+					'{C:attention}#2#{C:green} Perk cards{} to',
 					'add to your deck',
 				}
 			},

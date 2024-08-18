@@ -68,3 +68,10 @@ make trading card work - done yippee
 test editions again - done yippee
 play two pair and get $4
 
+# fixes
+
+planet incompat with bunco?
+ben cant handle big numbers lmao
+touch up some art
+balancing with perk cards
+can select 5 cards and 1 perk card

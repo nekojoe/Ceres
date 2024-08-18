@@ -6,7 +6,7 @@ local spectral_atlas = SMODS.Atlas{
     atlas_table = 'ASSET_ATLAS',
 }
 
-local chromatic = Ceres.SETTINGS.editions.enabled and Ceres.SETTINGS.editions.colourblind.enabled and SMODS.Consumable{
+local chromatic = Ceres.SETTINGS.card_effects.editions.enabled and Ceres.SETTINGS.card_effects.editions.colourblind.enabled and SMODS.Consumable{
     key = 'chromatic',
     set = 'Spectral',
     pos = {
@@ -93,7 +93,7 @@ local chromatic = Ceres.SETTINGS.editions.enabled and Ceres.SETTINGS.editions.co
     end,
 }
 
-local camouflage = Ceres.SETTINGS.editions.enabled and Ceres.SETTINGS.editions.colourblind.enabled and SMODS.Consumable{
+local camouflage = Ceres.SETTINGS.card_effects.editions.enabled and Ceres.SETTINGS.card_effects.editions.colourblind.enabled and SMODS.Consumable{
     key = 'camouflage',
     set = 'Spectral',
     pos = {

@@ -457,18 +457,6 @@ payload = '''elseif not Ceres.COMPAT.talisman and eval_type == 'e_mult' then
     config.scale = 0.7'''
 match_indent = true
 
-# for playing more than five cards
-# why bother hard coding this thunk
-
-[[patches]]
-[patches.pattern]
-target = "functions/button_callbacks.lua"
-pattern = '''if #G.hand.highlighted <= 0 or G.GAME.blind.block_play or #G.hand.highlighted > 5 then'''
-position = "at"
-payload = '''if #G.hand.highlighted <= 0 or G.GAME.blind.block_play or #G.hand.highlighted > G.hand.config.highlighted_limit then'''
-match_indent = true
-overwrite = true
-
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"

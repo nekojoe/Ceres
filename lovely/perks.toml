@@ -1,0 +1,188 @@
+[manifest]
+version = '1.0.0'
+dump_lua = true
+priority = 0
+
+# for being able to play more than 5 cards
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''if #G.hand.highlighted <= 0 or G.GAME.blind.block_play or #G.hand.highlighted > 5 then'''
+position = "at"
+payload = '''if #G.hand.highlighted <= 0 or G.GAME.blind.block_play or #G.hand.highlighted > G.hand.config.highlighted_limit then'''
+match_indent = true
+overwrite = true
+
+# for resetting highlight limit when hand is played or
+# all cards are deselected
+
+[[patches]]
+[patches.pattern]
+target = 'engine/controller.lua'
+pattern = '''G.hand:unhighlight_all()'''
+position = "after"
+payload = '''G.play.T.w = 5.3*G.CARD_W
+G.hand.config.highlighted_limit = 5'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''if G.play and G.play.cards[1] then return end'''
+position = "before"
+payload = '''G.hand.config.highlighted_limit = 5'''
+match_indent = true
+
+# card burning functionality
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''if (not v.shattered) and (not v.destroyed) then'''
+position = "before"
+payload = '''if v.burnt then
+    draw_card(G.play, G.burnt, it*100/play_count,'down', false, v)
+    it = it + 1
+end'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''if (not v.shattered) and (not v.destroyed) then'''
+position = "at"
+payload = '''if (not v.shattered) and (not v.destroyed) and (not v.burnt) and (not v.shredded) then'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = '''self.deck = CardArea('''
+position = "before"
+payload = '''self.burnt = CardArea(
+        0, 0,
+        CAI.discard_W,CAI.discard_H,
+        {card_limit = 500, type = 'discard'})'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''G.discard.T.x = G.jokers.T.x + G.jokers.T.w/2 + 0.3 + 15'''
+position = "before"
+payload = '''G.burnt.T.x = G.jokers.T.x + G.jokers.T.w/2 + 0.3 + 15
+G.burnt.T.y = 4.2
+G.burnt:hard_set_VT()'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''G.GAME.voucher_restock = nil'''
+position = "before"
+payload = '''G.FUNCS.draw_from_burnt_to_discard()'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''local cards_destroyed = {}'''
+position = "before"
+payload = '''local traded = {}'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''if scoring_hand[i].ability.name == 'Glass Card' and not scoring_hand[i].debuff and pseudorandom('glass') < G.GAME.probabilities.normal/scoring_hand[i].ability.extra then'''
+position = "before"
+payload = '''if scoring_hand[i].traded and not scoring_hand[i].debuff then traded[#traded+1] = scoring_hand[i] end'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''for i=1, #cards_destroyed do'''
+position = "before"
+payload = '''for i=1, #traded do
+    G.E_MANAGER:add_event(Event({
+        func = function()
+            play_sound('tarot1')
+            traded[i]:juice_up()
+            traded[i]:start_dissolve()
+            return true
+        end
+        }))
+end'''
+match_indent = true
+
+# for selecting cards from perk booster packs
+
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''elseif card.ability.set == 'Enhanced' or card.ability.set == 'Default' then'''
+position = "at"
+payload = '''elseif card.ability.set == 'Enhanced' or card.ability.set == 'Default' or card.ability.set == 'Perk' then'''
+match_indent = true
+
+# perks dont take up room in hand
+
+# CardArea:emplace()
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = "function CardArea:emplace(*"
+position = "after"
+payload = '''
+    if card.ability and card.ability.set == 'Perk' and (self == G.hand) and (Ceres.SETTINGS.misc.redeem_all.enabled or G.v_cere_card_spread) then
+        self.config.real_card_limit = (self.config.real_card_limit or self.config.card_limit) + 1
+        self.config.card_limit = math.max(0, self.config.real_card_limit)
+        G.E_MANAGER:add_event(Event({
+			trigger = 'immediate',
+			func = function()
+				G.FUNCS.draw_from_deck_to_hand()
+				return true
+			end
+		}))
+    end'''
+match_indent = true
+# CardArea:remove_card()
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = "card:remove_from_area()"
+position = "before"
+payload = '''
+if card.ability and card.ability.set == 'Perk' and (self == G.hand) and (Ceres.SETTINGS.misc.redeem_all.enabled or G.v_cere_card_spread) then
+    self.config.real_card_limit = (self.config.real_card_limit or self.config.card_limit) - 1
+    self.config.card_limit = math.max(0, self.config.real_card_limit)
+end'''
+match_indent = true
+
+# disallow changing edition/enhancement/seal on perk cards
+
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = '''function Card:set_ability(center, initial, delay_sprites)'''
+position = "after"
+payload = '''   if self.ability and self.ability.set == 'Perk' then return end'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = '''function Card:set_edition(edition, immediate, silent)'''
+position = "after"
+payload = '''   if self.ability and self.ability.set == 'Perk' then return end'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = '''function Card:set_seal(_seal, silent, immediate)'''
+position = "after"
+payload = '''   if self.ability and self.ability.set == 'Perk' then return end'''
+match_indent = true

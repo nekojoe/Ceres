@@ -8,7 +8,7 @@ local reversed_tarot_atlas = SMODS.Atlas{
 
 local reversed_tarot = ((Ceres.SETTINGS.consumables.enabled and Ceres.SETTINGS.consumables.reversed_tarots.enabled) or
 (Ceres.SETTINGS.suits.enabled and (Ceres.SETTINGS.suits.coins.enabled or Ceres.SETTINGS.suits.leaves.enabled or Ceres.SETTINGS.suits.crowns.enabled)) or
-Ceres.SETTINGS.enhancements.enabled and (Ceres.SETTINGS.enhancements.illusion.enabled))
+Ceres.SETTINGS.card_effects.enhancements.enabled and (Ceres.SETTINGS.card_effects.enhancements.illusion.enabled or Ceres.SETTINGS.card_effects.enhancements.cobalt.enabled))
 and SMODS.ConsumableType{
     key = 'reversed_tarot',
     primary_colour = G.C.SET.Tarot,
@@ -93,7 +93,7 @@ local reversed_fool = Ceres.SETTINGS.consumables.enabled and Ceres.SETTINGS.cons
     end
 }
 
-local reversed_magician = Ceres.SETTINGS.enhancements.enabled and Ceres.SETTINGS.enhancements.illusion.enabled and SMODS.Consumable{
+local reversed_magician = Ceres.SETTINGS.card_effects.enhancements.enabled and Ceres.SETTINGS.card_effects.enhancements.illusion.enabled and SMODS.Consumable{
     key = 'reversed_magician',
     set = 'reversed_tarot',
     config = {
@@ -162,7 +162,7 @@ local reversed_lovers = Ceres.SETTINGS.consumables.enabled and Ceres.SETTINGS.co
     end
 }
 
-local reversed_chariot = Ceres.SETTINGS.enhancements.enabled and Ceres.SETTINGS.enhancements.cobalt.enabled and SMODS.Consumable{
+local reversed_chariot = Ceres.SETTINGS.card_effects.enhancements.enabled and Ceres.SETTINGS.card_effects.enhancements.cobalt.enabled and SMODS.Consumable{
     key = 'reversed_chariot',
     set = 'reversed_tarot',
     config = {

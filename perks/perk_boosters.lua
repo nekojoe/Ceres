@@ -6,13 +6,22 @@ local booster_atlas = SMODS.Atlas{
     atlas_table = 'ASSET_ATLAS',
 }
 
-local function poll_enhancement(pool, key)
-    pool = pool or Ceres.PERKS or {}
+local perk_pool = {
+    'pk_cere_prototype',
+    'pk_cere_dirty_napkin',
+    'pk_cere_reward_card',
+    'pk_cere_business_card',
+    'pk_cere_trading_card',
+    'pk_cere_plus_two',
+}
+
+local function poll_perk(pool, key)
+    pool = pool or perk_pool or {}
     key = key or 'cere'
     return pseudorandom_element(pool, pseudoseed(key))
 end
 
-local booster_one = Ceres.SETTINGS.enhancements.enabled and Ceres.SETTINGS.enhancements.perks.enabled and SMODS.Booster{
+local booster_one = Ceres.SETTINGS.card_effects.perks.enabled and SMODS.Booster{
     key = "perk_normal_1",
     kind = "Perk",
     atlas = "booster_atlas",
@@ -26,14 +35,14 @@ local booster_one = Ceres.SETTINGS.enhancements.enabled and Ceres.SETTINGS.enhan
     },
     cost = 4,
     weight = 0.96,
-    discovered = true,
+    discovered = false or Ceres.SETTINGS.misc.discover_all,
 
     create_card = function(self, card)
         local card = create_card('Base', G.pack_cards, nil, nil, true, true, nil, 'cere')
-        local enhancement = poll_enhancement()
+        local perk = poll_perk()
         local edition = poll_edition()
         edition = edition and edition.negative and edition or nil
-        card:set_ability(G.P_CENTERS[enhancement])
+        card:set_ability(G.P_CENTERS[perk])
         card:set_edition(edition, true)
         return card
     end,
@@ -51,7 +60,7 @@ local booster_one = Ceres.SETTINGS.enhancements.enabled and Ceres.SETTINGS.enhan
     group_key = "k_perk_pack"
 }
 
-local booster_two = Ceres.SETTINGS.enhancements.enabled and Ceres.SETTINGS.enhancements.perks.enabled and SMODS.Booster{
+local booster_two = Ceres.SETTINGS.card_effects.perks.enabled and SMODS.Booster{
     key = "perk_normal_2",
     kind = "Perk",
     atlas = "booster_atlas",
@@ -65,14 +74,14 @@ local booster_two = Ceres.SETTINGS.enhancements.enabled and Ceres.SETTINGS.enhan
     },
     cost = 4,
     weight = 0.96,
-    discovered = true,
+    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
 
     create_card = function(self, card)
         local card = create_card('Base', G.pack_cards, nil, nil, true, true, nil, 'cere')
-        local enhancement = poll_enhancement()
+        local perk = poll_perk()
         local edition = poll_edition()
         edition = edition and edition.negative and edition or nil
-        card:set_ability(G.P_CENTERS[enhancement])
+        card:set_ability(G.P_CENTERS[perk])
         card:set_edition(edition, true)
         return card
     end,
@@ -90,7 +99,7 @@ local booster_two = Ceres.SETTINGS.enhancements.enabled and Ceres.SETTINGS.enhan
     group_key = "k_perk_pack"
 }
 
-local booster_jumbo = Ceres.SETTINGS.enhancements.enabled and Ceres.SETTINGS.enhancements.perks.enabled and SMODS.Booster{
+local booster_jumbo = Ceres.SETTINGS.card_effects.perks.enabled and SMODS.Booster{
     key = "perk_jumbo",
     kind = "Perk",
     atlas = "booster_atlas",
@@ -104,14 +113,14 @@ local booster_jumbo = Ceres.SETTINGS.enhancements.enabled and Ceres.SETTINGS.enh
     },
     cost = 6,
     weight = 0.48,
-    discovered = true,
+    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
 
     create_card = function(self, card)
         local card = create_card('Base', G.pack_cards, nil, nil, true, true, nil, 'cere')
-        local enhancement = poll_enhancement()
+        local perk = poll_perk()
         local edition = poll_edition()
         edition = edition and edition.negative and edition or nil
-        card:set_ability(G.P_CENTERS[enhancement])
+        card:set_ability(G.P_CENTERS[perk])
         card:set_edition(edition, true)
         return card
     end,
@@ -129,7 +138,7 @@ local booster_jumbo = Ceres.SETTINGS.enhancements.enabled and Ceres.SETTINGS.enh
     group_key = "k_perk_pack"
 }
 
-local booster_mega = Ceres.SETTINGS.enhancements.enabled and Ceres.SETTINGS.enhancements.perks.enabled and SMODS.Booster{
+local booster_mega = Ceres.SETTINGS.card_effects.perks.enabled and SMODS.Booster{
     key = "perk_mega",
     kind = "Perk",
     atlas = "booster_atlas",
@@ -143,14 +152,14 @@ local booster_mega = Ceres.SETTINGS.enhancements.enabled and Ceres.SETTINGS.enha
     },
     cost = 8,
     weight = 0.12,
-    discovered = true,
+    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
 
     create_card = function(self, card)
         local card = create_card('Base', G.pack_cards, nil, nil, true, true, nil, 'cere')
-        local enhancement = poll_enhancement()
+        local perk = poll_perk()
         local edition = poll_edition()
         edition = edition and edition.negative and edition or nil
-        card:set_ability(G.P_CENTERS[enhancement])
+        card:set_ability(G.P_CENTERS[perk])
         card:set_edition(edition, true)
         return card
     end,

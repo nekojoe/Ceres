@@ -6,7 +6,7 @@ local enhancement_atlas = SMODS.Atlas{
     atlas_table = 'ASSET_ATLAS',
 }
 
-local illusion = Ceres.SETTINGS.enhancements.enabled and Ceres.SETTINGS.enhancements.illusion.enabled and SMODS.Enhancement{
+local illusion = Ceres.SETTINGS.card_effects.enhancements.enabled and Ceres.SETTINGS.card_effects.enhancements.illusion.enabled and SMODS.Enhancement{
     key = 'illusion',
     pos = {
         x = 0,
@@ -37,7 +37,7 @@ local illusion = Ceres.SETTINGS.enhancements.enabled and Ceres.SETTINGS.enhancem
     end
 }
 
-local cobalt = Ceres.SETTINGS.enhancements.enabled and Ceres.SETTINGS.enhancements.cobalt.enabled and SMODS.Enhancement{
+local cobalt = Ceres.SETTINGS.card_effects.enhancements.enabled and Ceres.SETTINGS.card_effects.enhancements.cobalt.enabled and SMODS.Enhancement{
     key = 'cobalt',
     pos = {
         x = 1,

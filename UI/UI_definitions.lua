@@ -34,10 +34,9 @@ Ceres.PAGE_FUNCS.main = function()
 	local _buttons = {
     	{label = 'Jokers', toggle_ref = ref_table.jokers, button_ref = 'cere_change_page', ref_page = 'jokers_rarities'},
     	{label = 'Consumables', toggle_ref = ref_table.consumables, button_ref = 'cere_change_page', ref_page = 'consumables'},
-    	{label = 'Enhancements', toggle_ref = ref_table.enhancements, button_ref = 'cere_change_page', ref_page = 'enhancements'},
+    	{label = 'Card Effects', toggle_ref = ref_table.card_effects, button_ref = 'cere_change_page', ref_page = 'card_effects'},
     	{label = 'Blinds', toggle_ref = ref_table.blinds, button_ref = 'cere_change_page', ref_page = 'blinds'},
       	{label = 'Suits', toggle_ref = ref_table.suits, button_ref = 'cere_change_page', ref_page = 'suits'},
-      	{label = 'Editions', toggle_ref = ref_table.editions, button_ref = 'cere_change_page', ref_page = 'editions'},
 		{label = 'Miscellaneous', button_ref = 'cere_change_page', ref_page = 'misc', remove_enable = true,},
   	}
 	return _buttons, false
@@ -49,10 +48,9 @@ Ceres.PAGE_FUNCS.jokers_rarities = function()
 		{label = 'Common Jokers', toggle_ref = ref_table.rarities.common, remove_enable = true,},
 		{label = 'Uncommon Jokers', toggle_ref = ref_table.rarities.uncommon, remove_enable = true,},
 		{label = 'Rare Jokers', toggle_ref = ref_table.rarities.rare, remove_enable = true,},
-		{label = 'Epic Jokers', toggle_ref = ref_table.rarities.epic, remove_enable = true,},
 		{label = 'Legendary Jokers', toggle_ref = ref_table.rarities.legendary, remove_enable = true,},
 		{label = 'Divine Jokers', toggle_ref = ref_table.rarities.divine, remove_enable = true,},
-		{label = 'Themed Jokers', toggle_ref = ref_table.themed, button_ref = 'cere_change_page', ref_page = 'jokers_themed'}
+		{label = 'Themed Jokers', toggle_ref = ref_table.themed, button_ref = 'cere_change_page', ref_page = 'jokers_themed'},
 
 	}
 	return _buttons, 'main'
@@ -67,21 +65,39 @@ Ceres.PAGE_FUNCS.jokers_themed = function()
 	return _buttons, 'jokers_rarities'
 end
 
+Ceres.PAGE_FUNCS.card_effects = function()
+	local ref_table = Ceres.SETTINGS.card_effects
+	local _buttons = {
+		{label = 'Perks', toggle_ref = ref_table.perks, remove_enable = true,},
+		{label = 'Enhancements', toggle_ref = ref_table.enhancements, button_ref = 'cere_change_page', ref_page = 'enhancements'},
+		{label = 'Editions', toggle_ref = ref_table.editions, button_ref = 'cere_change_page', ref_page = 'editions'},
+	}
+	return _buttons, 'main'
+end
 
 Ceres.PAGE_FUNCS.enhancements = function()
-	local ref_table = Ceres.SETTINGS.enhancements
+	local ref_table = Ceres.SETTINGS.card_effects.enhancements
 	local _buttons = {
 		{label = 'Illusion', toggle_ref = ref_table.illusion, remove_enable = true,},
 		{label = 'Cobalt', toggle_ref = ref_table.cobalt, remove_enable = true,},
-		{label = 'Perks', toggle_ref = ref_table.perks, remove_enable = true,},
 	}
-	return _buttons, 'main'
+	return _buttons, 'card_effects'
+end
+
+Ceres.PAGE_FUNCS.editions = function()
+	local ref_table = Ceres.SETTINGS.card_effects.editions
+	local _buttons = {
+		{label = 'Colourblind', toggle_ref = ref_table.colourblind, remove_enable = true,},
+		{label = 'Sneaky', toggle_ref = ref_table.sneaky, remove_enable = true,},
+	}
+	return _buttons, 'card_effects'
 end
 
 Ceres.PAGE_FUNCS.consumables = function()
 	local ref_table = Ceres.SETTINGS.consumables
 	local _buttons = {
 		{label = 'Tarot Reversals', toggle_ref = ref_table.reversed_tarots, remove_enable = true,},
+		{label = 'Vouchers', toggle_ref = ref_table.vouchers, remove_enable = true,},
 	}
 	return _buttons, 'main'
 end
@@ -105,21 +121,12 @@ Ceres.PAGE_FUNCS.suits = function()
 	return _buttons, 'main'
 end
 
-Ceres.PAGE_FUNCS.editions = function()
-	local ref_table = Ceres.SETTINGS.editions
-	local _buttons = {
-		{label = 'Colourblind', toggle_ref = ref_table.colourblind, remove_enable = true,},
-		{label = 'Sneaky', toggle_ref = ref_table.sneaky, remove_enable = true,},
-	}
-	return _buttons, 'main'
-end
-
 Ceres.PAGE_FUNCS.misc = function()
 	local ref_table = Ceres.SETTINGS.misc
 	local _buttons = {
-		--{label = 'Joker Levels', toggle_ref = ref_table.joker_levels, remove_enable = true,},
 		{label = 'Unlock All', toggle_ref = ref_table.unlock_all, remove_enable = true,},
 		{label = 'Discover All', toggle_ref = ref_table.discover_all, remove_enable = true,},
+		{label = 'Redeem All', toggle_ref = ref_table.redeem_all, remove_enable = true},
 	}
 	return _buttons, 'main'
 end

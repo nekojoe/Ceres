@@ -1,7 +1,7 @@
 local colourblind_shader = SMODS.Shader({key = 'colourblind', path = 'colourblind.fs'})
 local monochrome_shader = SMODS.Shader({key = 'monochrome', path = 'monochrome.fs'})
 
-local colourblind = Ceres.SETTINGS.editions.enabled and Ceres.SETTINGS.editions.colourblind.enabled and SMODS.Edition({
+local colourblind = Ceres.SETTINGS.card_effects.editions.enabled and Ceres.SETTINGS.card_effects.editions.colourblind.enabled and SMODS.Edition({
     key = "colourblind",
     loc_txt = {
         name = "Colourblind",
