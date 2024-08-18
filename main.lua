@@ -121,7 +121,7 @@ Ceres.FUNCS.copy = function(obj, seen)
     return res
 end
 
-Ceres.DEV = true
+Ceres.DEV = false
 
 -- for testing
 _RELEASE_MODE = not Ceres.DEV
