@@ -6,6 +6,26 @@ local reversed_tarot_atlas = SMODS.Atlas{
     atlas_table = 'ASSET_ATLAS',
 }
 
+local set_usage_ref = set_consumeable_usage
+function set_consumeable_usage(card)
+    if card.config.center.set == 'reversed_tarot' then
+        G.E_MANAGER:add_event(Event({
+            trigger = 'immediate',
+            func = function()
+            G.E_MANAGER:add_event(Event({
+                trigger = 'immediate',
+                func = function()
+                    G.GAME.last_reversed_tarot = card.config.center_key
+                    return true
+                end
+            }))
+                return true
+            end
+        }))
+    end
+    set_usage_ref(card)
+end
+
 local reversed_tarot = ((Ceres.SETTINGS.consumables.enabled and Ceres.SETTINGS.consumables.reversed_tarots.enabled) or
 (Ceres.SETTINGS.suits.enabled and (Ceres.SETTINGS.suits.coins.enabled or Ceres.SETTINGS.suits.leaves.enabled or Ceres.SETTINGS.suits.crowns.enabled)) or
 Ceres.SETTINGS.card_effects.enhancements.enabled and (Ceres.SETTINGS.card_effects.enhancements.illusion.enabled or Ceres.SETTINGS.card_effects.enhancements.cobalt.enabled))

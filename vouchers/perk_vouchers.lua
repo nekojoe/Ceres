@@ -18,7 +18,7 @@ local card_spread = Ceres.SETTINGS.consumables.vouchers.enabled and not Ceres.SE
     discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
 
     redeem = function(self)
-        G.v_cere_card_spread = true
+        G.GAME.v_cere_card_spread = true
     end
 }
 
@@ -37,6 +37,6 @@ local six_fingers = Ceres.SETTINGS.consumables.vouchers.enabled and not Ceres.SE
     },
 
     redeem = function(self)
-        G.v_cere_six_fingers = true
+        G.GAME.v_cere_six_fingers = true
     end
 }

@@ -35,6 +35,26 @@ SMODS.Perk = SMODS.Enhancement:extend {
 
 -- allows only 1 perk card to be selected per hand, but it is selected a 6th card
 -- so can still play 5 card hands
+
+local can_play_ref = G.FUNCS.can_play
+G.FUNCS.can_play = function(e)
+	can_play_ref(e)
+	local perk_cards = {}
+	for _, card in pairs(G.hand.highlighted) do
+		if card.ability and card.ability.set == 'Perk' then
+			perk_cards[#perk_cards+1] = card
+		end
+	end
+	if #perk_cards > 1 or #G.hand.highlighted <= 0 or G.GAME.blind.block_play or #G.hand.highlighted > G.hand.config.highlighted_limit then 
+		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+		e.config.button = nil
+	else
+		e.config.colour = G.C.BLUE
+		e.config.button = 'play_cards_from_highlighted'
+	end
+end
+
+
 local card_click_ref = Card.click
 function Card:click()
 	if not G.hand then return card_click_ref(self) end
@@ -49,17 +69,16 @@ function Card:click()
 					end
 				end
 				if can_select then
+					if G.GAME.v_cere_six_fingers or Ceres.SETTINGS.misc.redeem_all.enabled then
+						G.hand.config.highlighted_limit = 6
+					end
 					if self.ability.cost and G.GAME.dollars < self.ability.cost then
         				self:perk_alert('cost')
-					else
-						if G.v_cere_six_fingers or Ceres.SETTINGS.misc.redeem_all.enabled then
-							G.hand.config.highlighted_limit = 6
-						end
-						self.area:add_to_highlighted(self)
 					end
 				else
 					self:perk_alert('max')
 				end
+				self.area:add_to_highlighted(self)
 			else
 				G.hand.config.highlighted_limit = 5
 				self.area:remove_from_highlighted(self)
@@ -69,7 +88,7 @@ function Card:click()
 	else
 		G.hand.config.highlighted_limit = 5
 		for _, card in pairs(G.hand.highlighted) do
-			if card.ability and card.ability.set == 'Perk' and (G.v_cere_six_fingers or Ceres.SETTINGS.misc.redeem_all.enabled) then
+			if card.ability and card.ability.set == 'Perk' and (G.GAME.v_cere_six_fingers or Ceres.SETTINGS.misc.redeem_all.enabled) then
 				G.hand.config.highlighted_limit = 6
 			end
 		end
@@ -367,15 +386,17 @@ local reward_card = Ceres.SETTINGS.card_effects.perks.enabled and SMODS.Perk{
 		if context.cardarea == G.play then
 			if card and not card.burnt then
 				card.burnt = true
-				card:perk_message()
-				ease_dollars(-self.config.cost)
-				G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) - self.config.cost
-				G.E_MANAGER:add_event(Event({func = (function()
-					G.GAME.dollar_buffer = 0
-					add_tag(Tag('tag_coupon'))
-					play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
-					return true 
-				end)}))
+				if card.ability.cost and G.GAME.dollars >= card.ability.cost then
+					card:perk_message()
+					ease_dollars(-self.config.cost)
+					G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) - self.config.cost
+					G.E_MANAGER:add_event(Event({func = (function()
+						G.GAME.dollar_buffer = 0
+						add_tag(Tag('tag_coupon'))
+						play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+						return true 
+					end)}))
+				end
 			end
 		end
     end,
@@ -416,15 +437,17 @@ local business_card = Ceres.SETTINGS.card_effects.perks.enabled and SMODS.Perk{
 		if context.cardarea == G.play then
 			if card and not card.burnt then
 				card.burnt = true
-				card:perk_message()
-				ease_dollars(-self.config.cost)
-				G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) - self.config.cost
-				G.E_MANAGER:add_event(Event({func = (function()
-					G.GAME.dollar_buffer = 0
-					add_tag(Tag('tag_uncommon'))
-					play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
-					return true 
-				end)}))
+				if card.ability.cost and G.GAME.dollars >= card.ability.cost then
+					card:perk_message()
+					ease_dollars(-self.config.cost)
+					G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) - self.config.cost
+					G.E_MANAGER:add_event(Event({func = (function()
+						G.GAME.dollar_buffer = 0
+						add_tag(Tag('tag_uncommon'))
+						play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+						return true 
+					end)}))
+				end
 			end
 		end
     end,

@@ -136,7 +136,7 @@ target = "cardarea.lua"
 pattern = "function CardArea:emplace(*"
 position = "after"
 payload = '''
-    if card.ability and card.ability.set == 'Perk' and (self == G.hand) and (Ceres.SETTINGS.misc.redeem_all.enabled or G.v_cere_card_spread) then
+    if card.ability and card.ability.set == 'Perk' and (self == G.hand) and (Ceres.SETTINGS.misc.redeem_all.enabled or G.GAME.v_cere_card_spread) then
         self.config.real_card_limit = (self.config.real_card_limit or self.config.card_limit) + 1
         self.config.card_limit = math.max(0, self.config.real_card_limit)
         G.E_MANAGER:add_event(Event({
@@ -155,7 +155,7 @@ target = "cardarea.lua"
 pattern = "card:remove_from_area()"
 position = "before"
 payload = '''
-if card.ability and card.ability.set == 'Perk' and (self == G.hand) and (Ceres.SETTINGS.misc.redeem_all.enabled or G.v_cere_card_spread) then
+if card.ability and card.ability.set == 'Perk' and (self == G.hand) and (Ceres.SETTINGS.misc.redeem_all.enabled or G.GAME.v_cere_card_spread) then
     self.config.real_card_limit = (self.config.real_card_limit or self.config.card_limit) - 1
     self.config.card_limit = math.max(0, self.config.real_card_limit)
 end'''
