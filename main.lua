@@ -322,6 +322,18 @@ function SMODS.current_mod.process_loc_text()
     }
 end
 
+-- 'borrowed' from cryptid, for multi layer sprites
+local set_spritesref = Card.set_sprites
+function Card:set_sprites(_center, _front)
+    set_spritesref(self, _center, _front);
+    if _center and _center.soul_pos and _center.soul_pos.extra and not Ceres.COMPAT.crytpid then
+        self.children.floating_sprite2 = Sprite(self.T.x, self.T.y, self.T.w, self.T.h, G.ASSET_ATLAS[_center.atlas or _center.set], _center.soul_pos.extra)
+        self.children.floating_sprite2.role.draw_major = self
+        self.children.floating_sprite2.states.hover.can = false
+        self.children.floating_sprite2.states.click.can = false
+    end
+end
+
 -- picks new cards for jokers, same way idol and rebate do
 
 function SMODS.current_mod.reset_game_globals()

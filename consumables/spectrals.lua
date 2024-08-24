@@ -173,7 +173,6 @@ local function create_divine()
         it = it + 1
         center = pseudorandom_element(_pool, pseudoseed(_pool_key..'_resample'..it))
     end
-    print(tostring(center))
     
     local card = Card(G.jokers.T.x + G.jokers.T.w/2, G.jokers.T.y, G.CARD_W, G.CARD_H, nil, G.P_CENTERS[center],
     {bypass_discovery_center = true,
@@ -191,10 +190,10 @@ local function create_divine()
     return card
 end
 
-local consecrated_essence = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.divine.enabled and
+local divine_spawner = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.divine.enabled and
 (Ceres.SETTINGS.jokers.themed.enabled and (Ceres.SETTINGS.jokers.themed.bleach.enabled or Ceres.SETTINGS.jokers.themed.csm.enabled))
 and SMODS.Consumable{
-    key = 'consecrated_essence',
+    key = 'divine_spawner',
     set = 'Spectral',
     pos = {
         x = 2,
@@ -209,7 +208,7 @@ and SMODS.Consumable{
     discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
     hidden = true,
     soul_set = 'Spectral',
-    soul_rate = 0.0001,
+    soul_rate = 0.001,
 
     can_use = function(self, card)
         if #G.jokers.cards < G.jokers.config.card_limit or self.area == G.jokers then

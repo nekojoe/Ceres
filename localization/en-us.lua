@@ -287,9 +287,8 @@ return {
 			['j_cere_makima'] = {
 				['name'] = 'Makima',
 				['text'] = {
-					'Retrigger each Joker once for',
-					'each {C:money}$10{} less than {C:attention}this Joker{}',
-					'that Joker is worth. Gains',
+					'Retrigger each Joker {C:attention}worth less{}',
+					'than this Joker. This Joker gains',
 					'{X:dark_edition,C:white} ^#1# {} Mult per retrigger',
 					'{C:inactive}(Currently {}{X:dark_edition,C:white} ^#2# {} {C:inactive}Mult){}',
 				},
@@ -297,9 +296,9 @@ return {
 			['j_cere_aizen'] = {
 				['name'] = 'Aizen',
 				['text'] = {
-					'Allows {C:attention}6{} cards to be selected.',
-					'Gains {X:dark_edition,C:white} ^#1# {} Mult when each ',
-					'played {C:attention}card is scored{}.',
+					'Retrigger all played {C:attention}cards{}. This',
+					'Joker gains {X:dark_edition,C:white} ^#1# {} Mult when',
+					'each played card is {C:attention}scored{}',
 					'{C:inactive}(Currently {}{X:dark_edition,C:white} ^#2# {} {C:inactive}Mult){}',
 				},
 			},
@@ -321,7 +320,6 @@ return {
 				}
 			},
 			['c_cere_consecrated_essence'] = {
-				['name'] = 'Consecrated Essence',
 				['text'] = {
 					'{C:dark_edition}Whispers emanate{}',
 					'{C:dark_edition}from within...{}',

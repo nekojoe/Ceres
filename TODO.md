@@ -18,6 +18,9 @@ spectral - upgrade rarity of jokers
 double up, pairs retrigger all cards held in hand
 blinds for new suits
 
+joker ideas:
+sunbathing joker- cards gain bonuses longer kept in hand
+
 1 more suit
 illusion cards
 chance to lose enhancement
