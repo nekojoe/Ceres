@@ -25,41 +25,44 @@ local chromatic = Ceres.SETTINGS.card_effects.editions.enabled and Ceres.SETTING
 
     can_use = function(self, card)
         local hand = false
-        local joker = false
-        if G.hand then
-            for _, card in pairs(G.hand.cards) do
-                if not card.edition then
-                    hand = true
+        if #G.hand.highlighted == 1 then
+            if not G.hand.highlighted[1].edition then return true end
+            hand = true
+        end
+        if #G.hand.highlighted == 0 or hand then
+            if G.jokers then
+                for _, card in pairs(G.jokers.cards) do
+                    if not card.edition then
+                        return true
+                    end
                 end
             end
         end
-        if G.jokers then
-            for _, card in pairs(G.jokers.cards) do
-                if not card.edition then
-                    joker = true
-                end
-            end
-        end
-        return joker or hand
+        return false
     end,
 
     use = function(self, card, area, copier)
         local valid_cards = {}
-        if G.hand then
-            for _, card in pairs(G.hand.cards) do
-                if not card.edition then
-                    valid_cards[#valid_cards+1] = card
-                end
+        local picked_card = nil
+        local hand = false
+        if #G.hand.highlighted == 1 then
+            if not G.hand.highlighted[1].edition then
+                picked_card = G.hand.highlighted[1]
+            else
+                hand = true
             end
         end
-        if G.jokers then
-            for _, card in pairs(G.jokers.cards) do
-                if not card.edition then
-                    valid_cards[#valid_cards+1] = card
+        if #G.hand.highlighted == 0 or hand then
+            if G.jokers then
+                for _, card in pairs(G.jokers.cards) do
+                    if not card.edition then
+                        valid_cards[#valid_cards+1] = card
+                    end
                 end
+                picked_card = pseudorandom_element(valid_cards, pseudoseed('colourblind'))
             end
         end
-        local picked_card = pseudorandom_element(valid_cards, pseudoseed('colourblind'))
+        if not picked_card then return end
         if picked_card.ability.set == 'Joker' then
             if true then--colourblind_compat(picked_card.ability) then
                 G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()

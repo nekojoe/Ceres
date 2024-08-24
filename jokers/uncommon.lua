@@ -169,8 +169,8 @@ local favourable_odds = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.
         y = 0,
     },
     soul_pos = {
-        x = 5,
-        y = 0,
+        x = 4,
+        y = 1,
     },
     atlas = 'uncommon_jokers',
     cost = 7,
@@ -208,6 +208,139 @@ local favourable_odds = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.
                     message = {'Lucky'},
                     colour = G.C.GREEN,
                     card = card,
+                }
+            end
+        end
+    end,
+}
+
+local miku = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.uncommon.enabled and SMODS.Joker{
+    key = 'miku',
+    rarity = 2,
+    pos = {
+        x = 5,
+        y = 0,
+    },
+    soul_pos = {
+        x = 5,
+        y = 1,
+    },
+    config = {
+        extra = 0.1,
+        x_mult = 1,
+    },
+    atlas = 'uncommon_jokers',
+    cost = 6,
+    unlocked = true,
+    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extra,
+                card.ability.x_mult,
+            },
+        }
+    end,
+
+    calculate = function(self, card, context)
+        if context.cardarea == G.jokers and context.before then
+            if context.scoring_name and not (context.individual or context.repetition or context.blueprint) then
+                local curr_level = (G.GAME.hands[context.scoring_name].level or 1)
+                local inc = true
+                for k, v in pairs(G.GAME.hands) do
+                    if k ~= context.scoring_name and v.level > curr_level then
+                        inc = false
+                    end
+                end
+                if inc then
+                    card.ability.x_mult = card.ability.x_mult + card.ability.extra
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.x_mult}}})
+                end
+            end
+        end
+        if context.joker_main then
+            return {
+                message = localize{type='variable',key='a_xmult',vars={card.ability.x_mult}},
+                colour = G.C.RED,
+                Xmult_mod = card.ability.x_mult,
+                repetitions = 0
+            }
+        end
+    end,
+}
+
+local marlboro_reds = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.uncommon.enabled and SMODS.Joker{
+    key = 'marlboro_reds',
+    rarity = 2,
+    pos = {
+        x = 0,
+        y = 1,
+    },
+    config = {
+        x_mult = 2,
+        extra = 0.05,
+    },
+    atlas = 'uncommon_jokers',
+    cost = 6,
+    unlocked = true,
+    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {
+                card.ability.x_mult,
+                card.ability.extra,
+            },
+        }
+    end,
+
+    calculate = function(self, card, context)
+        -- main
+        if context.joker_main then
+            return {
+                message = localize{type='variable',key='a_xmult',vars={card.ability.x_mult}},
+                colour = G.C.RED,
+                Xmult_mod = card.ability.x_mult,
+                repetitions = 0
+            }
+        end
+        -- end of round
+        if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
+            if card.ability.x_mult - card.ability.extra <= 1 then 
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        card.states.drag.is = true
+                        card.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(card)
+                                    card:remove()
+                                    card = nil
+                                return true; end})) 
+                        return true
+                    end
+                })) 
+                return {
+                    message = 'Smoked!',
+                    colour = G.C.RED,
+                    repetitions = 0
+                }
+            else
+                card.ability.x_mult = card.ability.x_mult - card.ability.extra
+                return {
+                    message = localize{type='variable',key='a_xmult_minus',vars={card.ability.extra}},
+                    colour = G.C.MULT,
+                    repetitions = 0,
                 }
             end
         end

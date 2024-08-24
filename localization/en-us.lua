@@ -206,6 +206,14 @@ return {
 					'requirement, gain {C:blue}+#2#{} hand',
 				},
 			},
+			['j_cere_the_solo'] = {
+				['name'] = 'The Solo',
+				['text']= {
+                    "{X:mult,C:white} X1 {} Mult if played",
+                    "hand contains",
+                    "a {C:attention}High Card{}"
+                },
+			},
 			-- uncommon
 			['j_cere_chainsaw_devil'] = {
 				['name'] = 'Chainsaw Devil',
@@ -238,6 +246,22 @@ return {
                     'rank become {C:attention}Lucky{}',
                     'cards when scored',
                     '{C:inactive}(A, 9, 7, 5, 3)',
+                }
+			},
+			['j_cere_miku'] = {
+				['name'] = 'Hatsune Miku',
+                ['text'] = {
+					"Gains {X:mult,C:white} X#1# {} Mult when",
+                    "playing your highest",
+                    "level {C:attention}poker hand{}",
+                    "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
+				},
+			},
+			['j_cere_marlboro_reds'] = {
+				['name'] = 'Marlboro Reds',
+                ['text'] = {
+					'{X:mult,C:white} X#1# {} Mult, reduces by',
+					'{X:mult,C:white}X#2# {} every round',
                 }
 			},
 			-- rare
@@ -274,7 +298,6 @@ return {
 					'{s:0.8}Card changes every round',
 				},
 			},
-			-- epic
 			['j_cere_ben'] = {
 				['name'] = 'Ben',
 				['text'] = {
@@ -283,12 +306,20 @@ return {
 					'{s:0.8}{C:inactive}(Increases with score){}',
 				},
 			},
+			['j_cere_double_down'] = {
+				['name'] = 'Double Down',
+                ['text'] = {
+                    'Retrigger all cards held',
+					'in hand {C:attention}twice{}, if played',
+                    'hand contains a {C:attention}Pair{}',
+                }
+			},
 			-- divine
 			['j_cere_makima'] = {
 				['name'] = 'Makima',
 				['text'] = {
-					'Retrigger each Joker {C:attention}worth less{}',
-					'than this Joker. This Joker gains',
+					'Retrigger each Joker {C:attention}worth{}',
+					'{C:attention}less{} than this Joker. Gains',
 					'{X:dark_edition,C:white} ^#1# {} Mult per retrigger',
 					'{C:inactive}(Currently {}{X:dark_edition,C:white} ^#2# {} {C:inactive}Mult){}',
 				},
@@ -296,9 +327,9 @@ return {
 			['j_cere_aizen'] = {
 				['name'] = 'Aizen',
 				['text'] = {
-					'Retrigger all played {C:attention}cards{}. This',
-					'Joker gains {X:dark_edition,C:white} ^#1# {} Mult when',
-					'each played card is {C:attention}scored{}',
+					'Retrigger all played {C:attention}cards{}.',
+					'Gains {X:dark_edition,C:white} ^#1# {} Mult when a',
+					'played card is {C:attention}scored{}',
 					'{C:inactive}(Currently {}{X:dark_edition,C:white} ^#2# {} {C:inactive}Mult){}',
 				},
 			},
@@ -308,8 +339,8 @@ return {
 				['name'] = 'Chromatic',
 				['text'] = {
 					'Add {C:dark_edition}Colourblind{} to a',
-					'random {C:attention}Joker{} or {C:attention}card{}',
-					'held in hand',
+					'random {C:attention}Joker{} or {C:attention}1{}',
+					'selected card in hand',
 				}
 			},
 			['c_cere_camouflage'] = {
@@ -319,7 +350,8 @@ return {
 					'selected card in hand',
 				}
 			},
-			['c_cere_consecrated_essence'] = {
+			['c_cere_divine_spawner'] = {
+				['name'] = ' ',
 				['text'] = {
 					'{C:dark_edition}Whispers emanate{}',
 					'{C:dark_edition}from within...{}',

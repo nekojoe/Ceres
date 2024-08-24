@@ -15,7 +15,6 @@ new seals
 joker cult
 card jokers: chips or + mult for commons
 spectral - upgrade rarity of jokers
-double up, pairs retrigger all cards held in hand
 blinds for new suits
 
 joker ideas:
@@ -24,6 +23,8 @@ sunbathing joker- cards gain bonuses longer kept in hand
 1 more suit
 illusion cards
 chance to lose enhancement
+
+royal flush joker
 
 joker that swaps chips and mult for a hand
 
@@ -71,10 +72,8 @@ make trading card work - done yippee
 test editions again - done yippee
 play two pair and get $4
 
-# fixes
-
-planet incompat with bunco?
-ben cant handle big numbers lmao
-touch up some art
-balancing with perk cards
-can select 5 cards and 1 perk card
+# more to do
+remove planets
+change ben effect
+then everything implemented is working
+more jnokers

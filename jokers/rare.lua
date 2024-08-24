@@ -295,3 +295,34 @@ local ben = false and Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.ra
         end
     end,
 }
+
+local double_down = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.uncommon.enabled and SMODS.Joker{
+    key = 'double_down',
+    rarity = 3,
+    pos = {
+        x = 1,
+        y = 1,
+    },
+    config = {
+        extra = 2
+    },
+    atlas = 'rare_jokers',
+    cost = 8,
+    unlocked = false or Ceres.SETTINGS.misc.unlock_all.enabled,
+    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.hand and context.poker_hands then
+            if next(context.poker_hands['Pair']) and (next(context.card_effects[1]) or #context.card_effects > 1) then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.extra,
+                    card = card
+                }
+            end
+        end
+    end,
+}

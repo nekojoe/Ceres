@@ -141,3 +141,30 @@ local warm_up = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities
         end
     end,
 }
+
+local the_solo = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.common.enabled and SMODS.Joker{
+    key = 'the_solo',
+    name = 'The Solo',
+    rarity = 1,
+    unlocked = true,
+    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    pos = {
+        x = 4,
+        y = 0,
+    },
+    cost = 5,
+    atlas = 'common_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = true,
+
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                message = localize{type='variable',key='a_xmult',vars={1}},
+                colour = G.C.RED,
+                Xmult_mod = 1,
+            }
+        end
+    end,
+}
