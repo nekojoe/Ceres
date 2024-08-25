@@ -337,8 +337,8 @@ end
 -- picks new cards for jokers, same way idol and rebate do
 
 function SMODS.current_mod.reset_game_globals()
-    G.GAME.cere_jackpot_card = pick_from_deck('jackpot')
-    G.GAME.cere_clock_card = pick_from_deck('clock')   
+    G.GAME.cere_clock_card = pick_from_deck('clock')
+    G.GAME.cere_yumeko_suit = pick_from_deck('yumeko').suit 
 end
 
 function pick_from_deck(seed)

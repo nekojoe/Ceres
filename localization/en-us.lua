@@ -209,9 +209,9 @@ return {
 			['j_cere_the_solo'] = {
 				['name'] = 'The Solo',
 				['text']= {
-                    "{X:mult,C:white} X1 {} Mult if played",
-                    "hand contains",
-                    "a {C:attention}High Card{}"
+                    '{X:mult,C:white} X1 {} Mult if played',
+                    'hand contains',
+                    'a {C:attention}High Card{}'
                 },
 			},
 			-- uncommon
@@ -251,10 +251,10 @@ return {
 			['j_cere_miku'] = {
 				['name'] = 'Hatsune Miku',
                 ['text'] = {
-					"Gains {X:mult,C:white} X#1# {} Mult when",
-                    "playing your highest",
-                    "level {C:attention}poker hand{}",
-                    "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
+					'Gains {X:mult,C:white} X#1# {} Mult when',
+                    'playing your highest',
+                    'level {C:attention}poker hand{}',
+                    '{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)'
 				},
 			},
 			['j_cere_marlboro_reds'] = {
@@ -262,6 +262,15 @@ return {
                 ['text'] = {
 					'{X:mult,C:white} X#1# {} Mult, reduces by',
 					'{X:mult,C:white}X#2# {} every round',
+                }
+			},
+			['j_cere_yumeko'] = {
+				['name'] = 'Yumeko',
+                ['text'] = {
+					'Played cards with',
+                    '{V:1}#2#{} suit give {X:mult,C:white} X#1# {}',
+                    'Mult when scored',
+                    '{s:0.8}Suit changes every round'
                 }
 			},
 			-- rare
@@ -350,12 +359,13 @@ return {
 					'selected card in hand',
 				}
 			},
-			['c_cere_divine_spawner'] = {
-				['name'] = ' ',
+			['c_cere_ceres_spectral'] = {
+				['name'] = 'Ceres',
 				['text'] = {
-					'{C:dark_edition}Whispers emanate{}',
-					'{C:dark_edition}from within...{}',
-				}
+                    "Creates a",
+                    "{C:dark_edition,E:1}Divine{} Joker",
+                    "{C:inactive}(Must have room)"
+                }
 			},
 		},
 		['Perk'] = {

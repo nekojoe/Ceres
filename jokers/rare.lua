@@ -326,3 +326,58 @@ local double_down = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rari
         end
     end,
 }
+
+local yumeko = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.uncommon.enabled and SMODS.Joker{
+    key = 'yumeko',
+    rarity = 3,
+    pos = {
+        x = 2,
+        y = 1,
+    },
+    config = {
+        extra = 2
+    },
+    atlas = 'rare_jokers',
+    cost = 7,
+    unlocked = true,
+    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        if G.GAME.cere_yumeko_suit then
+            return {
+                vars = {
+                    card.ability.extra,
+                    localize(G.GAME.cere_yumeko_suit, 'suits_singular'),
+                    colours = {
+                        G.C.SUITS[G.GAME.cere_yumeko_suit],
+                    },
+                },
+            }
+        else
+            return {
+                vars = {
+                    card.ability.extra,
+                    localize('Spades', 'suits_singular'),
+                    colours = {
+                        G.C.SUITS['Spades'],
+                    },
+                },
+            }
+        end
+    end,
+
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play then
+            if context.other_card.base and context.other_card:is_suit(G.GAME.cere_yumeko_suit) then
+                return {
+                    x_mult = card.ability.extra,
+                    colour = G.C.RED,
+                    card = card
+                }
+            end
+        end
+    end,
+}

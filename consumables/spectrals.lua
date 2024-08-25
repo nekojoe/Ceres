@@ -193,10 +193,10 @@ local function create_divine()
     return card
 end
 
-local divine_spawner = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.divine.enabled and
+local ceres_spectral = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.divine.enabled and
 (Ceres.SETTINGS.jokers.themed.enabled and (Ceres.SETTINGS.jokers.themed.bleach.enabled or Ceres.SETTINGS.jokers.themed.csm.enabled))
 and SMODS.Consumable{
-    key = 'divine_spawner',
+    key = 'ceres_spectral',
     set = 'Spectral',
     pos = {
         x = 2,
