@@ -168,3 +168,136 @@ local the_solo = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.raritie
         end
     end,
 }
+
+local diving_joker = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.common.enabled and SMODS.Joker{
+    key = 'diving_joker',
+    name = 'Diving Joker',
+    rarity = 1,
+    unlocked = true,
+    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    pos = {
+        x = 5,
+        y = 0,
+    },
+    config = {
+        extra = 2,
+    },
+    cost = 5,
+    atlas = 'common_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        local playing_cards = G.playing_cards or {}
+        local deck_cards = G.deck and G.deck.cards or {}
+        local drawn = #playing_cards - #deck_cards
+        drawn = math.max(math.floor(drawn/8), 0)
+        return {vars = {card.ability.extra, card.ability.extra*drawn}}
+    end,
+
+    calculate = function(self, card, context)
+        if context.joker_main then
+            local playing_cards = G.playing_cards or {}
+            local deck_cards = G.deck and G.deck.cards or {}
+            local drawn = #playing_cards - #deck_cards
+            drawn = math.floor(drawn/8)
+            if drawn > 0 then
+                return {
+                    message = localize{type='variable',key='a_mult',vars={card.ability.extra*drawn}},
+                    mult_mod = card.ability.extra*drawn,
+                    colour = G.C.MULT
+                }
+            end
+        end
+    end,
+}
+
+local accountant = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.common.enabled and SMODS.Joker{
+    key = 'accountant',
+    name = 'Accountant',
+    rarity = 1,
+    unlocked = true,
+    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    pos = {
+        x = 0,
+        y = 1,
+    },
+    config = {
+        extra = 2,
+        mult_mod = 0,
+    },
+    cost = 6,
+    atlas = 'common_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra, card.ability.mult_mod}}
+    end,
+
+    calculate = function(self, card, context)
+        if context.joker_main then
+            if card.ability.mult_mod > 0 then
+                return {
+                    message = localize{type='variable',key='a_mult',vars={card.ability.mult_mod}},
+                    mult_mod = card.ability.mult_mod,
+                    colour = G.C.MULT
+                }
+            end
+        end
+    end,
+
+    calc_dollar_bonus = function(self, card)
+        local inc = card.ability.extra * G.GAME.interest_amount*math.min(math.floor(G.GAME.dollars/5), G.GAME.interest_cap/5)
+        if inc > 0 then
+            card.ability.mult_mod = card.ability.mult_mod + inc
+            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
+        end
+    end,
+}
+
+local museum = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.common.enabled and SMODS.Joker{
+    key = 'museum',
+    name = 'Museum',
+    rarity = 1,
+    unlocked = true,
+    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    pos = {
+        x = 1,
+        y = 1,
+    },
+    config = {
+        mult_mod = 0,
+    },
+    cost = 6,
+    atlas = 'common_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.mult_mod}}
+    end,
+
+    calculate = function(self, card, context)
+        if context.selling_card then
+            if context.card.ability.set == 'Joker' then
+                card.ability.mult_mod = card.ability.mult_mod + context.card.sell_cost
+                return {
+                    message = localize('k_upgrade_ex'),
+                    colour = G.C.RED,
+                    card = card
+                }
+            end
+        end
+        if context.joker_main and card.ability.mult_mod > 0 then
+            return {
+                message = localize{type='variable',key='a_mult',vars={card.ability.mult_mod}},
+                mult_mod = card.ability.mult_mod,
+                colour = G.C.MULT
+            }
+        end
+    end,
+}

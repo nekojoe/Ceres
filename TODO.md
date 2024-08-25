@@ -77,3 +77,24 @@ remove planets
 change ben effect
 then everything implemented is working
 more jnokers
+
+# jokers
+
+# commons
+
+If no other Jokers provide XMult, X2 Mult
+Club Sandwich If highest and lowest rank of a played hand are both clubs, this joker gains +3 mult. 
+large joker, +50 chips, +10 mult if cards in hand total at least 40
+
+# uncommon
+
+Skateboard -For each unique Hand Type played, gains 1x Mult. Resets when a duplicate hand is played.
+Fisherman (uncommon) - After playing a hand, increase hand size by 1. Resets at the end of round
+Wanted Poster If you get [Joker], +x1 mult. Joker changes when target joker is bought. (Can't pick legendary jokers or undiscovered jokers) rarity tho
+
+Would probably have an unlock condition, that requires you to have a certain amount of jokers discovered, so it's not too op with low discovered joker amounts. 
+
+
+# vouchers
+
+Mirror + Shattered Mirror vouchers - 2x / 4x chance for negative jokers to appear

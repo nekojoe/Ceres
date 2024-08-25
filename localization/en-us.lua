@@ -214,6 +214,31 @@ return {
                     'a {C:attention}High Card{}'
                 },
 			},
+			['j_cere_diving_joker'] = {
+				['name'] = 'Diving Joker',
+				['text']= {
+                    "{C:mult}+#1#{} Mult for every eight",
+                    "cards {C:attention}drawn{} this round",
+                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
+                }
+			},
+			['j_cere_accountant'] = {
+				['name'] = 'Accountant',
+				['text']= {
+                    "Gains {C:mult}+#1#{} Mult for each",
+                    "{C:money}$1{} of {C:attention}interest{} earned",
+                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
+                }
+			},
+			['j_cere_museum'] = {
+				['name'] = 'Museum',
+				['text']= {
+                    "When a Joker is {C:attention}sold{},",
+                    "permanently add its",
+                    "sell value to this {C:red}Mult{}",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
+                }
+			},
 			-- uncommon
 			['j_cere_chainsaw_devil'] = {
 				['name'] = 'Chainsaw Devil',

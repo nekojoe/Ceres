@@ -346,4 +346,3 @@ local marlboro_reds = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.ra
         end
     end,
 }
-

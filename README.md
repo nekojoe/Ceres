@@ -24,18 +24,18 @@ fixing them.
 # current features
 
 at the time of writing this, this mod adds:
-- 13 new jokers (2 currently unobtainable tho)
+- 21 new jokers
 - 9 new tarot cards
-- 2 new planet cards (currently removed because i didnt have to time to fix properly lol)
-- 2 new spectral cards
-- 7 new card enhancements like effects
+- 3 new spectral cards
+- 6 new card enhancement like effects
+- 2 new enhancements
 - 2 new vouchers
 - 2 new editions
 - 4 new booster packs
 - 5 new blinds
 - 3 new suits
 
-5 of the new enhancements im going to refer to as perk cards, as the packs for them do. these are essentially cards that have
+the new enhancement like effects im going to refer to as perk cards, as the packs for them do. these are essentially cards that have
 special effects when you play them. im also working towards making them a unique game item, instead of being found under the
 enhancements, but for now having them as enhancements works well enough, and due to the small amount of them they shouldnt clutter
 the collection too much. there are some new terms i use for these cards but everything is explained it info boxes, hopefully
@@ -46,12 +46,6 @@ one of the suits will also disable the corresponding suit conv consumable, and b
 but if thats something people want changed i would be more than happy to
 
 # known 'quirks'
-
-currently 2 jokers are unobtainable through legitimate means, namely the makima and aizen 'divine' jokers. i do plan
-on adding ways to obtain them further down the line, but as i mentioned i wanted to get something released soon. the
-snakes eyes joker is currently only compatible with vanilla joker/enhancements, as ive had to hard code the compat list
-for the time being, i would like to figure out a way to do it dynamically, but considering the inconsistencies between
-mods and even base game items im unsure if itll be possible.
 
 im also in the process of making the colourblind edition only available on compatible jokers, but my code apparently just
 stopped working so for the time being its available on all jokers (and playing cards) but will not function on some jokers,
@@ -69,8 +63,6 @@ keep that setting on until i have sorted out proper unlock requirements
 # stuff ive had to disable for the time being
 
 - ben joker, incompatible with talisman i think, he cant handle big numbers
-- the planet cards for the time being, maybe due to incompat with bunco i think, they were locked behind
-one of the unobtainable jokers anyway
 
 # last few notes
 
