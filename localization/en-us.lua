@@ -453,6 +453,16 @@ return {
                 }
 			},
 		},
+		['Enhanced'] = {
+			['m_cere_cobalt'] = {
+				['name'] = 'Cobalt Card',
+				['text'] = {
+                    "{X:chips,C:white} X#1# {} Chips",
+                    "while this card",
+                    "stays in hand"
+                }
+			},
+		},
 		['Back'] = {
 			['b_cere_scratch'] = {
                 ['name'] = "Scratch Deck",

@@ -18,7 +18,7 @@ G.FUNCS.cere_change_page = function(e)
 				padding = 0.2,
 				colour = G.C.BLACK,
 			},
-			nodes = Eris.FUNCS.create_buttons(page_config, back, cere_save_config),
+			nodes = Eris.FUNCS.create_buttons(page_config, back, 'cere_save_config'),
 		},
 		config = {
 			offset = {

@@ -31,7 +31,7 @@ local illusion = false and Ceres.CONFIG.card_modifiers.enhancements.enabled and 
     end
 }
 
-local cobalt = false and Ceres.CONFIG.card_modifiers.enhancements.enabled and SMODS.Enhancement{
+local cobalt = Ceres.CONFIG.card_modifiers.enhancements.enabled and SMODS.Enhancement{
     key = 'cobalt',
     pos = {
         x = 1,
