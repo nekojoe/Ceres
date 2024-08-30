@@ -146,3 +146,7 @@ Jumbled Packs - these just have a combination of all the tarots, planets, spectr
 
 # blinds
 Sunset Clock - discard all cards
+
+# decks
+deck of each suit
+tattered deck of spades etc

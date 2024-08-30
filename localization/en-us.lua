@@ -59,23 +59,6 @@ return {
 				},
 			}
 		},
-		['Enhanced'] = {
-			['m_cere_illusion'] = {
-                ['name'] = 'Illusion Card',
-                ['text'] = {
-					'{C:green}#1# in #3#{} chance',
-					'for {X:chips,C:white} X#2# {} Chips',
-				},
-            },
-			['m_cere_cobalt'] = {
-                ['name'] = 'Cobalt Card',
-                ['text'] = {
-                    '{X:chips,C:white} X#1# {} Chips',
-                    'while this card',
-                    'stays in hand'
-                }
-            },
-		},
 		['reversed_tarot'] = {
 			['c_cere_reversed_fool'] = {
                 ['name'] = 'The Fool Reversal',

@@ -12,7 +12,7 @@ local scratch = Ceres.CONFIG.run_modifiers.decks.enabled and SMODS.Back{
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     atlas = 'backs',
     pos = {
-        x = 0,
+        x = 3,
         y = 0,
     },
     config = {
@@ -76,7 +76,7 @@ local gift = Ceres.CONFIG.run_modifiers.decks.enabled and SMODS.Back{
     end,
 }
 
-local golden = Ceres.CONFIG.run_modifiers.decks.enabled and SMODS.Back{
+local golden = false and Ceres.CONFIG.run_modifiers.decks.enabled and SMODS.Back{
     key = 'golden',
     unlocked = false or Ceres.CONFIG.misc.unlock_all.enabled,
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
@@ -93,4 +93,55 @@ local golden = Ceres.CONFIG.run_modifiers.decks.enabled and SMODS.Back{
     loc_vars = function(self, info_queue, card)
         return {vars = {self.config.extra_card_bonus}}
     end,
+}
+
+if Ceres.CONFIG.run_modifiers.decks.enabled then
+    G.P_CENTERS['eris_advantage'] = { set = 'Other', key = 'eris_advantage'}
+end
+
+local tat_spades = Ceres.CONFIG.run_modifiers.decks.enabled and SMODS.Back{
+    key = 'tattered_spades',
+    unlocked = false or Ceres.CONFIG.misc.unlock_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    atlas = 'backs',
+    pos = {
+        x = 0,
+        y = 1,
+    },
+    config = {
+        vouchers = {
+            'v_cere_overflow_norm',
+        },
+    },
+    loc_txt = Eris.CONFIG.perks.enabled and {
+        name = "Tattered Deck of Spades",
+        text = {
+            "Start run with:",
+            'Deck of {E:1,C:spades}Spades{},',
+            '{E:1,C:attention,T:v_cere_overflow_norm}Overflow{} voucher,',
+            '{C:attention}3{} extra {E:1,C:green,T:eris_advantage}Advantage',
+        }
+    } or {
+        name = "Tattered Deck of Spades",
+        text = {
+            "Start run with:",
+            'Deck of {E:1,C:spades}Spades{}',
+            'and {E:1,C:attention,T:v_cere_overflow_norm}Overflow{} voucher',
+        }
+    },
+
+    apply = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = (function()
+            for k, v in pairs(G.playing_cards) do
+                if not v:is_suit('Spades') then 
+                    v:start_dissolve(nil, true, 0.00000001)
+                end
+            end
+            ease_advantage(3)
+                return true
+            end)
+          }))
+    end,
+
 }
