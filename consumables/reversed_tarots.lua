@@ -26,10 +26,8 @@ function set_consumeable_usage(card)
     set_usage_ref(card)
 end
 
-local reversed_tarot = ((Ceres.SETTINGS.consumables.enabled and Ceres.SETTINGS.consumables.reversed_tarots.enabled) or
-(Ceres.SETTINGS.suits.enabled and (Ceres.SETTINGS.suits.coins.enabled or Ceres.SETTINGS.suits.leaves.enabled or Ceres.SETTINGS.suits.crowns.enabled)) or
-Ceres.SETTINGS.card_effects.enhancements.enabled and (Ceres.SETTINGS.card_effects.enhancements.illusion.enabled or Ceres.SETTINGS.card_effects.enhancements.cobalt.enabled))
-and SMODS.ConsumableType{
+local reversed_tarot = ((Ceres.CONFIG.consumables.enabled and Ceres.CONFIG.consumables.reversed_tarots.enabled) or
+(Ceres.CONFIG.suits.enabled or Ceres.CONFIG.card_modifiers.enhancements.enabled)) and SMODS.ConsumableType{
     key = 'reversed_tarot',
     primary_colour = G.C.SET.Tarot,
     secondary_colour = G.C.SECONDARY_SET.Tarot,
@@ -62,7 +60,7 @@ local undiscoverd_atlas = SMODS.UndiscoveredSprite{
     },
 }
 
-local reversed_fool = Ceres.SETTINGS.consumables.enabled and Ceres.SETTINGS.consumables.reversed_tarots.enabled and SMODS.Consumable{
+local reversed_fool = Ceres.CONFIG.consumables.enabled and Ceres.CONFIG.consumables.reversed_tarots.enabled and SMODS.Consumable{
     key = 'reversed_fool',
     set = 'reversed_tarot',
     config = {},
@@ -71,7 +69,7 @@ local reversed_fool = Ceres.SETTINGS.consumables.enabled and Ceres.SETTINGS.cons
         x = 0,
         y = 0,
     },
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     loc_vars = function(self, info_queue, card)
         local fool_c = G.GAME.last_reversed_tarot and G.P_CENTERS[G.GAME.last_reversed_tarot] or nil
@@ -113,7 +111,7 @@ local reversed_fool = Ceres.SETTINGS.consumables.enabled and Ceres.SETTINGS.cons
     end
 }
 
-local reversed_magician = Ceres.SETTINGS.card_effects.enhancements.enabled and Ceres.SETTINGS.card_effects.enhancements.illusion.enabled and SMODS.Consumable{
+local reversed_magician = Ceres.CONFIG.card_modifiers.enhancements.enabled and SMODS.Consumable{
     key = 'reversed_magician',
     set = 'reversed_tarot',
     config = {
@@ -125,7 +123,7 @@ local reversed_magician = Ceres.SETTINGS.card_effects.enhancements.enabled and C
         x = 1,
         y = 0,
     },
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     loc_vars = function(self, info_queue)
         info_queue[#info_queue+1] = G.P_CENTERS[self.config.mod_conv]
@@ -138,7 +136,7 @@ local reversed_magician = Ceres.SETTINGS.card_effects.enhancements.enabled and C
     end
 }
 
-local reversed_lovers = Ceres.SETTINGS.consumables.enabled and Ceres.SETTINGS.consumables.reversed_tarots.enabled and SMODS.Consumable{
+local reversed_lovers = Ceres.CONFIG.consumables.enabled and Ceres.CONFIG.consumables.reversed_tarots.enabled and SMODS.Consumable{
     key = 'reversed_lovers',
     set = 'reversed_tarot',
     config = {
@@ -149,7 +147,7 @@ local reversed_lovers = Ceres.SETTINGS.consumables.enabled and Ceres.SETTINGS.co
         x = 6,
         y = 0,
     },
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     loc_vars = function(self, info_queue)
         return {
@@ -182,7 +180,7 @@ local reversed_lovers = Ceres.SETTINGS.consumables.enabled and Ceres.SETTINGS.co
     end
 }
 
-local reversed_chariot = Ceres.SETTINGS.card_effects.enhancements.enabled and Ceres.SETTINGS.card_effects.enhancements.cobalt.enabled and SMODS.Consumable{
+local reversed_chariot = Ceres.CONFIG.card_modifiers.enhancements.enabled and SMODS.Consumable{
     key = 'reversed_chariot',
     set = 'reversed_tarot',
     config = {
@@ -194,7 +192,7 @@ local reversed_chariot = Ceres.SETTINGS.card_effects.enhancements.enabled and Ce
         x = 7,
         y = 0,
     },
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     loc_vars = function(self, info_queue)
         info_queue[#info_queue+1] = G.P_CENTERS[self.config.mod_conv]
@@ -207,7 +205,7 @@ local reversed_chariot = Ceres.SETTINGS.card_effects.enhancements.enabled and Ce
     end
 }
 
-local reversed_hanged_man = Ceres.SETTINGS.consumables.enabled and Ceres.SETTINGS.consumables.reversed_tarots.enabled and SMODS.Consumable{
+local reversed_hanged_man = Ceres.CONFIG.consumables.enabled and Ceres.CONFIG.consumables.reversed_tarots.enabled and SMODS.Consumable{
     key = 'reversed_hanged_man',
     set = 'reversed_tarot',
     config = {
@@ -218,7 +216,7 @@ local reversed_hanged_man = Ceres.SETTINGS.consumables.enabled and Ceres.SETTING
         x = 2,
         y = 1,
     },
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     loc_vars = function(self, info_queue)
         return {
@@ -245,7 +243,7 @@ local reversed_hanged_man = Ceres.SETTINGS.consumables.enabled and Ceres.SETTING
     end
 }
 
-local reversed_strength = Ceres.SETTINGS.consumables.enabled and Ceres.SETTINGS.consumables.reversed_tarots.enabled and SMODS.Consumable{
+local reversed_strength = Ceres.CONFIG.consumables.enabled and Ceres.CONFIG.consumables.reversed_tarots.enabled and SMODS.Consumable{
     key = 'reversed_strength',
     set = 'reversed_tarot',
     config = {
@@ -256,7 +254,7 @@ local reversed_strength = Ceres.SETTINGS.consumables.enabled and Ceres.SETTINGS.
         x = 1,
         y = 1,
     },
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     loc_vars = function(self)
         return {
@@ -300,7 +298,7 @@ local reversed_strength = Ceres.SETTINGS.consumables.enabled and Ceres.SETTINGS.
     end,
 }
 
-local reversed_star = Ceres.SETTINGS.suits.enabled and Ceres.SETTINGS.suits.coins.enabled and SMODS.Consumable{
+local reversed_star = Ceres.CONFIG.suits.enabled and SMODS.Consumable{
     key = 'reversed_star',
     set = 'reversed_tarot',
     config = {
@@ -312,7 +310,7 @@ local reversed_star = Ceres.SETTINGS.suits.enabled and Ceres.SETTINGS.suits.coin
         x = 7,
         y = 1,
     },
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     loc_vars = function(self)
         return {
@@ -325,7 +323,7 @@ local reversed_star = Ceres.SETTINGS.suits.enabled and Ceres.SETTINGS.suits.coin
     end
 }
 
-local reversed_sun = Ceres.SETTINGS.suits.enabled and Ceres.SETTINGS.suits.leaves.enabled and SMODS.Consumable{
+local reversed_sun = Ceres.CONFIG.suits.enabled and SMODS.Consumable{
     key = 'reversed_sun',
     set = 'reversed_tarot',
     config = {
@@ -337,7 +335,7 @@ local reversed_sun = Ceres.SETTINGS.suits.enabled and Ceres.SETTINGS.suits.leave
         x = 9,
         y = 1,
     },
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     loc_vars = function(self)
         return {
@@ -350,7 +348,7 @@ local reversed_sun = Ceres.SETTINGS.suits.enabled and Ceres.SETTINGS.suits.leave
     end
 }
 
-local reversed_world = Ceres.SETTINGS.suits.enabled and Ceres.SETTINGS.suits.crowns.enabled and SMODS.Consumable{
+local reversed_world = Ceres.CONFIG.suits.enabled and SMODS.Consumable{
     key = 'reversed_world',
     set = 'reversed_tarot',
     config = {
@@ -362,7 +360,7 @@ local reversed_world = Ceres.SETTINGS.suits.enabled and Ceres.SETTINGS.suits.cro
         x = 1,
         y = 2,
     },
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     loc_vars = function(self)
         return {

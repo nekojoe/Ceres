@@ -73,28 +73,76 @@ test editions again - done yippee
 play two pair and get $4
 
 # more to do
-remove planets
 change ben effect
-then everything implemented is working
-more jnokers
+# vouchers
 
-# jokers
+# seals
 
-# commons
+uh
 
-If no other Jokers provide XMult, X2 Mult
-Club Sandwich If highest and lowest rank of a played hand are both clubs, this joker gains +3 mult. 
-large joker, +50 chips, +10 mult if cards in hand total at least 40
+# general jokers
 
-# uncommon
+legendary gives hand and discard on use of either
+Gains x0.1 Mult for every unique Consumable used (not retroactive). collectors book
+1 in 2 chance to retrigger any card
+upgrade all hands by x levels for each boss blind defeated with this joker when sold
 
-Skateboard -For each unique Hand Type played, gains 1x Mult. Resets when a duplicate hand is played.
-Fisherman (uncommon) - After playing a hand, increase hand size by 1. Resets at the end of round
-Wanted Poster If you get [Joker], +x1 mult. Joker changes when target joker is bought. (Can't pick legendary jokers or undiscovered jokers) rarity tho
+roulette
+mult doubles chance to reset
+If first hand of round is a single ace, destroy it and gain $3 payout at the end of each round.  just get $3
 
-Would probably have an unlock condition, that requires you to have a certain amount of jokers discovered, so it's not too op with low discovered joker amounts. 
+museum upgrade message
+club sandwich mult for each non club between 2 clubs
 
+# shit
+
+FIX PRICES AND STICKER COMPAT
+MOVE ALL LOC TEXT INTO THE FILE LITERALLY MADE FOR IT
+seperate toml files
+colourblind broke
+
+# other shit
+
+# tags
+Roulette Tag - wheel of fortune effect but 3 times
 
 # vouchers
 
-Mirror + Shattered Mirror vouchers - 2x / 4x chance for negative jokers to appear
+# challenges
+
+catch em all, showman and legendaries banned
+144 joker slots
+challenge won when you have all jokers lol
+
+Every time you clear an Ante, debuff a random joker. 1 by 1
+
+Booster Challenge.
+Foegro
+OP
+ — 24/08/2024 13:05
+0 shop slots. +2 booster packs each shop.
+
+Banned: Overstock, Overstock+, Reroll Surplus, Reroll Glut 
+
+
+Powers
+OP
+ — 31/07/2024 23:45
+Back to Basics (Commonw Only)
+
+Start with a Negative Eternal Showman, but all uncommon and rare jokers are banned. You got to make it work with the bunch of cards that populate the game and you probably ignore on your run, especially in the back half. It’s not IMPOSSIBLE, if people can beat stuff like Jokerless, but it does force you to essentially look at jokers you would otherwise overlook to try and make them work.
+
+(Making the commons negative felt like a bit much, so it’s just Commons only)
+
+# decks
+
+gold deck, money for cards left in hand
+
+For the record - I call it Scratch Deck cause the back of the card would visually resemble a match-box.
+cheaper shop items to start and more frequent editions - but rerolling's more pricey
+
+# boosters
+Jumbled Packs - these just have a combination of all the tarots, planets, spectral and playing cards.
+
+# blinds
+Sunset Clock - discard all cards

@@ -6,7 +6,7 @@ local spectral_atlas = SMODS.Atlas{
     atlas_table = 'ASSET_ATLAS',
 }
 
-local chromatic = Ceres.SETTINGS.card_effects.editions.enabled and Ceres.SETTINGS.card_effects.editions.colourblind.enabled and SMODS.Consumable{
+local chromatic = Ceres.CONFIG.card_modifiers.editions.enabled and SMODS.Consumable{
     key = 'chromatic',
     set = 'Spectral',
     pos = {
@@ -16,20 +16,17 @@ local chromatic = Ceres.SETTINGS.card_effects.editions.enabled and Ceres.SETTING
     atlas = 'spectrals',
     cost = 4,
     unlocked = true,
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = {set = 'Other', key = 'colourblind_info'}
-        return {vars = {G.GAME.probabilities.normal}}
+        info_queue[#info_queue+1] = G.P_CENTERS.e_cere_colourblind
     end,
 
     can_use = function(self, card)
-        local hand = false
         if #G.hand.highlighted == 1 then
             if not G.hand.highlighted[1].edition then return true end
-            hand = true
         end
-        if #G.hand.highlighted == 0 or hand then
+        if #G.hand.highlighted == 0 then
             if G.jokers then
                 for _, card in pairs(G.jokers.cards) do
                     if not card.edition then
@@ -44,15 +41,12 @@ local chromatic = Ceres.SETTINGS.card_effects.editions.enabled and Ceres.SETTING
     use = function(self, card, area, copier)
         local valid_cards = {}
         local picked_card = nil
-        local hand = false
         if #G.hand.highlighted == 1 then
             if not G.hand.highlighted[1].edition then
                 picked_card = G.hand.highlighted[1]
-            else
-                hand = true
             end
         end
-        if #G.hand.highlighted == 0 or hand then
+        if #G.hand.highlighted == 0 then
             if G.jokers then
                 for _, card in pairs(G.jokers.cards) do
                     if not card.edition then
@@ -62,41 +56,18 @@ local chromatic = Ceres.SETTINGS.card_effects.editions.enabled and Ceres.SETTING
                 picked_card = pseudorandom_element(valid_cards, pseudoseed('colourblind'))
             end
         end
-        if not picked_card then return end
-        if picked_card.ability.set == 'Joker' then
-            if true then--colourblind_compat(picked_card.ability) then
-                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-                        local over = false
-                        local edition = 'e_cere_colourblind'
-                        picked_card:set_edition(edition, true)
-                        card:juice_up(0.3, 0.5)
-                        return true 
-                    end 
-                }))
-            else
-                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-                        local over = false
-                        local edition = 'e_cere_monochrome'
-                        picked_card:set_edition(edition, true)
-                        card:juice_up(0.3, 0.5)
-                        return true 
-                    end 
-                }))
-            end
-        else
-            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-                    local over = false
-                    local edition = 'e_cere_colourblind'
-                    picked_card:set_edition(edition, true)
-                    card:juice_up(0.3, 0.5)
-                    return true 
-                end 
-            }))
-        end       
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                local over = false
+                local edition = 'e_cere_colourblind'
+                picked_card:set_edition(edition, true)
+                card:juice_up(0.3, 0.5)
+                return true 
+            end 
+        }))  
     end,
 }
 
-local camouflage = Ceres.SETTINGS.card_effects.editions.enabled and Ceres.SETTINGS.card_effects.editions.colourblind.enabled and SMODS.Consumable{
+local camouflage = Ceres.CONFIG.card_modifiers.editions.enabled and SMODS.Consumable{
     key = 'camouflage',
     set = 'Spectral',
     pos = {
@@ -106,35 +77,60 @@ local camouflage = Ceres.SETTINGS.card_effects.editions.enabled and Ceres.SETTIN
     atlas = 'spectrals',
     cost = 4,
     unlocked = true,
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = {set = 'Other', key = 'sneaky_info'}
-        return {vars = {G.GAME.probabilities.normal}}
+        info_queue[#info_queue+1] = G.P_CENTERS.e_cere_sneaky
     end,
 
     can_use = function(self, card)
-        if G.hand and (#G.hand.highlighted == 1) and G.hand.highlighted[1] and (not G.hand.highlighted[1].edition) then
-            return true
-        else
-            return false
+        if #G.hand.highlighted == 1 then
+            if not G.hand.highlighted[1].edition then return true end
         end
+        if #G.hand.highlighted == 0 then
+            if G.jokers then
+                for _, card in pairs(G.jokers.cards) do
+                    if not card.edition then
+                        return true
+                    end
+                end
+            end
+        end
+        return false
     end,
 
     use = function(self, card, area, copier)
+        local valid_cards = {}
+        local picked_card = nil
+        if #G.hand.highlighted == 1 then
+            if not G.hand.highlighted[1].edition then
+                picked_card = G.hand.highlighted[1]
+            end
+        end
+        if #G.hand.highlighted == 0 then
+            if G.jokers then
+                for _, card in pairs(G.jokers.cards) do
+                    if not card.edition then
+                        valid_cards[#valid_cards+1] = card
+                    end
+                end
+                picked_card = pseudorandom_element(valid_cards, pseudoseed('sneaky'))
+            end
+        end
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-            local over = false
-            local edition = 'e_cere_sneaky'
-            local sneaky_card = G.hand.highlighted[1]
-            sneaky_card:set_edition(edition, true)
-            card:juice_up(0.3, 0.5)
-        return true end }))
+                local over = false
+                local edition = 'e_cere_sneaky'
+                picked_card:set_edition(edition, true)
+                card:juice_up(0.3, 0.5)
+                return true 
+            end 
+        }))  
     end,
 }
 
 local con_ess_pool = {
-    Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.themed.enabled and Ceres.SETTINGS.jokers.themed.csm.enabled and 'j_cere_makima',
-    Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.themed.enabled and Ceres.SETTINGS.jokers.themed.bleach.enabled and 'j_cere_aizen'
+    'j_cere_makima',
+    'j_cere_aizen'
 }
 
 local function get_divine_pool(_type, _rarity, _legendary, _append)
@@ -193,9 +189,7 @@ local function create_divine()
     return card
 end
 
-local ceres_spectral = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.divine.enabled and
-(Ceres.SETTINGS.jokers.themed.enabled and (Ceres.SETTINGS.jokers.themed.bleach.enabled or Ceres.SETTINGS.jokers.themed.csm.enabled))
-and SMODS.Consumable{
+local ceres_spectral = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.divine.enabled and SMODS.Consumable{
     key = 'ceres_spectral',
     set = 'Spectral',
     pos = {
@@ -208,7 +202,7 @@ and SMODS.Consumable{
     },
     atlas = 'spectrals',
     unlocked = true,
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     hidden = true,
     soul_set = 'Spectral',
     soul_rate = 0.001,
@@ -230,4 +224,108 @@ and SMODS.Consumable{
             return true end }))
         delay(0.6)
     end
+}
+
+local magnet = Ceres.CONFIG.card_modifiers.seals.enabled and SMODS.Consumable{
+    key = 'magnet',
+    set = 'Spectral',
+    pos = {
+        x = 3,
+        y = 0,
+    },
+    config = {
+        seal = 's_cere_green_seal',
+    },
+    atlas = 'spectrals',
+    cost = 4,
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {set = 'Other', key = 's_cere_green_seal_seal', vars = {G.GAME.probabilities.normal, 2}}
+    end,
+
+    can_use = function(self, card)
+        if G.hand and (#G.hand.highlighted == 1) and G.hand.highlighted[1] then
+            return true
+        else
+            return false
+        end
+    end,
+
+    use = function(self, card, area, copier)
+        local conv_card = G.hand.highlighted[1]
+        G.E_MANAGER:add_event(Event({func = function()
+            play_sound('tarot1')
+            card:juice_up(0.3, 0.5)
+            return true end }))
+        
+        G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+            conv_card:set_seal(card.ability.seal, nil, true)
+            return true end }))
+        
+        delay(0.5)
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
+    end,
+}
+
+local card_sleeve = Ceres.CONFIG.card_modifiers.editions.enabled and SMODS.Consumable{
+    key = 'card_sleeve',
+    set = 'Spectral',
+    pos = {
+        x = 4,
+        y = 0,
+    },
+    atlas = 'spectrals',
+    cost = 4,
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.e_cere_mint_condition
+    end,
+
+    can_use = function(self, card)
+        if #G.hand.highlighted == 1 then
+            if not G.hand.highlighted[1].edition then return true end
+        end
+        if #G.hand.highlighted == 0 then
+            if G.jokers then
+                for _, card in pairs(G.jokers.cards) do
+                    if not card.edition then
+                        return true
+                    end
+                end
+            end
+        end
+        return false
+    end,
+
+    use = function(self, card, area, copier)
+        local valid_cards = {}
+        local picked_card = nil
+        if #G.hand.highlighted == 1 then
+            if not G.hand.highlighted[1].edition then
+                picked_card = G.hand.highlighted[1]
+            end
+        end
+        if #G.hand.highlighted == 0 then
+            if G.jokers then
+                for _, card in pairs(G.jokers.cards) do
+                    if not card.edition then
+                        valid_cards[#valid_cards+1] = card
+                    end
+                end
+                picked_card = pseudorandom_element(valid_cards, pseudoseed('mint_condition'))
+            end
+        end
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                local over = false
+                local edition = 'e_cere_mint_condition'
+                picked_card:set_edition(edition, true)
+                card:juice_up(0.3, 0.5)
+                return true 
+            end 
+        }))  
+    end,
 }

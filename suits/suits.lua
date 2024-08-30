@@ -14,7 +14,7 @@ local ui_atlas = SMODS.Atlas{
     atlas_table = 'ASSET_ATLAS',
 }
 
-local leaves = Ceres.SETTINGS.suits.enabled and Ceres.SETTINGS.suits.leaves.enabled and SMODS.Suit {
+local leaves = Ceres.CONFIG.suits.enabled and SMODS.Suit {
     key = 'Leaves',
     card_key = 'LEAVES',
     hc_atlas = 'suits',
@@ -32,7 +32,7 @@ local leaves = Ceres.SETTINGS.suits.enabled and Ceres.SETTINGS.suits.leaves.enab
     lc_colour = HEX('419947'),
 }
 
-local crowns = Ceres.SETTINGS.suits.enabled and Ceres.SETTINGS.suits.crowns.enabled and SMODS.Suit {
+local crowns = Ceres.CONFIG.suits.enabled and SMODS.Suit {
     key = 'Crowns',
     card_key = 'CROWNS',
     hc_atlas = 'suits',
@@ -50,7 +50,7 @@ local crowns = Ceres.SETTINGS.suits.enabled and Ceres.SETTINGS.suits.crowns.enab
     lc_colour = HEX('424DC4'),
 }
 
-local coins = Ceres.SETTINGS.suits.enabled and Ceres.SETTINGS.suits.coins.enabled and SMODS.Suit {
+local coins = Ceres.CONFIG.suits.enabled and SMODS.Suit {
     key = 'Coins',
     card_key = 'COINS',
     hc_atlas = 'suits',

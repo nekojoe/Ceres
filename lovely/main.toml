@@ -1,285 +1,18 @@
 [manifest]
 version = "1.0.0"
 dump_lua = true
-priority = 10
+priority = 0
 
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"
 pattern = "if AUT.card_type == 'Joker' or (AUT.badges and AUT.badges.force_rarity) then card_type = ({localize('k_common'), localize('k_uncommon'), localize('k_rare'), localize('k_legendary')})[card.config.center.rarity] end"
 position = "at"
-payload = '''if Ceres.COMPAT.cryptid then
-    if AUT.card_type == 'Joker' or (AUT.badges and AUT.badges.force_rarity) then card_type = ({localize('k_common'), localize('k_uncommon'), localize('k_rare'), localize('k_legendary'), ['cry_epic'] = 'Epic', ['cry_exotic'] = 'Exotic', ['cere_epic'] = 'Epic', ['cere_divine'] = 'Divine'})[card.config.center.rarity] end
+payload = '''if Eris.COMPAT.cryptid then
+    if AUT.card_type == 'Joker' or (AUT.badges and AUT.badges.force_rarity) then card_type = ({localize('k_common'), localize('k_uncommon'), localize('k_rare'), localize('k_legendary'), ['cry_epic'] = 'Epic', ['cry_exotic'] = 'Exotic', ['cere_divine'] = 'Divine'})[card.config.center.rarity] end
 else
     if AUT.card_type == 'Joker' or (AUT.badges and AUT.badges.force_rarity) then card_type = ({localize('k_common'), localize('k_uncommon'), localize('k_rare'), localize('k_legendary'), ['cere_divine'] = 'Divine'})[card.config.center.rarity] end
 end'''
-match_indent = true
-
-# this uses joker retrigger api by MathisFun_
-
-# main joker retriggering
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "local effects = eval_card(_card, {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, joker_main = true})"
-position = "at"
-payload = "local effects = eval_card(_card, {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, joker_main = true}, function(ret) effects = {jokers = ret}"
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "--Joker on Joker effects"
-position = "before"
-payload = "end)"
-match_indent = true
-
-# End of round retriggering from jokers
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "local eval = eval_card(G.jokers.cards[j], {cardarea = G.hand, other_card = G.hand.cards[i], repetition = true, end_of_round = true, card_effects = effects})"
-position = "at"
-payload = "local eval = eval_card(G.jokers.cards[j], {cardarea = G.hand, other_card = G.hand.cards[i], repetition = true, end_of_round = true, card_effects = effects}, function(ret) eval = {jokers = ret}"
-match_indent = true
-
-# Played hand retriggering from jokers
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "local eval = eval_card(G.jokers.cards[j], {cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = scoring_hand[i], repetition = true})"
-position = "at"
-payload = "local eval = eval_card(G.jokers.cards[j], {cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = scoring_hand[i], repetition = true}, function(ret) eval = {jokers = ret}"
-match_indent = true
-
-# Held in hand retriggering from jokers
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "local eval = eval_card(G.jokers.cards[j], {cardarea = G.hand, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = G.hand.cards[i], repetition = true, card_effects = effects})"
-position = "at"
-payload = "local eval = eval_card(G.jokers.cards[j], {cardarea = G.hand, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = G.hand.cards[i], repetition = true, card_effects = effects}, function(ret) eval = {jokers = ret}"
-match_indent = true
-
-# I learned how to do regex patches for this (fixes syntax for last 3 patches)
-[[patches]]
-[patches.regex]
-target = "functions/state_events.lua"
-pattern = '''for h[ ]*\= 1, eval\.jokers\.repetitions do
-[ \t]*reps\[#reps\+1\] \= eval
-[ \t]*end
-[ \t]*end'''
-position = "after"
-payload = " end)"
-
-# my own, fixes stupid thing idk
-[[patches]]
-[patches.regex]
-target = "functions/state_events.lua"
-pattern = '''for h[ ]*\= 1, eval\.jokers\.repetitions do
-[ \t]*if G\.GAME\.blind\.name \=\= \"bl\_mathbl\_infinite\" and not G\.GAME\.blind\.disabled then 
-[ \t]*G\.GAME\.blind\:wiggle\(\)
-[ \t]*G\.GAME\.blind\.triggered \= true
-[ \t]*else 
-[ \t]*reps\[#reps\+1\] \= eval
-[ \t]*end
-[ \t]*end
-[ \t]*end'''
-position = "after"
-payload = " end)"
-
-# Before hand effects
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, before = true})"
-position = "at"
-payload = "local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, before = true}, function(ret) effects = {jokers = ret}"
-match_indent = true
-
-[[patches]]
-[patches.regex]
-target = "functions/state_events.lua"
-pattern = '''level_up_hand\(G\.jokers\.cards\[i\], text\)
-[ \t]*end
-[ \t]*end'''
-position = "after"
-payload = " end)"
-
-# Joker debuff effects
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, debuffed_hand = true})"
-position = "at"
-payload = "local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, debuffed_hand = true}, function(ret) effects = {jokers = ret}"
-match_indent = true
-
-# After hand effects
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, after = true})"
-position = "at"
-payload = "local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, after = true}, function(ret) effects = {jokers = ret}"
-match_indent = true
-
-# Fixes syntax of last two patches
-[[patches]]
-[patches.regex]
-target = "functions/state_events.lua"
-pattern = '''card_eval_status_text\(G\.jokers\.cards\[i\], 'jokers', nil, percent, nil, effects\.jokers\)
-[ \t]*percent \= percent[ ]*\+[ ]*percent_delta
-[ \t]*end'''
-position = "after"
-payload = " end)"
-
-# End of round effects
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "eval = G.jokers.cards[i]:calculate_joker({end_of_round = true, game_over = game_over})"
-position = "at"
-payload = "eval = G.jokers.cards[i]:calculate_joker({end_of_round = true, game_over = game_over}, function(eval)"
-match_indent = true
-
-[[patches]]
-[patches.regex]
-target = "functions/state_events.lua"
-pattern = '''card_eval_status_text\(G\.jokers\.cards\[i\], 'jokers', nil, nil, nil, eval\)
-[ \t]*end'''
-position = "after"
-payload = " end)"
-
-# End of round held in hand effects
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "local eval = G.jokers.cards[k]:calculate_joker({cardarea = G.hand, other_card = G.hand.cards[i], individual = true, end_of_round = true})"
-position = "at"
-payload = "local eval = G.jokers.cards[k]:calculate_joker({cardarea = G.hand, other_card = G.hand.cards[i], individual = true, end_of_round = true}, function(eval, retrigger)"
-match_indent = true
-
-# Played hand effects
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "local eval = G.jokers.cards[k]:calculate_joker({cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = scoring_hand[i], individual = true})"
-position = "at"
-payload = "local eval = G.jokers.cards[k]:calculate_joker({cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = scoring_hand[i], individual = true}, function(eval, retrigger)"
-match_indent = true
-
-# Held in hand effects
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "local eval = G.jokers.cards[k]:calculate_joker({cardarea = G.hand, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = G.hand.cards[i], individual = true})"
-position = "at"
-payload = "local eval = G.jokers.cards[k]:calculate_joker({cardarea = G.hand, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = G.hand.cards[i], individual = true}, function(eval, retrigger)"
-match_indent = true
-
-# Fix syntax of last 3 patches
-# Add retrigger info
-[[patches]]
-[patches.regex]
-target = "functions/state_events.lua"
-pattern = '''table\.insert\(effects, eval\)
-[ \t]*end'''
-position = "at"
-payload = '''
-table.insert(effects, eval)
-effects[#effects].from_retrigger = retrigger
-end end, nil, true)
-'''
-
-# Use retrigger info when computing repetitions
-
-# End of round held in hand effects
-[[patches]]
-[patches.regex]
-target = "functions/state_events.lua"
-pattern = '''card_eval_status_text\(G\.hand\.cards\[i\], 'extra', nil, percent, nil, effects\[ii\]\.extra\)
-[ \t]*end'''
-position = "after"
-payload = '''
- if effects[ii].from_retrigger then
-    card_eval_status_text(effects[ii].from_retrigger.card, 'jokers', nil, nil, nil, effects[ii].from_retrigger)
-end
-'''
-
-# Played hand effects
-[[patches]]
-[patches.regex]
-target = "functions/state_events.lua"
-pattern = '''end
-[ \t]*end
-[ \t]*end
-[ \t]*end
-[ \t]*
-[ \t]*delay\(0\.3\)'''
-position = "before"
-payload = '''
- if effects[ii].from_retrigger then
-    card_eval_status_text(effects[ii].from_retrigger.card, 'jokers', nil, nil, nil, effects[ii].from_retrigger)
-end
-'''
-
-# Held in hand effects
-[[patches]]
-[patches.regex]
-target = "functions/state_events.lua"
-pattern = '''end
-[ \t]*j[ \t]*=[ \t]*j[ \t]\+1'''
-position = "before"
-payload = '''
- if effects[ii].from_retrigger then
-    card_eval_status_text(effects[ii].from_retrigger.card, 'jokers', nil, nil, nil, effects[ii].from_retrigger)
-end
-'''
-
-# Discard effects
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "eval = G.jokers.cards[j]:calculate_joker({discard = true, other_card =  G.hand.highlighted[i], full_hand = G.hand.highlighted})"
-position = "at"
-payload = "eval = G.jokers.cards[j]:calculate_joker({discard = true, other_card =  G.hand.highlighted[i], full_hand = G.hand.highlighted}, function(eval)"
-match_indent = true
-
-[[patches]]
-[patches.regex]
-target = "functions/state_events.lua"
-pattern = '''card_eval_status_text\(G\.jokers\.cards\[j\], 'jokers', nil, 1, nil, eval\)
-[ \t]*end'''
-position = "after"
-payload = " end)"
-
-# Joker on Joker effects
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "local effect = v:calculate_joker{full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_joker = _card}"
-position = "at"
-payload = "local effect = v:calculate_joker({full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_joker = _card}, function(effect)"
-match_indent = true
-
-[[patches]]
-[patches.regex]
-target = "functions/state_events.lua"
-pattern = '''end
-[ \t]*end
-[ \t]*
-[ \t]*if edition_effects\.jokers'''
-position = "at"
-payload = "end end) end if edition_effects.jokers"
-
-# Destroyed card effects
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "destroyed = G.jokers.cards[j]:calculate_joker({destroying_card = scoring_hand[i], full_hand = G.play.cards})"
-position = "at"
-payload = '''destroyed = G.jokers.cards[j]:calculate_joker({destroying_card = scoring_hand[i], full_hand = G.play.cards}, function(ret) if ret then destroyed=true end end)'''
 match_indent = true
 
 # being saved just says saved
@@ -292,209 +25,6 @@ payload = '''{n=G.UIT.O, config={object = DynaText({string = {' Saved '}, colour
 match_indent = true
 overwrite = true
 
-# adds x chip, and hand chips to eval play
-
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = '''--If mult added, do mult add event and add the mult to the total'''
-position = "before"
-payload = '''if not Ceres.COMPAT.talisman and effects[ii].x_chips then
-    if effects[ii].card then juice_card(effects[ii].card) end
-    hand_chips = mod_chips(hand_chips*effects[ii].x_chips)
-    update_hand_text({delay = 0}, {chips = hand_chips})
-    card_eval_status_text(scoring_hand[i], 'x_chips', effects[ii].x_chips, percent)
-end'''
-match_indent = true
-
-# for some reason cryptid/talisman just broke this mf
-
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = '''--If mult added, do mult add event and add the mult to the total'''
-position = "before"
-payload = '''if not Ceres.COMPAT.talisman and effects[ii].e_chips then
-    mod_percent = true
-    hand_chips = mod_chips(hand_chips^effects[ii].e_chips)
-    update_hand_text({delay = 0}, {chips = hand_chips})
-    card_eval_status_text(scoring_hand[i], 'e_chips', effects[ii].e_chips, percent)
-end
-if effects[ii].enh_x_chips then
-    mod_percent = true
-    hand_chips = mod_chips(hand_chips*effects[ii].enh_x_chips)
-    update_hand_text({delay = 0}, {chips = hand_chips})
-    card_eval_status_text(scoring_hand[i], 'x_chips', effects[ii].enh_x_chips, percent)
-end'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = '''if effects.jokers.Xmult_mod then mult = mod_mult(mult*effects.jokers.Xmult_mod);extras.mult = true  end'''
-position = "after"
-payload = '''if not Ceres.COMPAT.talisman and effects.jokers.Xchip_mod then hand_chips = mod_chips(hand_chips*effects.jokers.Xchip_mod);extras.hand_chips = true end
-if not Ceres.COMPAT.talisman and effects.jokers.Echip_mod then
-    hand_chips = mod_chips(hand_chips^effects.jokers.Echip_mod);extras.hand_chips = true
-end
-if not Ceres.COMPAT.talisman and effects.jokers.Emult_mod then
-    mult = mod_mult(mult^effects.jokers.Emult_mod);extras.mult = true
-end'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = '''--If mult added, do mult add event and add the mult to the total'''
-position = "before"
-payload = '''if not Ceres.COMPAT.talisman and effects[ii].e_mult then
-    mod_percent = true
-    mult = mod_mult(mult_total^effects[ii].e_mult)
-    update_hand_text({delay = 0}, {mult = mult})
-    card_eval_status_text(G.hand.cards[i], 'e_mult', effects[ii].e_mult, percent)
-end'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = '''--If hold mult added, do hold mult add event and add the mult to the total'''
-position = "before"
-payload = '''if not Ceres.COMPAT.talisman and effects[ii].x_chips then
-    if effects[ii].card then juice_card(effects[ii].card) end
-    hand_chips = mod_chips(hand_chips*effects[ii].x_chips)
-    update_hand_text({delay = 0}, {chips = hand_chips})
-    card_eval_status_text(G.hand.cards[i], 'x_chips', effects[ii].x_chips, percent)
-end'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = '''if effects[ii].h_mult then'''
-position = "before"
-payload = '''if not Ceres.COMPAT.talisman and effects[ii].h_chips then
-    mod_percent = true
-    hand_chips = mod_chips(hand_chips+effects[ii].h_chips)
-    update_hand_text({delay = 0}, {chips = hand_chips})
-    card_eval_status_text(G.hand.cards[i], 'h_chips', effects[ii].h_chips, percent)
-end'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = '''if effects[ii].h_mult then'''
-position = "before"
-payload = '''if not Ceres.COMPAT.talisman and effects[ii].e_chips then
-    mod_percent = true
-    hand_chips = mod_chips(hand_chips^effects[ii].e_chips)
-    update_hand_text({delay = 0}, {chips = hand_chips})
-    card_eval_status_text(G.hand.cards[i], 'e_chips', effects[ii].e_chips, percent)
-end'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = '''if effects[ii].h_mult then'''
-position = "before"
-payload = '''if not Ceres.COMPAT.talisman and effects[ii].e_mult then
-    mod_percent = true
-    mult = mod_mult(mult^effects[ii].e_mult)
-    update_hand_text({delay = 0}, {mult = mult})
-    card_eval_status_text(G.hand.cards[i], 'e_mult', effects[ii].e_mult, percent)
-end'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = '''elseif (eval_type == 'x_mult') or (eval_type == 'h_x_mult') then'''
-position = "before"
-payload = '''elseif not Ceres.COMPAT.talisman and (eval_type == 'x_chips') then 
-    sound = 'multhit2'
-    volume = 0.7
-    amt = amt
-    text = 'X'..amt
-    colour = G.C.CHIPS
-    config.type = 'fade'
-    config.scale = 0.7'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = '''elseif eval_type == 'h_mult' then'''
-position = "before"
-payload = '''elseif not Ceres.COMPAT.talisman and eval_type == 'h_chips' then 
-    sound = 'multhit2'
-    amt = amt
-    text = '+'..amt
-    colour = G.C.CHIPS
-    config.type = 'fade'
-    config.scale = 0.7'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = '''elseif eval_type == 'h_mult' then'''
-position = "before"
-payload = '''elseif not Ceres.COMPAT.talisman and eval_type == 'e_chips' then 
-    sound = 'multhit2'
-    amt = amt
-    text = '^'..amt
-    colour = G.C.CHIPS
-    config.type = 'fade'
-    config.scale = 0.7'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = '''elseif eval_type == 'h_mult' then'''
-position = "before"
-payload = '''elseif not Ceres.COMPAT.talisman and eval_type == 'e_mult' then 
-    sound = 'multhit2'
-    amt = amt
-    text = '^'..amt..' Mult'
-    colour = G.C.MULT
-    config.type = 'fade'
-    config.scale = 0.7'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/UI_definitions.lua"
-pattern = '''3.5*G.CARD_W,'''
-position = "at"
-payload = '''(#G.GAME.hands[handname].example == 5 and 3.5*G.CARD_W) or (#G.GAME.hands[handname].example == 6 and 4*G.CARD_W),'''
-match_indent = true
-overwrite = true
-
-# for multi layer sprites like cryptid
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = "if self.config.center.soul_pos and (self.config.center.discovered or self.bypass_discovery_center) then"
-position = "after"
-payload = '''   if self.config.center.soul_pos and self.config.center.soul_pos.extra and (self.config.center.discovered or self.bypass_discovery_center) then
-        local scale_mod = 0.07-- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
-        local rotate_mod = 0--0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
-        self.children.floating_sprite2:draw_shader('dissolve',0, nil, nil, self.children.center,scale_mod, rotate_mod,nil, 0.1--[[ + 0.03*math.cos(1.8*G.TIMERS.REAL)--]],nil, 0.6)
-        self.children.floating_sprite2:draw_shader('dissolve', nil, nil, nil, self.children.center, scale_mod, rotate_mod) 
-    end'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''if k ~= 'focused_ui' and k ~= "front" and k ~= "back" and k ~= "soul_parts" and k ~= "center" and k ~= 'floating_sprite' and k~= "shadow" and k~= "use_button" and k ~= 'buy_button' and k ~= 'buy_and_use_button' and k~= "debuff" and k ~= 'price' and k~= 'particles' and k ~= 'h_popup' then v:draw() end'''
-position = "at"
-payload = '''if k ~= 'focused_ui' and k ~= "front" and k ~= "back" and k ~= "soul_parts" and k ~= "center" and k ~= 'floating_sprite' and k ~= 'floating_sprite2' and k~= "shadow" and k~= "use_button" and k ~= 'buy_button' and k ~= 'buy_and_use_button' and k~= "debuff" and k ~= 'price' and k~= 'particles' and k ~= 'h_popup' then v:draw() end'''
-match_indent = true
-
 # for the hologram effect on jokers
 
 [[patches]]
@@ -504,3 +34,30 @@ pattern = '''if self.ability.name == 'Hologram' then'''
 position = "at"
 payload = '''if self.ability.name == 'Hologram' or self.ability.name == 'j_cere_miku' then'''
 match_indent = true
+
+# large joker large joker large
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''elseif self.config.center.name == "Wee Joker" then'''
+position = "before"
+payload = '''elseif self.config.center.name == "Large Joker" then
+    self.T.h = H*scale*1.4*scale
+    self.T.w = W*scale*1.4*scale'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''if center.name == "Wee Joker" and (center.discovered or self.bypass_discovery_center) then'''
+position = "before"
+payload = '''if center.name == "Large Joker" and (center.discovered or self.bypass_discovery_center) then 
+    H = H*1.4
+    W = W*1.4
+    self.T.h = H
+    self.T.w = W
+end'''
+match_indent = true
+
+

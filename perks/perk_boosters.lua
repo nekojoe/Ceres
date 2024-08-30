@@ -6,22 +6,7 @@ local booster_atlas = SMODS.Atlas{
     atlas_table = 'ASSET_ATLAS',
 }
 
-local perk_pool = {
-    'pk_cere_prototype',
-    'pk_cere_dirty_napkin',
-    'pk_cere_reward_card',
-    'pk_cere_business_card',
-    'pk_cere_trading_card',
-    'pk_cere_plus_two',
-}
-
-local function poll_perk(pool, key)
-    pool = pool or perk_pool or {}
-    key = key or 'cere'
-    return pseudorandom_element(pool, pseudoseed(key))
-end
-
-local booster_one = Ceres.SETTINGS.card_effects.perks.enabled and SMODS.Booster{
+local booster_one = Eris.CONFIG.perks.enabled and SMODS.Booster{
     key = "perk_normal_1",
     kind = "Perk",
     atlas = "booster_atlas",
@@ -35,32 +20,31 @@ local booster_one = Ceres.SETTINGS.card_effects.perks.enabled and SMODS.Booster{
     },
     cost = 4,
     weight = 0.96,
-    discovered = false or Ceres.SETTINGS.misc.discover_all,
+    discovered = false or Ceres.CONFIG.misc.discover_all,
 
     create_card = function(self, card)
         local card = create_card('Base', G.pack_cards, nil, nil, true, true, nil, 'cere')
         local perk = poll_perk()
-        local edition = poll_edition()
-        edition = edition and edition.negative and edition or nil
-        card:set_ability(G.P_CENTERS[perk])
-        card:set_edition(edition, true)
+        local edition = nil
+        card:set_perk(perk)
+        card:set_edition(nil, true, true)
         return card
     end,
 
     ease_background_colour = function(self)
-        ease_colour(G.C.DYN_UI.MAIN, G.C.SECONDARY_SET.Spectral)
-        ease_background_colour{new_colour = G.C.SECONDARY_SET.Spectral, special_colour = G.C.BLACK, contrast = 2}
+        ease_colour(G.C.DYN_UI.MAIN, G.C.GREEN)
+        ease_background_colour{new_colour = G.C.GREEN, special_colour = G.C.BLACK, contrast = 2}
     end,
 
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = {set = 'Other', key = 'perk_info'}
+        info_queue[#info_queue+1] = {set = 'Other', key = 'eris_perk_card'}
 		return { vars = {card.config.center.config.choose, card.ability.extra} }
 	end,
 
     group_key = "k_perk_pack"
 }
 
-local booster_two = Ceres.SETTINGS.card_effects.perks.enabled and SMODS.Booster{
+local booster_two = Eris.CONFIG.perks.enabled and SMODS.Booster{
     key = "perk_normal_2",
     kind = "Perk",
     atlas = "booster_atlas",
@@ -74,32 +58,31 @@ local booster_two = Ceres.SETTINGS.card_effects.perks.enabled and SMODS.Booster{
     },
     cost = 4,
     weight = 0.96,
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     create_card = function(self, card)
         local card = create_card('Base', G.pack_cards, nil, nil, true, true, nil, 'cere')
         local perk = poll_perk()
-        local edition = poll_edition()
-        edition = edition and edition.negative and edition or nil
-        card:set_ability(G.P_CENTERS[perk])
-        card:set_edition(edition, true)
+        local edition = nil
+        card:set_perk(perk)
+        card:set_edition(nil, true, true)
         return card
     end,
 
     ease_background_colour = function(self)
-        ease_colour(G.C.DYN_UI.MAIN, G.C.SECONDARY_SET.Spectral)
-        ease_background_colour{new_colour = G.C.SECONDARY_SET.Spectral, special_colour = G.C.BLACK, contrast = 2}
+        ease_colour(G.C.DYN_UI.MAIN, G.C.SECONDARY_SET.Tarot)
+        ease_background_colour{new_colour = G.C.SECONDARY_SET.Tarot, special_colour = G.C.BLACK, contrast = 2}
     end,
 
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = {set = 'Other', key = 'perk_info'}
+        info_queue[#info_queue+1] = {set = 'Other', key = 'eris_perk_card'}
 		return { vars = {card.config.center.config.choose, card.ability.extra} }
 	end,
 
     group_key = "k_perk_pack"
 }
 
-local booster_jumbo = Ceres.SETTINGS.card_effects.perks.enabled and SMODS.Booster{
+local booster_jumbo = Eris.CONFIG.perks.enabled and SMODS.Booster{
     key = "perk_jumbo",
     kind = "Perk",
     atlas = "booster_atlas",
@@ -113,32 +96,31 @@ local booster_jumbo = Ceres.SETTINGS.card_effects.perks.enabled and SMODS.Booste
     },
     cost = 6,
     weight = 0.48,
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     create_card = function(self, card)
         local card = create_card('Base', G.pack_cards, nil, nil, true, true, nil, 'cere')
         local perk = poll_perk()
-        local edition = poll_edition()
-        edition = edition and edition.negative and edition or nil
-        card:set_ability(G.P_CENTERS[perk])
-        card:set_edition(edition, true)
+        local edition = nil
+        card:set_perk(perk)
+        card:set_edition(nil, true, true)
         return card
     end,
 
     ease_background_colour = function(self)
-        ease_colour(G.C.DYN_UI.MAIN, G.C.SECONDARY_SET.Spectral)
-        ease_background_colour{new_colour = G.C.SECONDARY_SET.Spectral, special_colour = G.C.BLACK, contrast = 2}
+        ease_colour(G.C.DYN_UI.MAIN, Eris.C.eris_defective)
+        ease_background_colour{new_colour = Eris.C.eris_defective, special_colour = G.C.BLACK, contrast = 2}
     end,
 
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = {set = 'Other', key = 'perk_info'}
+        info_queue[#info_queue+1] = {set = 'Other', key = 'eris_perk_card'}
 		return { vars = {card.config.center.config.choose, card.ability.extra} }
 	end,
 
     group_key = "k_perk_pack"
 }
 
-local booster_mega = Ceres.SETTINGS.card_effects.perks.enabled and SMODS.Booster{
+local booster_mega = Eris.CONFIG.perks.enabled and SMODS.Booster{
     key = "perk_mega",
     kind = "Perk",
     atlas = "booster_atlas",
@@ -152,25 +134,24 @@ local booster_mega = Ceres.SETTINGS.card_effects.perks.enabled and SMODS.Booster
     },
     cost = 8,
     weight = 0.12,
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     create_card = function(self, card)
         local card = create_card('Base', G.pack_cards, nil, nil, true, true, nil, 'cere')
         local perk = poll_perk()
-        local edition = poll_edition()
-        edition = edition and edition.negative and edition or nil
-        card:set_ability(G.P_CENTERS[perk])
-        card:set_edition(edition, true)
+        local edition = nil
+        card:set_perk(perk)
+        card:set_edition(nil, true, true)
         return card
     end,
 
     ease_background_colour = function(self)
-        ease_colour(G.C.DYN_UI.MAIN, G.C.SECONDARY_SET.Spectral)
-        ease_background_colour{new_colour = G.C.SECONDARY_SET.Spectral, special_colour = G.C.BLACK, contrast = 2}
+        ease_colour(G.C.DYN_UI.MAIN, Eris.C.eris_temporary)
+        ease_background_colour{new_colour = Eris.C.eris_temporary, special_colour = G.C.BLACK, contrast = 2}
     end,
 
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = {set = 'Other', key = 'perk_info'}
+        info_queue[#info_queue+1] = {set = 'Other', key = 'eris_perk_card'}
 		return { vars = {card.config.center.config.choose, card.ability.extra} }
 	end,
 

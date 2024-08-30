@@ -10,12 +10,11 @@ local common_joker_atlas = SMODS.Atlas{
 
 -- custom common jokers
 
-local one_up = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.common.enabled and SMODS.Joker{
+local one_up = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
     key = 'one_up',
-    name = '1 UP',
     rarity = 1,
     unlocked = true,
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     pos = {
         x = 1,
         y = 0,
@@ -60,12 +59,11 @@ local one_up = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.
     end,
 }
 
-local coin_toss = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.common.enabled and SMODS.Joker{
+local coin_toss = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
     key = 'coin_toss',
-    name = 'Coin Toss',
     rarity = 1,
     unlocked = true,
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     pos = {
         x = 2,
         y = 0,
@@ -104,12 +102,11 @@ local coin_toss = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rariti
     end,
 }
 
-local warm_up = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.common.enabled and SMODS.Joker{
+local warm_up = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
     key = 'warm_up',
-    name = 'Warm Up',
     rarity = 1,
     unlocked = true,
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     pos = {
         x = 3,
         y = 0,
@@ -142,45 +139,18 @@ local warm_up = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities
     end,
 }
 
-local the_solo = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.common.enabled and SMODS.Joker{
-    key = 'the_solo',
-    name = 'The Solo',
-    rarity = 1,
-    unlocked = true,
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
-    pos = {
-        x = 4,
-        y = 0,
-    },
-    cost = 5,
-    atlas = 'common_jokers',
-    eternal_compat = true,
-    perishable_compat = true,
-    blueprint_compat = true,
-
-    calculate = function(self, card, context)
-        if context.joker_main then
-            return {
-                message = localize{type='variable',key='a_xmult',vars={1}},
-                colour = G.C.RED,
-                Xmult_mod = 1,
-            }
-        end
-    end,
-}
-
-local diving_joker = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.common.enabled and SMODS.Joker{
+local diving_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
     key = 'diving_joker',
-    name = 'Diving Joker',
     rarity = 1,
     unlocked = true,
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     pos = {
         x = 5,
         y = 0,
     },
     config = {
         extra = 2,
+        drawn = {0,0}
     },
     cost = 5,
     atlas = 'common_jokers',
@@ -192,20 +162,35 @@ local diving_joker = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rar
         local playing_cards = G.playing_cards or {}
         local deck_cards = G.deck and G.deck.cards or {}
         local drawn = #playing_cards - #deck_cards
-        drawn = math.max(math.floor(drawn/8), 0)
-        return {vars = {card.ability.extra, card.ability.extra*drawn}}
+        local total_drawn = card.ability.drawn[1] + card.ability.drawn[2] + drawn
+        local mult = math.max(math.floor(total_drawn/8), 0) * card.ability.extra
+        return {vars = {card.ability.extra, mult}}
     end,
 
     calculate = function(self, card, context)
-        if context.joker_main then
-            local playing_cards = G.playing_cards or {}
-            local deck_cards = G.deck and G.deck.cards or {}
-            local drawn = #playing_cards - #deck_cards
-            drawn = math.floor(drawn/8)
-            if drawn > 0 then
+        local playing_cards = G.playing_cards or {}
+        local deck_cards = G.deck and G.deck.cards or {}
+        local drawn = #playing_cards - #deck_cards
+        local total_drawn = card.ability.drawn[1] + card.ability.drawn[2] + drawn
+        local mult = math.max(math.floor(total_drawn/8), 0) * card.ability.extra
+        if context.end_of_round and not context.individual and not context.repetition and not context.blueprint then
+            if G.GAME.blind:get_type() == 'Boss' then
+                card.ability.drawn = {0,0}
                 return {
-                    message = localize{type='variable',key='a_mult',vars={card.ability.extra*drawn}},
-                    mult_mod = card.ability.extra*drawn,
+                    message = localize('k_reset'),
+                    colour = G.C.RED
+                }
+            elseif G.GAME.blind:get_type() == 'Small' then
+                card.ability.drawn[1] = drawn
+            else
+                card.ability.drawn[2] = drawn
+            end
+        end
+        if context.joker_main then
+            if mult > 0 then
+                return {
+                    message = localize{type='variable',key='a_mult',vars={mult}},
+                    mult_mod = mult,
                     colour = G.C.MULT
                 }
             end
@@ -213,12 +198,11 @@ local diving_joker = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rar
     end,
 }
 
-local accountant = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.common.enabled and SMODS.Joker{
+local accountant = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
     key = 'accountant',
-    name = 'Accountant',
     rarity = 1,
     unlocked = true,
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     pos = {
         x = 0,
         y = 1,
@@ -258,12 +242,11 @@ local accountant = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarit
     end,
 }
 
-local museum = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.common.enabled and SMODS.Joker{
+local museum = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
     key = 'museum',
-    name = 'Museum',
     rarity = 1,
     unlocked = true,
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     pos = {
         x = 1,
         y = 1,
@@ -285,11 +268,7 @@ local museum = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.
         if context.selling_card then
             if context.card.ability.set == 'Joker' then
                 card.ability.mult_mod = card.ability.mult_mod + context.card.sell_cost
-                return {
-                    message = localize('k_upgrade_ex'),
-                    colour = G.C.RED,
-                    card = card
-                }
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.C.RED})
             end
         end
         if context.joker_main and card.ability.mult_mod > 0 then
@@ -299,5 +278,173 @@ local museum = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.rarities.
                 colour = G.C.MULT
             }
         end
+    end,
+}
+
+local large_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
+    key = 'large_joker',
+    name = 'Large Joker',
+    rarity = 1,
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    pos = {
+        x = 4,
+        y = 0,
+    },
+    config = {
+        extra = 1,
+        mult_mod = 0,
+    },
+    cost = 6,
+    atlas = 'common_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.mult_mod, card.ability.extra}}
+    end,
+
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play and not context.blueprint and context.other_card:get_id() == 14 then
+            card.ability.mult_mod = card.ability.mult_mod + card.ability.extra
+            return {
+                message = localize('k_upgrade_ex'),
+                card = card,
+                colour = G.C.MULT
+            }
+        end
+        if context.joker_main and card.ability.mult_mod > 0 then
+            return {
+                message = localize{type='variable',key='a_mult',vars={card.ability.mult_mod}},
+                mult_mod = card.ability.mult_mod,
+                colour = G.C.MULT
+            }
+        end             
+    end,
+}
+
+local backup_plan = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
+    key = 'backup_plan',
+    rarity = 1,
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    pos = {
+        x = 3,
+        y = 1,
+    },
+    config = {
+        Xmult_mod = 1.5
+    },
+    cost = 6,
+    atlas = 'common_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.Xmult_mod}}
+    end,
+
+    calculate = function(self, card, context)
+        if context.joker_main and #context.scoring_hand < 5 then
+            return {
+                message = localize{type='variable',key='a_xmult',vars={card.ability.Xmult_mod}},
+                Xmult_mod = card.ability.Xmult_mod,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end,
+}
+
+local club_sandwich = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
+    key = 'club_sandwich',
+    rarity = 1,
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    pos = {
+        x = 2,
+        y = 1,
+    },
+    config = {
+        mult_mod = 0,
+        extra = 1,
+    },
+    cost = 6,
+    atlas = 'common_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.mult_mod, card.ability.extra}}
+    end,
+
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint then
+            if context.scoring_hand[1]:is_suit('Clubs') and context.scoring_hand[#context.scoring_hand]:is_suit('Clubs') then
+                card.ability.mult_mod = card.ability.mult_mod + card.ability.extra
+                return {
+                    message = localize('k_upgrade_ex'),
+                    card = card,
+                    colour = G.C.MULT
+                }
+            end
+        end
+        if context.joker_main and card.ability.mult_mod > 0 then
+            return {
+                message = localize{type='variable',key='a_mult',vars={card.ability.mult_mod}},
+                mult_mod = card.ability.mult_mod,
+                colour = G.C.MULT
+            }
+        end             
+    end,
+}
+
+local scratchcard = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
+    key = 'scratchcard',
+    rarity = 1,
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    pos = {
+        x = 0,
+        y = 0,
+    },
+    config = {
+        extra = 1,
+    },
+    cost = 6,
+    atlas = 'common_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
+    end,
+
+    calculate = function(self, card, context)
+        if context.joker_main then
+            local repeats = {}
+            local money = 0
+            for _, _card in pairs(context.scoring_hand) do
+                if repeats['cere_' .. tostring(_card:get_id())] then
+                    money = money + card.ability.extra
+                else
+                    repeats['cere_' .. tostring(_card:get_id())] = true
+                end
+            end
+            if money > 0 then
+                ease_dollars(money)
+                G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + money
+                G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+                return {
+                    message = localize('$') .. money,
+                    dollars = money,
+                    colour = G.C.MONEY
+                }
+            end
+        end          
     end,
 }

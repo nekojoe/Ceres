@@ -1,0 +1,52 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+# Edition scoring on playing cards
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua" # line 763
+pattern = '''hand_chips = mod_chips(hand_chips + (effects[ii].edition.chip_mod or 0))'''
+position = "before"
+payload = '''
+if effects[ii].edition.x_chip_mod then
+    hand_chips = mod_chips(hand_chips * effects[ii].edition.chip_mod)
+    local key_switch = (effects[ii].edition.chip_mod > 0 and 'a_chips' or 'a_chips_minus')
+    card_eval_status_text(scoring_hand[i], 'extra', nil, percent, nil, {
+        message = localize{type='variable', key=key_switch, vars={math.abs(effects[ii].edition.chip_mod)}},
+        chip_mod = true,
+        colour = G.C.DARK_EDITION,
+        edition = true,
+    })
+    update_hand_text({delay = 0}, {chips = hand_chips})
+end
+if effects[ii].edition.x_dollars_mod then
+    if effects[ii].card then juice_card(effects[ii].card) end
+    local mod = math.floor((G.GAME.dollars + G.GAME.dollar_buffer or 0) * effects[ii].edition.x_dollars_mod)
+    ease_dollars(mod)
+    card_eval_status_text(scoring_hand[i], 'extra', nil, percent, nil, {
+        message = 'X'..effects[ii].edition.x_dollars_mod,
+        colour = G.C.MONEY,
+        edition = true,
+    })
+end'''
+match_indent = true
+
+# Edition scoring on jokers
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "edition_effects.jokers.edition = true"
+position = "after"
+payload = '''
+if edition_effects.jokers.x_dollars_mod then
+    local mod = math.floor((G.GAME.dollars + G.GAME.dollar_buffer or 0) * edition_effects.jokers.x_dollars_mod)
+    ease_dollars(mod)
+    card_eval_status_text(_card, 'extra', nil, percent, nil, {
+        message = 'X'..effects[ii].edition.x_dollars_mod,
+        colour = G.C.MONEY,
+        edition = true,
+    })
+end'''
+match_indent = true

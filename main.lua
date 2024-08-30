@@ -4,72 +4,16 @@
 --- MOD_PREFIX: cere
 --- MOD_AUTHOR: [nekojoe]
 --- MOD_DESCRIPTION: please read the read me
---- BADGE_COLOUR: 4584fa
---- PRIORITY: 10
+--- BADGE_COLOUR: 13afce
+--- PRIORITY: 999999999999999999
+--- DEPENDENCIES: [Eris]
+--- VERSION: 1.0a
 
 ----------------------------------------------
 ---------------- MOD CODE --------------------
 local nativefs = require("nativefs")
 local lovely = require("lovely")
-
-Ceres = {}
-
-Ceres.DEFAULT_SETTINGS = {
-    jokers = {
-        rarities = {
-            common = { enabled = true },
-            uncommon = { enabled = true },
-            rare = { enabled = true },
-            epic = { enabled = true },
-            legendary = { enabled = true },
-            divine = { enabled = true },
-        },
-        themed = {
-            csm = { enabled = true },
-            bleach = { enabled = true },
-            enabled = true,
-        },
-        enabled = true,
-    },
-    card_effects = {
-        editions = {
-            colourblind = { enabled = true },
-            sneaky = { enabled = true },
-            enabled = true,
-        },
-        enhancements = {
-            illusion = { enabled = true },
-            cobalt = { enabled = true },
-            enabled = true,
-        },
-        perks = {
-            enabled = true,
-        },
-        enabled = true
-    },
-    suits = {
-        crowns = { enabled = false },
-        leaves = { enabled = false },
-        coins = { enabled = false },
-        enabled = false,
-    },
-    consumables = {
-        reversed_tarots = { enabled = true },
-        vouchers = { enabled = true },
-        enabled = true,
-    },
-    blinds = {
-        base_blinds = { enabled = true },
-        devil_blinds = { enabled = true },
-        enabled = true,
-    },
-    misc = {
-        unlock_all = { enabled = true }, -- has to be until i get round to unlock checks
-        discover_all = { enabled = false },
-        redeem_all = { enabled = false },
-    }
-}
-Ceres.MOD_PATH = lovely.mod_dir .. '/Ceres/'
+local prefix = 'cere'
 
 local mod_icon = SMODS.Atlas({
     key = "modicon",
@@ -78,132 +22,101 @@ local mod_icon = SMODS.Atlas({
     py = 32
 })
 
--- functions
-
-Ceres.FUNCS = {}
-
--- functions for loading and saving settings
-Ceres.FUNCS.load_settings = function()
-    if nativefs.getInfo(Ceres.MOD_PATH .. '/user/settings.lua') then
-        local settings = STR_UNPACK(nativefs.read(Ceres.MOD_PATH .. '/user/settings.lua'))
-        if not settings then
-            Ceres.SETTINGS = Ceres.FUNCS.copy(Ceres.DEFAULT_SETTINGS)
-            Ceres.FUNCS.save_settings()
-        else
-            Ceres.SETTINGS = Ceres.FUNCS.copy(settings)
-        end
-    else
-        Ceres.SETTINGS = Ceres.FUNCS.copy(Ceres.DEFAULT_SETTINGS)
-        Ceres.FUNCS.save_settings()
-    end
-end
-
-Ceres.FUNCS.save_settings = function()
-    nativefs.write(Ceres.MOD_PATH .. '/user/settings.lua', STR_PACK(Ceres.SETTINGS))
-end
-
--- function for rounding because ofc lua doesnt have one
-Ceres.FUNCS.round = function(num, numDecimalPlaces)
-    if type(num) == 'table' then
-        return 0
-    end
-    return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num or 0))
-end
-
--- function for copying tables, stolen from somewhere online i cant remember where sorry
-Ceres.FUNCS.copy = function(obj, seen)
-    if type(obj) ~= 'table' then return obj end
-    if seen and seen[obj] then return seen[obj] end
-    local s = seen or {}
-    local res = setmetatable({}, getmetatable(obj))
-    s[obj] = res
-    for k, v in pairs(obj) do res[Ceres.FUNCS.copy(k, s)] = Ceres.FUNCS.copy(v, s) end
-    return res
-end
-
-Ceres.DEV = false
-
--- for testing
-if Ceres.DEV then
-    _RELEASE_MODE = false
-end
-function love.conf(t)
-	t.console = true
-end
+Ceres = {}
+Ceres.DEFAULT_CONFIG = {
+    jokers = {
+        rarities = {
+            common = { enabled = true },
+            uncommon = { enabled = true },
+            rare = { enabled = true },
+            legendary = { enabled = true },
+            divine = { enabled = true },
+        },
+        enabled = true,
+    },
+    card_modifiers = {
+        editions = { enabled = true },
+        enhancements = { enabled = false },
+        seals = { enabled = true },
+        enabled = true
+    },
+    suits = { enabled = false },
+    consumables = {
+        reversed_tarots = { enabled = true },
+        vouchers = { enabled = true },
+        enabled = true,
+    },
+    perks = { enabled = true },
+    run_modifiers = {
+        blinds = { enabled = true },
+        stakes = { enabled = true },
+        decks = { enabled = true },
+        enabled = true,
+    },
+    misc = {
+        unlock_all = { enabled = true }, -- has to be until i get round to unlock checks
+        discover_all = { enabled = false },
+    }
+}
+Ceres.MOD_PATH = lovely.mod_dir .. '/Ceres/'
+-- TODO actually seperate them better
+-- have Eris manage all the diff card effects etc
+Ceres.COMPAT = Eris.COMPAT
 
 -- colours
 Ceres.C = {
-    epic = HEX('8E6DFF'),
     devil = HEX('333333'),
     dark_red = HEX('B60000'),
     new_moon = HEX('2c485dcc'),
     divine = G.C.DARK_EDITION,
+    eternal = G.C.ETERNAL,
     the_bill = HEX('EDCE7B'),
     the_fall = HEX('eb7a34'),
     the_french = HEX('E5E5E5'),
 }
-
--- for compat
-Ceres.COMPAT = {
-    talisman = (SMODS.Mods['Talisman'] or {}).can_load,
-    cryptid = (SMODS.Mods['Cryptid'] or {}).can_load,
-}
+-- adding Ceres colours to Eris to save hooking to
+-- the loc and badge colour funcs again
+for key, colour in pairs(Ceres.C) do
+    Eris.C[prefix..tostring(key)] = colour
+end
 
 -- files for loading
-Ceres.FUNCS.load_settings()
+Eris.FUNCS.load_config(Ceres)
 
 Ceres.ITEMS = {
-    UI = {
-        'UI/UI_definitions.lua',
-        'UI/UI_functions.lua',
-    },
-    jokers = {
-        'jokers/common.lua',
-        'jokers/uncommon.lua',
-        'jokers/rare.lua',
-        'jokers/legendary.lua',
-        'jokers/divine.lua',
+    card_modifiers = {
+        'editions',
+        'enhancements',
+        'seals',
     },
     consumables = {
-        --'consumables/planets.lua', -- not needed as of now really
-        'consumables/spectrals.lua',
-        'consumables/reversed_tarots.lua',
+        'spectrals',
+        'reversed_tarots',
+        'vouchers',
     },
-    blinds = {
-        'blinds/base_blinds.lua',
-        'blinds/devil_blinds.lua',
-    },
-    editions = {
-        'editions/colourblind.lua',
-        'editions/sneaky.lua',
-    },
-    enhancements = {
-        'enhancements/enhancements.lua',
-    },
-    suits = {
-        'suits/suits.lua',
-    },
-    hands = {
-        --'hands/hands.lua',
+    jokers = {
+        'common',
+        'uncommon',
+        'rare',
+        'legendary',
+        'divine',
     },
     perks = {
-        'perks/perk_conv.lua',
-        'perks/perk_boosters.lua',
-        'perks/perks.lua',
+        'perk_boosters',
+        'perks',
     },
-    vouchers = {
-        'vouchers/perk_vouchers.lua',
+    run_modifiers = {
+        'blinds',
+        'decks',
+        'stakes',
     },
-    api = {
-        'api/RetriggerAPI.lua',
+    suits = {
+        'suits',
     },
+    'ui',
 }
 
-for k, v in pairs(Ceres.ITEMS) do
-    for _, path in pairs(v) do
-        assert(load(nativefs.read(Ceres.MOD_PATH .. path)))()
-    end
-end
+Eris.FUNCS.read_files(Ceres)
 
 -- custom rarity based on Cryptid, which was based on Relic-Jokers
 
@@ -215,35 +128,16 @@ function SMODS.insert_pool(pool, center, replace)
     insert_pool_ref(pool, center, replace)
 end
 
-local loc_colour_ref = loc_colour
-function loc_colour(_c, _default)
-    return Ceres.C[_c] or loc_colour_ref(_c, _default)
-end
-
--- custom badge colours
-
-local get_badge_colour_ref = get_badge_colour
-function get_badge_colour(key)
-    local ref_return = get_badge_colour_ref(key)
-    if key == 'cere_epic' then return Ceres.C.epic end
-    if key == 'cere_divine' then return Ceres.C.divine end
-    if key == 'cere_moon' then return G.C.SECONDARY_SET.Planet end
-    if key == 'cere_perk_card' then return G.C.GREEN end
-    return ref_return
-end
-
--- page for mod options
-
 SMODS.current_mod.config_tab = function()
-	local ref_table = Ceres.SETTINGS
-  	local _buttons = {
-    	{label = 'Jokers', toggle_ref = ref_table.jokers, button_ref = 'cere_change_page', ref_page = 'jokers_rarities'},
-    	{label = 'Consumables', toggle_ref = ref_table.consumables, button_ref = 'cere_change_page', ref_page = 'consumables'},
-    	{label = 'Card Effects', toggle_ref = ref_table.card_effects, button_ref = 'cere_change_page', ref_page = 'card_effects'},
-    	{label = 'Blinds', toggle_ref = ref_table.blinds, button_ref = 'cere_change_page', ref_page = 'blinds'},
-      	{label = 'Suits', toggle_ref = ref_table.suits, button_ref = 'cere_change_page', ref_page = 'suits'},
-		{label = 'Miscellaneous', button_ref = 'cere_change_page', ref_page = 'misc', remove_enable = true,},
-  	}
+    local ref_table = Ceres.CONFIG
+    local _buttons = {
+        {label = 'Jokers', toggle_ref = ref_table.jokers, button_ref = 'cere_change_page', ref_page = 'jokers_rarities'},
+        {label = 'Consumables', toggle_ref = ref_table.consumables, button_ref = 'cere_change_page', ref_page = 'consumables'},
+        {label = 'Card Modifiers', toggle_ref = ref_table.card_modifiers, button_ref = 'cere_change_page', ref_page = 'card_modifiers'},
+        {label = 'Run Modifiers', toggle_ref = ref_table.run_modifiers, button_ref = 'cere_change_page', ref_page = 'run_modifiers'},
+		{label = 'Suits', toggle_ref = ref_table.suits, remove_enable = true,},
+        {label = 'Miscellaneous', button_ref = 'cere_change_page', ref_page = 'misc', remove_enable = true,},
+    }
     return {
         n = G.UIT.ROOT,
         config = {
@@ -255,113 +149,14 @@ SMODS.current_mod.config_tab = function()
             padding = 0.2,
             colour = G.C.BLACK,
         },
-        nodes = Ceres.FUNCS.create_buttons(_buttons, false),
+        nodes = Eris.FUNCS.create_buttons(_buttons, false, 'cere_save_config'),
     }
 end
-
--- custom info queues
-
-function SMODS.current_mod.process_loc_text()
-    G.localization.descriptions.Other['makima_info'] = {
-        name = 'Makima',
-        text = {
-            'A {C:dark_red}corpse{}',
-            'is talking',
-        },
-    }
-    G.localization.descriptions.Other['aizen_info'] = {
-        name = 'Aizen',
-        text = {
-            'Welcome, to my',
-            '{C:spectral}Soul Society{}',
-        },
-    }
-    G.localization.descriptions.Other['colourblind_info'] = {
-        name = "Colourblind",
-        text = {
-            "Swaps {C:blue}Chips{} and {C:red}Mult{}",
-            '{C:inactive}(if possible)',
-        }
-    }
-    G.localization.descriptions.Other['sneaky_info'] = {
-        name = "Sneaky",
-        text = {
-            "This card cannot",
-            "be {C:attention}debuffed{}",
-        },
-    }
-    G.localization.descriptions.Other['perk_info'] = {
-        name = "Perk Card",
-        text = {
-            "This card has a",
-            'special effect',
-            "{C:attention}activated on play{}",
-        },
-    }
-    G.localization.descriptions.Other['temp_info'] = {
-        name = "Temporary",
-        text = {
-            "Card is {C:attention}destroyed{}",
-            "at end of round",
-        },
-    }
-    G.localization.descriptions.Other['burn_info'] = {
-        name = "Burn",
-        text = {
-            "Card is {C:attention}removed{}",
-            'from your deck for the',
-            'remainder of this {C:attention}ante{}',
-        },
-    }
-    G.localization.descriptions.Other['shred_info'] = {
-        name = "Shred",
-        text = {
-            "Card is {C:attention}removed{}",
-            'from your deck',
-        },
-    }
-end
-
--- 'borrowed' from cryptid, for multi layer sprites
-local set_spritesref = Card.set_sprites
-function Card:set_sprites(_center, _front)
-    set_spritesref(self, _center, _front);
-    if _center and _center.soul_pos and _center.soul_pos.extra and not Ceres.COMPAT.crytpid then
-        self.children.floating_sprite2 = Sprite(self.T.x, self.T.y, self.T.w, self.T.h, G.ASSET_ATLAS[_center.atlas or _center.set], _center.soul_pos.extra)
-        self.children.floating_sprite2.role.draw_major = self
-        self.children.floating_sprite2.states.hover.can = false
-        self.children.floating_sprite2.states.click.can = false
-    end
-end
-
--- picks new cards for jokers, same way idol and rebate do
 
 function SMODS.current_mod.reset_game_globals()
     G.GAME.cere_clock_card = pick_from_deck('clock')
-    G.GAME.cere_yumeko_suit = pick_from_deck('yumeko').suit 
-end
-
-function pick_from_deck(seed)
-    local valid_cards = {}
-    for k, v in ipairs(G.playing_cards) do
-        if v.ability.effect ~= 'Stone Card' then
-            valid_cards[#valid_cards+1] = v
-        end
-    end
-    if valid_cards[1] then 
-        local random_card = pseudorandom_element(valid_cards, pseudoseed(seed..G.GAME.round_resets.ante))
-        return {
-            rank = random_card.base.value,
-            suit = random_card.base.suit,
-            id = random_card.base.id,
-        }
-    else
-        return {
-            rank = 'Ace',
-            suit = 'Spades',
-            id = 14,
-        }
-    end
+    G.GAME.cere_yumeko_suit = pick_from_deck('yumeko').suit
+    G.GAME.cere_insurance_card = pick_from_deck('fraud')
 end
 
 ----------------------------------------------

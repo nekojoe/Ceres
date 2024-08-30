@@ -6,12 +6,11 @@ local divine_joker_atlas = SMODS.Atlas{
     atlas_table = 'ASSET_ATLAS',
 }
 
-local makima = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.themed.enabled and Ceres.SETTINGS.jokers.themed.csm.enabled and SMODS.Joker{
+local makima = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.divine.enabled and SMODS.Joker{
     key = 'makima',
-    name = 'Makima',
     rarity = 'cere_divine',
-    unlocked = false or Ceres.SETTINGS.misc.unlock_all.enabled,
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    unlocked = false or Ceres.CONFIG.misc.unlock_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     pos = {
         x = 0,
         y = 0,
@@ -24,11 +23,10 @@ local makima = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.themed.en
             y = 1
         }
     },
-    cost = 50,
     config = {
-        Emult_mod = 1,
-        extra = 0.01,
+        extra = 2,
     },
+    cost = 50,
     atlas = 'divine_jokers',
     eternal_compat = true,
     perishable_compat = true,
@@ -36,40 +34,32 @@ local makima = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.themed.en
 
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = {set = 'Other', key = 'makima_info'}
-        return {vars = {card.ability.extra, card.ability.Emult_mod}}
+        return {vars = {card.ability.extra}}
     end,
 
     calculate = function(self, card, context)
-        if context.retrigger_joker_check and not context.retrigger_joker then
-            if context.other_card.ability and context.other_card.ability.set == 'Joker' then
-                if context.other_card.sell_cost < card.sell_cost then
-                    if not context.blueprint then
-                        card.ability.Emult_mod = card.ability.Emult_mod + card.ability.extra
+        if context.other_joker then
+            if context.other_joker.sell_cost < card.sell_cost then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        context.other_joker:juice_up(0.5, 0.5)
+                        return true
                     end
-                    return {
-                        message = localize('k_again_ex'),
-                        repetitions = 1,
-                        card = card
-                    }
-                end
+                })) 
+                return {
+                    message = '^' .. card.ability.extra .. ' Mult',
+                    eris_Emult_mod = card.ability.extra
+                }
             end
-        end
-        if context.joker_main then
-            return {
-                message = '^' .. card.ability.Emult_mod .. ' Mult',
-                Emult_mod = card.ability.Emult_mod,
-                colour = G.C.RED,
-            }
         end
     end,
 }
 
-local aizen = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.themed.enabled and Ceres.SETTINGS.jokers.themed.bleach.enabled and SMODS.Joker{
+local aizen = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.divine.enabled and SMODS.Joker{
     key = 'aizen',
-    name = 'aizen',
     rarity = 'cere_divine',
-    unlocked = false or Ceres.SETTINGS.misc.unlock_all.enabled,
-    discovered = false or Ceres.SETTINGS.misc.discover_all.enabled,
+    unlocked = false or Ceres.CONFIG.misc.unlock_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     pos = {
         x = 1,
         y = 0
@@ -84,8 +74,7 @@ local aizen = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.themed.ena
     },
     cost = 50,
     config = {
-        Emult_mod = 1,
-        extra = 0.01,
+        extra = 1.5,
     },
     atlas = 'divine_jokers',
     eternal_compat = true,
@@ -94,25 +83,23 @@ local aizen = Ceres.SETTINGS.jokers.enabled and Ceres.SETTINGS.jokers.themed.ena
 
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = {set = 'Other', key = 'aizen_info'}
-        return {vars = {card.ability.extra, card.ability.Emult_mod}}
+        return {vars = {card.ability.extra}}
     end,
 
     calculate = function(self, card, context)
-        if context.repetition and context.cardarea == G.play then
-            return {
-                message = localize('k_again_ex'),
-                repetitions = 1,
-                card = card
-            }
-        end
-        if context.individual and context.cardarea == G.play and not context.blueprint then
-            card.ability.Emult_mod = card.ability.Emult_mod + card.ability.extra
-        end
-        if context.joker_main then
-            return {
-                message = '^' .. card.ability.Emult_mod .. ' Mult',
-                Emult_mod = card.ability.Emult_mod,
-            }
+        if context.individual and context.cardarea == G.hand then
+            if context.other_card.debuff then
+                return {
+                    message = localize('k_debuffed'),
+                    colour = G.C.RED,
+                    card = card,
+                }
+            else
+                return {
+                    eris_e_mult = card.ability.extra,
+                    card = card
+                }
+            end
         end
     end,
 } or false
