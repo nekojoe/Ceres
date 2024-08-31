@@ -150,3 +150,19 @@ Sunset Clock - discard all cards
 # decks
 deck of each suit
 tattered deck of spades etc
+
+# balancing
+
+colourblind nerf
+upgrade negative voucher
+maybe diver
+
+# fixes
+
+warm up
+
+# POLISHED OFF STUFF (FOR NOW)
+
+- editions
+- seals
+- spectrals

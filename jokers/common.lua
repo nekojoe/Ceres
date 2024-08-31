@@ -19,7 +19,7 @@ local one_up = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.comm
         x = 1,
         y = 0,
     },
-    cost = 3,
+    cost = 4,
     config = {
         dollars = 5,
     },
@@ -68,7 +68,7 @@ local coin_toss = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.c
         x = 2,
         y = 0,
     },
-    cost = 4,
+    cost = 5,
     config = {
         extra = 1,
     },
@@ -127,14 +127,14 @@ local warm_up = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.com
 
     calculate = function(self, card, context)
         if context.after and G.GAME.current_round.hands_played == 0 then
-            if G.GAME.chips < (card.ability.amt/100) * G.GAME.blind.chips and G.GAME.chips ~= 0 then
-                G.E_MANAGER:add_event(Event({func = function()
+            G.E_MANAGER:add_event(Event({func = function()
+                    if G.GAME.chips < (card.ability.amt/100) * G.GAME.blind.chips then
                         ease_hands_played(card.ability.extra)
                         card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = '+'..card.ability.extra..' Hand'})
-                        return true
                     end
-                }))
-            end
+                    return true
+                end
+            }))
         end
     end,
 }

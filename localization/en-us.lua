@@ -487,32 +487,16 @@ return {
 					"and an extra {C:money}$#1#",
                 }
             },
-			['b_cere_golden'] = {
-                ['name'] = "Golden Deck",
-                ['text'] = {
-                    "{C:money}$#1#{} for each card in",
-					'{C:attention}hand{} at end of round',
-					'Earn no {C:attention}interest',
-                }
-            },
 		},
 		['Spectral'] = {
 			['c_cere_chromatic'] = {
-				['name'] = 'Chromatic',
-				['text'] = {
-					'Add {C:dark_edition}Colourblind{} to a',
-					'random {C:attention}Joker{} or {C:attention}1{}',
-					'selected card in hand',
-				}
-			},
-			['c_cere_camouflage'] = {
-				['name'] = 'Camouflage',
-				['text'] = {
-					'Add {C:dark_edition}Sneaky{} to a',
-					'random {C:attention}Joker{} or {C:attention}1{}',
-					'selected card in hand',
-				}
-			},
+                ['name'] = "Chromatic",
+                ['text'] = {
+                    "Add {C:dark_edition}Colourblind{} to a",
+                    "random {C:attention}Joker{}, destroy",
+                    "all other Jokers"
+                }
+            },
 			['c_cere_ceres_spectral'] = {
 				['name'] = 'Ceres',
 				['text'] = {
@@ -532,9 +516,9 @@ return {
 			['c_cere_card_sleeve'] = {
 				['name'] = 'Card Sleeve',
 				['text'] = {
-					'Add {C:dark_edition}Mint Condition{} to a',
-					'random {C:attention}Joker{} or {C:attention}1{}',
-					'selected card in hand',
+					'Add {C:dark_edition}Mint Condition{}',
+					'to {C:attention}1{} selected',
+					'card in hand',
 				}
 			},
 		},
@@ -546,17 +530,11 @@ return {
 					'{X:mult,C:white} X#2# {} Mult',
         		}
 			},
-			['e_cere_sneaky'] = {
-				['name'] = "Sneaky",
-				['text'] = {
-					"This card cannot",
-					"be {C:attention}debuffed{}",
-				},
-			},
 			['e_cere_mint_condition'] = {
 				['name'] = "Mint Condition",
 				['text'] = {
-					'{X:money,C:white} X#1# {} Dollars',
+					'Gain an extra {C:money}$#1#{}',
+					'when earning money',
 				}
 			},
 		},
@@ -649,7 +627,7 @@ return {
 				['name'] = 'Business Card',
 				['text'] = {
 					'On {E:1,C:green}exploit{}:',
-					'create a {C:attention}Uncommon Tag{},',
+					'create an {C:attention}Uncommon Tag{},',
 					'then {E:1,C:red}burn{}',
 				},
 			},

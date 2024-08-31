@@ -109,24 +109,33 @@ local tat_spades = Ceres.CONFIG.run_modifiers.decks.enabled and SMODS.Back{
         y = 1,
     },
     config = {
-        vouchers = {
+        vouchers = Ceres.CONFIG.consumables.vouchers.enabled and {
             'v_cere_overflow_norm',
-        },
+        } or nil,
+        discards = -100000
     },
-    loc_txt = Eris.CONFIG.perks.enabled and {
+    loc_txt = {
         name = "Tattered Deck of Spades",
-        text = {
+        text = (Ceres.CONFIG.consumables.vouchers.enabled and Eris.CONFIG.perks.enabled) and {
             "Start run with:",
             'Deck of {E:1,C:spades}Spades{},',
             '{E:1,C:attention,T:v_cere_overflow_norm}Overflow{} voucher,',
-            '{C:attention}3{} extra {E:1,C:green,T:eris_advantage}Advantage',
-        }
-    } or {
-        name = "Tattered Deck of Spades",
-        text = {
+            '{C:attention}3{} {E:1,C:green,T:eris_advantage}Advantage{},',
+            '{C:attention}0 {E:1,C:red}Discards',
+        } or (Ceres.CONFIG.consumables.vouchers.enabled and not Eris.CONFIG.perks.enabled) and {
             "Start run with:",
-            'Deck of {E:1,C:spades}Spades{}',
-            'and {E:1,C:attention,T:v_cere_overflow_norm}Overflow{} voucher',
+            'Deck of {E:1,C:spades}Spades{},',
+            '{E:1,C:attention,T:v_cere_overflow_norm}Overflow{} voucher,',
+            '{C:attention}0 {E:1,C:red}Discards',
+        } or (not Ceres.CONFIG.consumables.vouchers.enabled and Eris.CONFIG.perks.enabled) and {
+            "Start run with:",
+            'Deck of {E:1,C:spades}Spades{},',
+            '{C:attention}3{} {E:1,C:green,T:eris_advantage}Advantage{},',
+            '{C:attention}0 {E:1,C:red}Discards',
+        } or (not Ceres.CONFIG.consumables.vouchers.enabled and not Eris.CONFIG.perks.enabled) and {
+            "Start run with:",
+            'Deck of {E:1,C:spades}Spades{},',
+            '{C:attention}0 {E:1,C:red}Discards',
         }
     },
 
@@ -138,10 +147,174 @@ local tat_spades = Ceres.CONFIG.run_modifiers.decks.enabled and SMODS.Back{
                     v:start_dissolve(nil, true, 0.00000001)
                 end
             end
-            ease_advantage(3)
+            if Eris.CONFIG.perks.enabled then ease_advantage(3) end
                 return true
             end)
           }))
     end,
+}
 
+local tat_hearts = Ceres.CONFIG.run_modifiers.decks.enabled and SMODS.Back{
+    key = 'tattered_hearts',
+    unlocked = false or Ceres.CONFIG.misc.unlock_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    atlas = 'backs',
+    pos = {
+        x = 2,
+        y = 1,
+    },
+    config = {
+        vouchers = Ceres.CONFIG.consumables.vouchers.enabled and {
+            'v_cere_overflow_norm',
+        } or nil,
+        discards = -100000
+    },
+    loc_txt = {
+        name = "Tattered Deck of Hearts",
+        text = (Ceres.CONFIG.consumables.vouchers.enabled and Eris.CONFIG.perks.enabled) and {
+            "Start run with:",
+            'Deck of {E:1,C:hearts}Hearts{},',
+            '{E:1,C:attention,T:v_cere_overflow_norm}Overflow{} voucher,',
+            '{C:attention}3{} {E:1,C:green,T:eris_advantage}Advantage{},',
+            '{C:attention}0 {E:1,C:red}Discards',
+        } or (Ceres.CONFIG.consumables.vouchers.enabled and not Eris.CONFIG.perks.enabled) and {
+            "Start run with:",
+            'Deck of {E:1,C:hearts}Hearts{},',
+            '{E:1,C:attention,T:v_cere_overflow_norm}Overflow{} voucher,',
+            '{C:attention}0 {E:1,C:red}Discards',
+        } or (not Ceres.CONFIG.consumables.vouchers.enabled and Eris.CONFIG.perks.enabled) and {
+            "Start run with:",
+            'Deck of {E:1,C:hearts}Hearts{},',
+            '{C:attention}3{} {E:1,C:green,T:eris_advantage}Advantage{},',
+            '{C:attention}0 {E:1,C:red}Discards',
+        } or (not Ceres.CONFIG.consumables.vouchers.enabled and not Eris.CONFIG.perks.enabled) and {
+            "Start run with:",
+            'Deck of {E:1,C:hearts}Hearts{},',
+            '{C:attention}0 {E:1,C:red}Discards',
+        }
+    },
+
+    apply = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = (function()
+            for k, v in pairs(G.playing_cards) do
+                if not v:is_suit('Hearts') then 
+                    v:start_dissolve(nil, true, 0.00000001)
+                end
+            end
+            if Eris.CONFIG.perks.enabled then ease_advantage(3) end
+                return true
+            end)
+          }))
+    end,
+}
+
+local tat_clubs = Ceres.CONFIG.run_modifiers.decks.enabled and SMODS.Back{
+    key = 'tattered_clubs',
+    unlocked = false or Ceres.CONFIG.misc.unlock_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    atlas = 'backs',
+    pos = {
+        x = 1,
+        y = 1,
+    },
+    config = {
+        vouchers = Ceres.CONFIG.consumables.vouchers.enabled and {
+            'v_cere_overflow_norm',
+        } or nil,
+        discards = -100000
+    },
+    loc_txt = {
+        name = "Tattered Deck of Clubs",
+        text = (Ceres.CONFIG.consumables.vouchers.enabled and Eris.CONFIG.perks.enabled) and {
+            "Start run with:",
+            'Deck of {E:1,C:clubs}Clubs{},',
+            '{E:1,C:attention,T:v_cere_overflow_norm}Overflow{} voucher,',
+            '{C:attention}3{} {E:1,C:green,T:eris_advantage}Advantage{},',
+            '{C:attention}0 {E:1,C:red}Discards',
+        } or (Ceres.CONFIG.consumables.vouchers.enabled and not Eris.CONFIG.perks.enabled) and {
+            "Start run with:",
+            'Deck of {E:1,C:clubs}Clubs{},',
+            '{E:1,C:attention,T:v_cere_overflow_norm}Overflow{} voucher,',
+            '{C:attention}0 {E:1,C:red}Discards',
+        } or (not Ceres.CONFIG.consumables.vouchers.enabled and Eris.CONFIG.perks.enabled) and {
+            "Start run with:",
+            'Deck of {E:1,C:clubs}Clubs{},',
+            '{C:attention}3{} {E:1,C:green,T:eris_advantage}Advantage{},',
+            '{C:attention}0 {E:1,C:red}Discards',
+        } or (not Ceres.CONFIG.consumables.vouchers.enabled and not Eris.CONFIG.perks.enabled) and {
+            "Start run with:",
+            'Deck of {E:1,C:clubs}Clubs{},',
+            '{C:attention}0 {E:1,C:red}Discards',
+        }
+    },
+
+    apply = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = (function()
+            for k, v in pairs(G.playing_cards) do
+                if not v:is_suit('Clubs') then 
+                    v:start_dissolve(nil, true, 0.00000001)
+                end
+            end
+            if Eris.CONFIG.perks.enabled then ease_advantage(3) end
+                return true
+            end)
+          }))
+    end,
+}
+
+local tat_diamonds = Ceres.CONFIG.run_modifiers.decks.enabled and SMODS.Back{
+    key = 'tattered_diamonds',
+    unlocked = false or Ceres.CONFIG.misc.unlock_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    atlas = 'backs',
+    pos = {
+        x = 3,
+        y = 1,
+    },
+    config = {
+        vouchers = Ceres.CONFIG.consumables.vouchers.enabled and {
+            'v_cere_overflow_norm',
+        } or nil,
+        discards = -100000
+    },
+    loc_txt = {
+        name = "Tattered Deck of Diamonds",
+        text = (Ceres.CONFIG.consumables.vouchers.enabled and Eris.CONFIG.perks.enabled) and {
+            "Start run with:",
+            'Deck of {E:1,C:diamonds}Diamonds{},',
+            '{E:1,C:attention,T:v_cere_overflow_norm}Overflow{} voucher,',
+            '{C:attention}3{} {E:1,C:green,T:eris_advantage}Advantage{},',
+            '{C:attention}0 {E:1,C:red}Discards',
+        } or (Ceres.CONFIG.consumables.vouchers.enabled and not Eris.CONFIG.perks.enabled) and {
+            "Start run with:",
+            'Deck of {E:1,C:diamonds}Diamonds{},',
+            '{E:1,C:attention,T:v_cere_overflow_norm}Overflow{} voucher,',
+            '{C:attention}0 {E:1,C:red}Discards',
+        } or (not Ceres.CONFIG.consumables.vouchers.enabled and Eris.CONFIG.perks.enabled) and {
+            "Start run with:",
+            'Deck of {E:1,C:diamonds}Diamonds{},',
+            '{C:attention}3{} {E:1,C:green,T:eris_advantage}Advantage{},',
+            '{C:attention}0 {E:1,C:red}Discards',
+        } or (not Ceres.CONFIG.consumables.vouchers.enabled and not Eris.CONFIG.perks.enabled) and {
+            "Start run with:",
+            'Deck of {E:1,C:Diamonds}Diamonds{},',
+            '{C:attention}0 {E:1,C:red}Discards',
+        }
+    },
+
+    apply = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = (function()
+            for k, v in pairs(G.playing_cards) do
+                if not v:is_suit('Diamonds') then 
+                    v:start_dissolve(nil, true, 0.00000001)
+                end
+            end
+            if Eris.CONFIG.perks.enabled then ease_advantage(3) end
+                return true
+            end)
+          }))
+    end,
 }
