@@ -488,6 +488,69 @@ return {
                 }
             },
 		},
+		['Stake'] = {
+			['stake_cere_steel'] = {
+				['name'] = "Steel Stake",
+				['text'] = {
+					"{C:red}-1{} consumable slot",
+					"{s:0.8}Applies Gold Stake"
+				},
+				['sticker'] = {
+					['name'] = 'Steel Sticker',
+					['text'] = {
+						"Used this Joker",
+						"to win on {C:attention}Steel",
+						"{C:attention}Stake{} difficulty"
+					}
+				},
+			},
+			['stake_cere_carbide'] = {
+				['name'] = "Carbide Stake",
+				['text'] = {
+					"Shop can have {C:attention}Defective{} Jokers",
+					"{C:inactive,s:0.8}({C:green,s:0.8}1 in 3{C:inactive,s:0.8} chance to do nothing)",
+					"{s:0.8}Applies Steel Stake",
+				},
+				['sticker'] = {
+					['name'] = 'Carbide Sticker',
+					['text'] = {
+						"Used this Joker",
+						"to win on {C:attention}Carbide",
+						"{C:attention}Stake{} difficulty",
+					}
+				},
+			},
+			['stake_cere_tungsten'] = {
+				['name'] = "Tungsten Stake",
+				['text'] = {
+					"{C:red}-1{} hand size",
+					"{s:0.8}Applies Carbide Stake",
+				},
+				['sticker'] = {
+					['name'] = 'Tungsten Sticker',
+					['text'] = {
+						"Used this Joker",
+						"to win on {C:attention}Tungsten",
+						"{C:attention}Stake{} difficulty",
+					}
+				},
+			},
+			['stake_cere_titanium'] = {
+				['name'] = "Titanium Stake",
+				['text'] = {
+					"{C:red}-1{} Joker slot",
+					"{s:0.8}Applies Tungsten Stake"
+				},
+				['sticker'] = {
+					['name'] = 'Titanium Sticker',
+					['text'] = {
+						"Used this Joker",
+						"to win on {C:attention}Titanium",
+						"{C:attention}Stake{} difficulty"
+					}
+				},
+			},
+		},
 		['Spectral'] = {
 			['c_cere_chromatic'] = {
                 ['name'] = "Chromatic",

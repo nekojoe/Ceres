@@ -34,22 +34,6 @@ local steel = Ceres.CONFIG.run_modifiers.stakes.enabled and SMODS.Stake{
     sticker_atlas = 'sticker_atlas',
     applied_stakes = {"gold"},
     unlocked_stake = "cere_carbide",
-	loc_txt = {
-        description = {
-            name = "Steel Stake",
-            text = {
-                "{C:red}-1{} consumable slot",
-            }
-        },
-        sticker = {
-            name = 'Steel Sticker',
-            text = {
-                "Used this Joker",
-                "to win on {C:attention}Steel",
-                "{C:attention}Stake{} difficulty"
-            }
-        },
-    },
     colour = HEX("8E989E"),
     shiny = true,
 
@@ -72,23 +56,6 @@ local carbide = Ceres.CONFIG.run_modifiers.stakes.enabled and SMODS.Stake{
     sticker_atlas = 'sticker_atlas',
     applied_stakes = {"cere_steel"},
     unlocked_stake = "cere_tungsten",
-	loc_txt = {
-        description = {
-            name = "Carbide Stake",
-            text = {
-                "Shop can have {C:attention}Defective{} Jokers",
-                "{C:inactive,s:0.8}({C:green,s:0.8}1 in 3{C:inactive,s:0.8} chance to do nothing)",
-            }
-        },
-        sticker = {
-            name = 'Carbide Sticker',
-            text = {
-                "Used this Joker",
-                "to win on {C:attention}Carbide",
-                "{C:attention}Stake{} difficulty"
-            }
-        },
-    },
     colour = HEX("262F35"),
     shiny = true,
 
@@ -111,22 +78,6 @@ local tungsten = Ceres.CONFIG.run_modifiers.stakes.enabled and SMODS.Stake{
     sticker_atlas = 'sticker_atlas',
     applied_stakes = {"cere_carbide"},
     unlocked_stake = "cere_titanium",
-	loc_txt = {
-        description = {
-            name = "Tungsten Stake",
-            text = {
-                "{C:red}-1{} hand size",
-            }
-        },
-        sticker = {
-            name = 'Tungsten Sticker',
-            text = {
-                "Used this Joker",
-                "to win on {C:attention}Tungsten",
-                "{C:attention}Stake{} difficulty"
-            }
-        },
-    },
     colour = HEX("7A714B"),
     shiny = true,
 
@@ -146,24 +97,8 @@ local titanium = Ceres.CONFIG.run_modifiers.stakes.enabled and SMODS.Stake{
         y = 0
     },
     atlas = "stake_atlas",
-    sticker_atlas = 'sticker_atlas',
+    sticker_atlas = 'stake_sticker_atlas',
     applied_stakes = {"cere_tungsten"},
-	loc_txt = {
-        description = {
-            name = "Titanium Stake",
-            text = {
-                "{C:red}-1{} Joker slot",
-            }
-        },
-        sticker = {
-            name = 'Titanium Sticker',
-            text = {
-                "Used this Joker",
-                "to win on {C:attention}Titanium",
-                "{C:attention}Stake{} difficulty"
-            }
-        },
-    },
     colour = HEX("c0c0c0"),
     shiny = true,
 
