@@ -5,9 +5,8 @@
 --- MOD_AUTHOR: [nekojoe]
 --- MOD_DESCRIPTION: please read the read me
 --- BADGE_COLOUR: 13afce
---- PRIORITY: 999999999999999999
---- DEPENDENCIES: [Eris]
---- VERSION: 1.0b
+--- PRIORITY: 10
+--- VERSION: 1.0.5b
 
 ----------------------------------------------
 ---------------- MOD CODE --------------------
@@ -59,9 +58,67 @@ Ceres.DEFAULT_CONFIG = {
     }
 }
 Ceres.MOD_PATH = lovely.mod_dir .. '/Ceres/'
--- TODO actually seperate them better
--- have Eris manage all the diff card effects etc
-Ceres.COMPAT = Eris.COMPAT
+Ceres.DEV = false
+Ceres.COMPAT = {
+    talisman = (SMODS.Mods['Talisman'] or {}).can_load,
+    cryptid = (SMODS.Mods['Cryptid'] or {}).can_load,
+    cere = (SMODS.Mods['Ceres'] or {}).can_load,
+}
+
+function love.conf(t)
+	t.console = true
+end
+if Ceres.DEV then
+    _RELEASE_MODE = false
+end
+
+Ceres.FUNCS = {}
+
+Ceres.FUNCS.load_config = function(mod)
+    mod = mod or Ceres
+    local folder = mod.MOD_PATH
+    if nativefs.getInfo(folder .. 'config.lua') then
+        local config = STR_UNPACK(nativefs.read(folder .. 'config.lua'))
+        if not config then
+            mod.CONFIG = Ceres.FUNCS.copy(mod.DEFAULT_CONFIG)
+            Ceres.FUNCS.save_config(mod)
+        else
+            mod.CONFIG = Ceres.FUNCS.copy(config)
+        end
+    else
+        mod.CONFIG = Ceres.FUNCS.copy(mod.DEFAULT_CONFIG)
+        Ceres.FUNCS.save_config(mod)
+    end
+end
+
+Ceres.FUNCS.save_config = function(mod)
+    mod = mod or Ceres
+    local folder = mod.MOD_PATH
+    nativefs.write(folder .. 'config.lua', STR_PACK(mod.CONFIG))
+end
+
+Ceres.FUNCS.read_files = function(mod)
+    mod = mod or Ceres
+    for path_prefix, paths in pairs(mod.ITEMS) do
+        if type(paths) == 'table' then
+            for _, path in pairs(paths) do
+                assert(load(nativefs.read(mod.MOD_PATH .. path_prefix .. '/' .. path .. '.lua')))()
+            end
+        else
+            assert(load(nativefs.read(mod.MOD_PATH .. paths .. '.lua')))()
+        end
+    end
+end
+
+Ceres.FUNCS.copy = function(obj, seen)
+    if type(obj) ~= 'table' then return obj end
+    if seen and seen[obj] then return seen[obj] end
+    local s = seen or {}
+    local res = setmetatable({}, getmetatable(obj))
+    s[obj] = res
+    for k, v in pairs(obj) do res[Ceres.FUNCS.copy(k, s)] = Ceres.FUNCS.copy(v, s) end
+    return res
+end
 
 -- colours
 Ceres.C = {
@@ -73,15 +130,13 @@ Ceres.C = {
     the_bill = HEX('EDCE7B'),
     the_fall = HEX('eb7a34'),
     the_french = HEX('E5E5E5'),
+    cere_perk = G.C.GREEN,
+    cere_defective = HEX('FF3D4D'),
+    cere_temporary = HEX('47B2FF'),
 }
--- adding Ceres colours to Eris to save hooking to
--- the loc and badge colour funcs again
-for key, colour in pairs(Ceres.C) do
-    Eris.C[prefix..tostring(key)] = colour
-end
 
 -- files for loading
-Eris.FUNCS.load_config(Ceres)
+Ceres.FUNCS.load_config(Ceres)
 
 Ceres.ITEMS = {
     card_modifiers = {
@@ -113,10 +168,18 @@ Ceres.ITEMS = {
     suits = {
         'suits',
     },
+    items = not Ceres.COMPAT.eris and {
+        'card',
+        'cardarea',
+        'funcs',
+        'perk',
+        'sticker',
+        'ui',
+    },
     'ui',
 }
 
-Eris.FUNCS.read_files(Ceres)
+Ceres.FUNCS.read_files(Ceres)
 
 -- custom rarity based on Cryptid, which was based on Relic-Jokers
 
@@ -149,7 +212,7 @@ SMODS.current_mod.config_tab = function()
             padding = 0.2,
             colour = G.C.BLACK,
         },
-        nodes = Eris.FUNCS.create_buttons(_buttons, false, 'cere_save_config'),
+        nodes = Ceres.FUNCS.create_buttons(_buttons, false, 'cere_save_config'),
     }
 end
 
@@ -157,6 +220,58 @@ function SMODS.current_mod.reset_game_globals()
     G.GAME.cere_clock_card = pick_from_deck('clock')
     G.GAME.cere_yumeko_suit = pick_from_deck('yumeko').suit
     G.GAME.cere_insurance_card = pick_from_deck('fraud')
+end
+
+-- NEW FUNCS
+
+function get_perk_pool(key)
+    --create the pool
+    G.ARGS.TEMP_POOL = EMPTY(G.ARGS.TEMP_POOL)
+    local pool = G.ARGS.TEMP_POOL
+    local starting_pool = G.P_CENTER_POOLS['Perk']
+
+    -- add any non shredded perks to pool
+    for k, v in pairs(starting_pool) do
+        if G.GAME.cere_temp.shredded and not G.GAME.cere_temp.shredded[v.key] then
+            pool[#pool+1] = v
+        end
+    end
+
+    if #pool == 0 then
+        pool[#pool+1] = G.P_CENTERS['perk_cere_example']
+    end
+
+    return pool, key .. G.GAME.round_resets.ante
+end
+
+function poll_perk()
+    local pool, pool_key = get_perk_pool('perk')
+    if #pool == 0 then return false end
+    local perk = pseudorandom_element(pool, pseudoseed(pool_key))
+    return perk
+end
+
+function pick_from_deck(seed)
+    local valid_cards = {}
+    for k, v in ipairs(G.playing_cards) do
+        if v.ability.effect ~= 'Stone Card' then
+            valid_cards[#valid_cards+1] = v
+        end
+    end
+    if valid_cards[1] then 
+        local random_card = pseudorandom_element(valid_cards, pseudoseed(seed..G.GAME.round_resets.ante))
+        return {
+            rank = random_card.base.value,
+            suit = random_card.base.suit,
+            id = random_card.base.id,
+        }
+    else
+        return {
+            rank = 'Ace',
+            suit = 'Spades',
+            id = 14,
+        }
+    end
 end
 
 ----------------------------------------------

@@ -24,7 +24,7 @@ local green_seal = Ceres.CONFIG.card_modifiers.seals.enabled and SMODS.Seal {
 
 local draw_card_ref = draw_card
 function draw_card(from, to, percent, dir, sort, card, delay, mute, stay_flipped, vol, discarded_only)
-    if from == G.play and to == G.discard and card and card.seal == 's_cere_green_seal' and pseudorandom('green_seal') < G.GAME.probabilities.normal/green_seal.config.odds then
+    if from == G.play and to == G.discard and card and card.seal == 'cere_green_seal' and pseudorandom('green_seal') < G.GAME.probabilities.normal/green_seal.config.odds then
         to = G.hand
         dir = 'up'
         sort = true

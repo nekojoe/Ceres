@@ -82,6 +82,7 @@ uh
 
 # general jokers
 
+marlboro golds, money for playing hand decrease 
 legendary gives hand and discard on use of either
 Gains x0.1 Mult for every unique Consumable used (not retroactive). collectors book
 1 in 2 chance to retrigger any card
@@ -105,6 +106,7 @@ colourblind broke
 
 # tags
 Roulette Tag - wheel of fortune effect but 3 times
+editions
 
 # vouchers
 
@@ -159,7 +161,8 @@ maybe diver
 
 # fixes
 
-warm up
+clock
+double down
 
 # POLISHED OFF STUFF (FOR NOW)
 

@@ -14,11 +14,21 @@ return {
 			['cere_colourblind'] = 'Colourblind',
 			['cere_sneaky'] = 'Sneaky',
 			['cere_mint_condition'] = 'Mint Condition',
-			['s_cere_green_seal_seal'] = 'Green Seal',
+			['cere_green_seal_seal'] = 'Green Seal',
 			['cere_defective'] = 'Defective',
+			['cere_temporary'] = 'Temporary',
 		},
 		['dictionary'] = {
             ['k_perk_pack'] = "Perk Pack",
+			['k_perk'] =  'Perk',
+            ['k_hud_advantage'] = "Advantage",
+            ['k_hud_health'] = "Health",
+            ['b_exploit'] = "Exploit",
+            ['b_hit'] = "Hit",
+            ['b_stand'] = "Stand",
+            ['ph_blind_health'] = "Blind Health",
+            ['k_discard'] = "Discard",
+            ['k_draw'] = "Draw",
 		},
 	},
 	['descriptions'] = {
@@ -162,7 +172,7 @@ return {
 			['j_cere_diving_joker'] = {
 				['name'] = 'Diving Joker',
 				['text'] = {
-                    "{C:mult}+#1#{} Mult for every eight",
+                    "{C:mult}+#1#{} Mult for every {C:attention}8{}",
                     "cards {C:attention}drawn{} this ante",
                     "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
                 }
@@ -170,8 +180,9 @@ return {
 			['j_cere_accountant'] = {
 				['name'] = 'Accountant',
 				['text'] = {
-                    "Gains {C:mult}+#1#{} Mult for each",
-                    "{C:money}$1{} of {C:attention}interest{} earned",
+                    "Gains {C:mult}+#1#{} Mult and {C:money}$#1#{}",
+                    "if hand contains",
+					'exactly {C:attention}3{} cards',
                     "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
                 }
 			},
@@ -596,8 +607,9 @@ return {
 			['e_cere_mint_condition'] = {
 				['name'] = "Mint Condition",
 				['text'] = {
-					'Gain an extra {C:money}$#1#{}',
-					'when earning money',
+					'When earning money,',
+					'gain {C:money}$#1#{} if this',
+					'card is in hand'
 				}
 			},
 		},
@@ -666,7 +678,7 @@ return {
 				['name'] = 'Prototype',
 				['text'] = {
 					'On {E:1,C:green}exploit{}:',
-					'create a {C:eris_temporary}temporary{} {C:attention}Blueprint{},',
+					'create a {C:cere_temporary}temporary{} {C:attention}Blueprint{},',
 					'then {E:1,C:red}burn{}',
 				},
 			},
@@ -674,7 +686,7 @@ return {
 				['name'] = 'Dirty Napkin',
 				['text'] = {
 					'On {E:1,C:green}exploit{}:',
-					'create a {C:eris_temporary}temporary{} {C:attention}Brainstorm{},',
+					'create a {C:cere_temporary}temporary{} {C:attention}Brainstorm{},',
 					'then {E:1,C:red}burn{}',
 				},
 			},
@@ -733,7 +745,7 @@ return {
                 }
             },
 			-- seals
-			['s_cere_green_seal_seal'] = {
+			['cere_green_seal_seal'] = {
 				['name'] = "Green Seal",
 				['text'] = {
 					'{C:green}#1# in #2#{} chance',
@@ -754,6 +766,55 @@ return {
 				['text'] = {
 					'Welcome, to my',
 					'{C:spectral}Soul Society{}',
+				},
+			},
+			['cere_defective'] = {
+				['name'] = "Defective",
+				['text'] = {
+					'{C:green}#1# in 3{} chance',
+					'to do nothing',
+				}
+			},
+			['cere_temporary'] = {
+				['name'] = "Temporary",
+				['text'] = {
+					'Removed at end',
+					'of {C:attention}round{}',
+				}
+			},
+			['cere_burn'] = {
+				['name'] = 'Burn',
+				['text'] = {
+					'Remove from deck',
+					'for rest of {C:attention}ante{}',
+				},
+			},
+			['cere_shred'] = {
+				['name'] = 'Shred',
+				['text'] = {
+					'Card will not reappear',
+					'for rest of {C:attention}run{}',
+				},
+			},
+			['cere_exploit'] = {
+				['name'] = 'Exploit',
+				['text'] = {
+					'Spend {E:1,C:green}Advantage{} to',
+					'trigger effect',
+				},
+			},
+			['cere_perk_card'] = {
+				['name'] = 'Perk Card',
+				['text'] = {
+					'Spend {E:1,C:green}Advantage{}',
+					'to trigger effect',
+				},
+			},
+			['cere_advantage'] = {
+				['name'] = 'Advantage',
+				['text'] = {
+					'Spend to trigger',
+					'{C:green,E:1}Perk{} card effects',
 				},
 			},
 		},

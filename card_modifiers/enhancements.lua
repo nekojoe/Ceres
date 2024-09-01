@@ -25,7 +25,7 @@ local illusion = false and Ceres.CONFIG.card_modifiers.enhancements.enabled and 
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition_only then
             if pseudorandom('illu') < (G.GAME.probabilities.normal / self.config.chip_odds) then
-                effect.eris_x_chips = (effect.eris_x_chips or 1) * self.config.extra
+                effect.cere_x_chips = (effect.cere_x_chips or 1) * self.config.extra
             end
         end
     end
@@ -48,7 +48,7 @@ local cobalt = Ceres.CONFIG.card_modifiers.enhancements.enabled and SMODS.Enhanc
 
     calculate = function(self, card, context, effect)
         if context.cardarea == G.hand and not context.repetition_only then
-            effect.eris_x_chips = (effect.eris_x_chips or 1) * self.config.extra
+            effect.cere_x_chips = (effect.cere_x_chips or 1) * self.config.extra
         end
     end
 }

@@ -25,7 +25,7 @@ local one_up = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.comm
     },
     atlas = 'common_jokers',
     eternal_compat = false,
-    perishable_compat = true,
+    pcerehable_compat = true,
     blueprint_compat = false,
 
     loc_vars = function(self, info_queue, card)
@@ -74,7 +74,7 @@ local coin_toss = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.c
     },
     atlas = 'common_jokers',
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -118,7 +118,7 @@ local warm_up = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.com
     },
     atlas = 'common_jokers',
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -155,7 +155,7 @@ local diving_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.raritie
     cost = 5,
     atlas = 'common_jokers',
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -208,13 +208,13 @@ local accountant = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
         y = 1,
     },
     config = {
-        extra = 2,
+        extra = 1,
         mult_mod = 0,
     },
     cost = 6,
     atlas = 'common_jokers',
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -222,6 +222,15 @@ local accountant = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
     end,
 
     calculate = function(self, card, context)
+        if context.before and not context.blueprint then
+            if #context.full_hand == 3 then
+                card.ability.mult_mod = card.ability.mult_mod + card.ability.extra
+                ease_dollars(card.ability.extra)
+                G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra
+                G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.C.RED})
+            end
+        end
         if context.joker_main then
             if card.ability.mult_mod > 0 then
                 return {
@@ -230,14 +239,6 @@ local accountant = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
                     colour = G.C.MULT
                 }
             end
-        end
-    end,
-
-    calc_dollar_bonus = function(self, card)
-        local inc = card.ability.extra * G.GAME.interest_amount*math.min(math.floor(G.GAME.dollars/5), G.GAME.interest_cap/5)
-        if inc > 0 then
-            card.ability.mult_mod = card.ability.mult_mod + inc
-            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
         end
     end,
 }
@@ -257,7 +258,7 @@ local museum = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.comm
     cost = 6,
     atlas = 'common_jokers',
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -298,7 +299,7 @@ local large_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities
     cost = 6,
     atlas = 'common_jokers',
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -308,11 +309,7 @@ local large_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play and not context.blueprint and context.other_card:get_id() == 14 then
             card.ability.mult_mod = card.ability.mult_mod + card.ability.extra
-            return {
-                message = localize('k_upgrade_ex'),
-                card = card,
-                colour = G.C.MULT
-            }
+            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.C.RED})
         end
         if context.joker_main and card.ability.mult_mod > 0 then
             return {
@@ -339,7 +336,7 @@ local backup_plan = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities
     cost = 6,
     atlas = 'common_jokers',
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -374,7 +371,7 @@ local club_sandwich = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rariti
     cost = 6,
     atlas = 'common_jokers',
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -408,8 +405,8 @@ local scratchcard = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities
     unlocked = true,
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     pos = {
-        x = 0,
-        y = 0,
+        x = 4,
+        y = 1,
     },
     config = {
         extra = 1,
@@ -417,7 +414,7 @@ local scratchcard = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities
     cost = 6,
     atlas = 'common_jokers',
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)

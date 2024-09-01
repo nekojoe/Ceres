@@ -14,7 +14,7 @@ local reflection = Ceres.CONFIG.consumables.vouchers.enabled and SMODS.Voucher{
         y = 0,
     },
     config = {
-        extra = 2
+        extra = 4
     },
     cost = 10,
     unlocked = true,
@@ -37,7 +37,7 @@ local shattered_mirror = Ceres.CONFIG.consumables.vouchers.enabled and SMODS.Vou
         y = 1,
     },
     config = {
-        extra = 4
+        extra = 8
     },
     cost = 10,
     unlocked = true,

@@ -36,7 +36,7 @@ local chainsaw_devil = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jo
     },
     atlas = 'uncommon_jokers',
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
     blueprint_compat = true,
 
     calculate = function(self, card, context)
@@ -96,7 +96,7 @@ local professor = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.u
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
 
     loc_vars = function(self, info_queue, card)
         return {
@@ -135,7 +135,7 @@ local squared = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.unc
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
 
     loc_vars = function(self, info_queue, card)
         return {
@@ -177,7 +177,7 @@ local favourable_odds = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rari
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = false,
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
 
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS['m_lucky']
@@ -225,16 +225,16 @@ local miku = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncomm
         y = 1,
     },
     config = {
-        extra = 0.2,
+        extra = 0.1,
         x_mult = 1,
     },
     atlas = 'uncommon_jokers',
-    cost = 6,
+    cost = 7,
     unlocked = true,
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
 
     loc_vars = function(self, info_queue, card)
         return {
@@ -289,7 +289,7 @@ local marlboro_reds = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rariti
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
 
     loc_vars = function(self, info_queue, card)
         return {
@@ -359,12 +359,12 @@ local skateboard = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
         hands = {},
     },
     atlas = 'uncommon_jokers',
-    cost = 6,
+    cost = 7,
     unlocked = true,
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
 
     loc_vars = function(self, info_queue, card)
         return {
@@ -434,12 +434,12 @@ local stopwatch = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.u
         active = false
     },
     atlas = 'stopwatch_joker',
-    cost = 6,
+    cost = 7,
     unlocked = true,
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
 
     loc_vars = function(self, info_queue, card)
         return {
@@ -497,7 +497,7 @@ local fisherman = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.u
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
 
     loc_vars = function(self, info_queue, card)
         return {
@@ -509,7 +509,7 @@ local fisherman = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.u
 
     calculate = function(self, card, context)
         if context.before then
-            G.hand.config.card_limit = G.hand.config.card_limit + card.ability.extra
+            G.hand:change_size(card.ability.extra)
             card.ability.added = card.ability.added + card.ability.extra
             return {
                 message = '+' .. card.ability.extra .. ' Size',
@@ -517,7 +517,7 @@ local fisherman = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.u
             }
         end
         if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
-            G.hand.config.card_limit = G.hand.config.card_limit - card.ability.added
+            G.hand:change_size(-card.ability.added)
             card.ability.added = 0
             return {
                 message = localize('k_reset')
@@ -538,12 +538,12 @@ local insurance_fraud = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rari
         debuffed = {}
     },
     atlas = 'uncommon_jokers',
-    cost = 6,
+    cost = 8,
     unlocked = true,
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
 
     loc_vars = function(self, info_queue, card)
         if G.GAME.cere_insurance_card then
@@ -599,7 +599,7 @@ local insurance_fraud = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rari
     end,
 }
 
-local seasoning = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncommon.enabled and SMODS.Joker{
+local seasoning = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncommon.enabled and SMODS.Joker{
     key = 'seasoning',
     rarity = 2,
     pos = {
@@ -615,7 +615,7 @@ local seasoning = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.u
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = false,
-    perishable_compat = true,
+    pcerehable_compat = true,
 
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra, card.ability.extra > 1 and 's' or ''}}
@@ -661,7 +661,7 @@ local seasoning = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.u
     end,
 }
 
-local ghost = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncommon.enabled and SMODS.Joker{
+local ghost = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncommon.enabled and SMODS.Joker{
     key = 'ghost',
     rarity = 2,
     pos = {
@@ -678,7 +678,7 @@ local ghost = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncom
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = false,
-    perishable_compat = true,
+    pcerehable_compat = true,
 
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra, card.ability.Xmult_mod}}
@@ -714,12 +714,12 @@ local blacksmith = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
         extra = 0,
     },
     atlas = 'uncommon_jokers',
-    cost = 6,
+    cost = 7,
     unlocked = true,
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = false,
-    perishable_compat = true,
+    pcerehable_compat = true,
 
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra, card.ability.extra == 1 and '' or 's'}}

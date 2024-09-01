@@ -8,7 +8,7 @@ local colourblind = Ceres.CONFIG.card_modifiers.editions.enabled and SMODS.Editi
     shader = 'colourblind',
     config = {
         x_mult = 1.25,
-        eris_x_chips = 1.25,
+        cere_x_chips = 1.25,
     },
     in_shop = true,
     weight = 3,
@@ -16,7 +16,7 @@ local colourblind = Ceres.CONFIG.card_modifiers.editions.enabled and SMODS.Editi
     apply_to_float = false,
     loc_vars = function(self, info_queue, card)
         return { vars = {
-            (card and card.edition and card.edition.eris_x_chips) or self.config.eris_x_chips,
+            (card and card.edition and card.edition.cere_x_chips) or self.config.cere_x_chips,
             (card and card.edition and card.edition.x_mult) or self.config.x_mult,
         }}
     end,
@@ -70,16 +70,8 @@ end
 local ease_dollars_ref = ease_dollars
 function ease_dollars(mod, instant)
     local inc = 0
-    local areas = {
-        G.jokers or nil,
-        G.hand or nil,
-        G.deck or nil,
-        G.play or nil,
-        G.discard or nil,
-        G.consumeables or nil,
-    }
-    for _, area in pairs(areas) do
-        for __, card in pairs(area.cards) do
+    if mod > 0 then
+        for _, card in pairs(G.hand.cards) do
             if card.edition and card.edition.type == 'cere_mint_condition' then
                 inc = inc + card.edition.extra
             end

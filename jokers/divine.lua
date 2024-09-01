@@ -29,7 +29,7 @@ local makima = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.divi
     cost = 50,
     atlas = 'divine_jokers',
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -39,7 +39,7 @@ local makima = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.divi
 
     calculate = function(self, card, context)
         if context.other_joker then
-            if context.other_joker.sell_cost < card.sell_cost then
+            if context.other_joker.ability and context.other_joker.ability.set == 'Joker' and context.other_joker.sell_cost < card.sell_cost then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         context.other_joker:juice_up(0.5, 0.5)
@@ -48,7 +48,7 @@ local makima = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.divi
                 })) 
                 return {
                     message = '^' .. card.ability.extra .. ' Mult',
-                    eris_Emult_mod = card.ability.extra
+                    cere_Emult_mod = card.ability.extra
                 }
             end
         end
@@ -78,7 +78,7 @@ local aizen = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.divin
     },
     atlas = 'divine_jokers',
     eternal_compat = true,
-    perishable_compat = true,
+    pcerehable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -96,7 +96,7 @@ local aizen = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.divin
                 }
             else
                 return {
-                    eris_e_mult = card.ability.extra,
+                    cere_e_mult = card.ability.extra,
                     card = card
                 }
             end

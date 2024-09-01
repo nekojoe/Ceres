@@ -6,7 +6,7 @@ local perk_atlas = SMODS.Atlas{
 	atlas_table = 'ASSET_ATLAS',
 }
 
-local prototype = Eris.CONFIG.perks.enabled and SMODS.Perk{
+local prototype = Ceres.CONFIG.perks.enabled and SMODS.Perk{
     key = 'prototype',
 	atlas = 'perks',
     pos = {
@@ -17,7 +17,7 @@ local prototype = Eris.CONFIG.perks.enabled and SMODS.Perk{
         jokers = {
             {
                 key = 'j_blueprint',
-                sticker = 'eris_temporary',
+                sticker = 'cere_temporary',
                 ignore_space = true,
             },
         },
@@ -27,12 +27,12 @@ local prototype = Eris.CONFIG.perks.enabled and SMODS.Perk{
 	},
 
     loc_vars = function(self, info_queue)
-        info_queue[#info_queue+1] = {set = 'Other', key = 'eris_temporary'}
+        info_queue[#info_queue+1] = {set = 'Other', key = 'cere_temporary'}
         info_queue[#info_queue+1] = G.P_CENTERS['j_blueprint']
     end,
 }
 
-local dirty_napkin = Eris.CONFIG.perks.enabled and SMODS.Perk{
+local dirty_napkin = Ceres.CONFIG.perks.enabled and SMODS.Perk{
     key = 'dirty_napkin',
 	atlas = 'perks',
     pos = {
@@ -43,7 +43,7 @@ local dirty_napkin = Eris.CONFIG.perks.enabled and SMODS.Perk{
         jokers = {
             {
                 key = 'j_brainstorm',
-                sticker = 'eris_temporary',
+                sticker = 'cere_temporary',
                 ignore_space = true,
             },
         },
@@ -53,12 +53,12 @@ local dirty_napkin = Eris.CONFIG.perks.enabled and SMODS.Perk{
 	},
 
     loc_vars = function(self, info_queue)
-        info_queue[#info_queue+1] = {set = 'Other', key = 'eris_temporary'}
+        info_queue[#info_queue+1] = {set = 'Other', key = 'cere_temporary'}
         info_queue[#info_queue+1] = G.P_CENTERS['j_brainstorm']
     end,
 }
 
-local reward_card = Eris.CONFIG.perks.enabled and SMODS.Perk{
+local reward_card = Ceres.CONFIG.perks.enabled and SMODS.Perk{
 	key = 'reward_card',
 	atlas = 'perks',
 	pos = {
@@ -81,7 +81,7 @@ local reward_card = Eris.CONFIG.perks.enabled and SMODS.Perk{
     end,
 }
 
-local business_card = Eris.CONFIG.perks.enabled and SMODS.Perk{
+local business_card = Ceres.CONFIG.perks.enabled and SMODS.Perk{
     key = 'business_card',
 	atlas = 'perks',
     pos = {
@@ -104,7 +104,7 @@ local business_card = Eris.CONFIG.perks.enabled and SMODS.Perk{
     end,
 }
 
-local plus_two = Eris.CONFIG.perks.enabled and SMODS.Perk{
+local plus_two = Ceres.CONFIG.perks.enabled and SMODS.Perk{
     key = 'plus_two',
 	atlas = 'perks',
     pos = {

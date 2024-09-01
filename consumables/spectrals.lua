@@ -189,7 +189,7 @@ local magnet = Ceres.CONFIG.card_modifiers.seals.enabled and SMODS.Consumable{
         y = 0,
     },
     config = {
-        seal = 's_cere_green_seal',
+        seal = 'cere_green_seal',
     },
     atlas = 'spectrals',
     cost = 4,
@@ -197,7 +197,7 @@ local magnet = Ceres.CONFIG.card_modifiers.seals.enabled and SMODS.Consumable{
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = {set = 'Other', key = 's_cere_green_seal_seal', vars = {G.GAME.probabilities.normal, 2}}
+        info_queue[#info_queue+1] = {set = 'Other', key = 'cere_green_seal_seal', vars = {G.GAME.probabilities.normal, 2}}
     end,
 
     can_use = function(self, card)

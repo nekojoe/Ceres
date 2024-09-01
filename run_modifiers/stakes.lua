@@ -60,7 +60,7 @@ local carbide = Ceres.CONFIG.run_modifiers.stakes.enabled and SMODS.Stake{
     shiny = true,
 
     modifiers = function()
-        G.GAME.modifiers.eris_enable_defective_in_shop = true
+        G.GAME.modifiers.cere_enable_defective_in_shop = true
     end,
 }
 
