@@ -15,7 +15,9 @@ function end_round()
 	G.hand.config.real_card_limit = (G.hand.config.real_card_limit or G.hand.config.card_limit) - G.GAME.cere.hand_size
     G.hand.config.card_limit = math.max(0, G.hand.config.real_card_limit)
 	G.GAME.cere.hand_size = 0
-    ease_advantage(1)
+    if Ceres.CONFIG.perks.enabled or (Ceres.COMPAT.eris and Eris.CONFIG.perks.enabled) then
+        ease_advantage(1)
+    end
     end_round_ref()
 end
 
