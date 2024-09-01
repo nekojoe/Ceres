@@ -523,14 +523,14 @@ local bismuth_crystal = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.j
     end,
 }
 
-local poltergeist = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.rare.enabled and SMODS.Joker{
+local poltergeist = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.rare.enabled and SMODS.Joker{
     key = 'poltergeist',
     rarity = 3,
     unlocked = false or Ceres.CONFIG.misc.unlock_all.enabled, -- uh
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     pos = {
         x = 0,
-        y = 0,
+        y = 2,
     },
     config = {
         extra = 25,

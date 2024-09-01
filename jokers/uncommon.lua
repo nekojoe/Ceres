@@ -661,12 +661,12 @@ local seasoning = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.
     end,
 }
 
-local ghost = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncommon.enabled and SMODS.Joker{
+local ghost = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncommon.enabled and SMODS.Joker{
     key = 'ghost',
     rarity = 2,
     pos = {
-        x = 0,
-        y = 0,
+        x = 1,
+        y = 2,
     },
     config = {
         extra = 0.5,
