@@ -82,6 +82,12 @@ uh
 
 # general jokers
 
+Jack of All Trades
+ShadoMBulb(Digital EntoMologist)
+OP
+ — 14/10/2023 18:59
+Joker that turns all jacks into wild jacks
+
 marlboro golds, money for playing hand decrease 
 legendary gives hand and discard on use of either
 Gains x0.1 Mult for every unique Consumable used (not retroactive). collectors book

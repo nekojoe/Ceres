@@ -6,7 +6,7 @@ please ensure the folder is called `Ceres`
 
 # Feature
 
-- 31 jokers
+- 33 jokers
 - 7 decks
 - 8 vouchers
 - 7 tarots
