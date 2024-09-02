@@ -1,14 +1,10 @@
 return {
 	['misc'] = {
 		['suits_plural'] = {
-			['cere_Leaves'] = 'Leaves',
-			['cere_Crowns'] = 'Crowns',
-			['cere_Coins'] = 'Coins',
+			['cere_Nothings'] = 'Nothings',
 		},
 		['suits_singular'] = {
-			['cere_Leaves'] = 'Leaf',
-			['cere_Crowns'] = 'Crown',
-			['cere_Coins'] = 'Coin',
+			['cere_Nothings'] = 'Nothing',
 		},
 		['labels'] = {
 			['cere_colourblind'] = 'Colourblind',

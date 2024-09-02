@@ -45,10 +45,6 @@ local reversed_tarot = ((Ceres.CONFIG.consumables.enabled and Ceres.CONFIG.consu
         },
     },
     collection_rows = { 5, 6 },
-
-    inject_card = function(self, center)
-        SMODS.insert_pool(G.P_CENTER_POOLS['Tarot'], center)
-    end
 }
 
 local undiscoverd_atlas = SMODS.UndiscoveredSprite{

@@ -14,9 +14,9 @@ local ui_atlas = SMODS.Atlas{
     atlas_table = 'ASSET_ATLAS',
 }
 
-local leaves = Ceres.CONFIG.suits.enabled and SMODS.Suit {
-    key = 'Leaves',
-    card_key = 'LEAVES',
+local nothings = Ceres.CONFIG.suits.enabled and SMODS.Suit {
+    key = 'Nothings',
+    card_key = 'NOTHINGS',
     hc_atlas = 'suits',
     lc_atlas = 'suits',
     hc_ui_atlas = 'ui_icons',
@@ -28,42 +28,6 @@ local leaves = Ceres.CONFIG.suits.enabled and SMODS.Suit {
         x = 0,
         y = 0,
     },
-    hc_colour = HEX('419947'),
-    lc_colour = HEX('419947'),
-}
-
-local crowns = Ceres.CONFIG.suits.enabled and SMODS.Suit {
-    key = 'Crowns',
-    card_key = 'CROWNS',
-    hc_atlas = 'suits',
-    lc_atlas = 'suits',
-    hc_ui_atlas = 'ui_icons',
-    lc_ui_atlas = 'ui_icons',
-    pos = {
-        y = 1,
-    },
-    ui_pos = {
-        x = 1,
-        y = 0,
-    },
-    hc_colour = HEX('424DC4'),
-    lc_colour = HEX('424DC4'),
-}
-
-local coins = Ceres.CONFIG.suits.enabled and SMODS.Suit {
-    key = 'Coins',
-    card_key = 'COINS',
-    hc_atlas = 'suits',
-    lc_atlas = 'suits',
-    hc_ui_atlas = 'ui_icons',
-    lc_ui_atlas = 'ui_icons',
-    pos = {
-        y = 2,
-    },
-    ui_pos = {
-        x = 2,
-        y = 0,
-    },
-    hc_colour = HEX('DAA520'),
-    lc_colour = HEX('DAA520'),
+    hc_colour = HEX('464646'),
+    lc_colour = HEX('464646'),
 }

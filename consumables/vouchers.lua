@@ -177,6 +177,7 @@ if Ceres.CONFIG.consumables.vouchers.enabled then
             vouchers = {
                 'v_cere_supernatural',
             },
+            consumables = {'c_hex'}
         },
     })
 end

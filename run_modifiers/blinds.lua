@@ -59,64 +59,6 @@ local new_moon = Ceres.CONFIG.run_modifiers.blinds.enabled and SMODS.Blind{
     },
 }
 
-local the_bill = Ceres.CONFIG.suits.enabled and Ceres.CONFIG.suits.coins.enabled and SMODS.Blind{
-    key = 'the_bill',
-    boss_colour = Ceres.C.the_bill,
-    dollars = 5, -- default is 5, default showdown is 8
-    mult = 2,
-    boss = {
-        min = 1
-    },
-    pos = {
-        x = 0,
-        y = 2,
-    },
-    atlas = 'blinds',
-    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
-    debuff = {
-        suit = 'cere_Coins',
-    },
-}
-
-local the_fall = Ceres.CONFIG.suits.enabled and Ceres.CONFIG.suits.leaves.enabled and SMODS.Blind{
-    key = 'the_fall',
-    boss_colour = Ceres.C.the_fall,
-    dollars = 5, -- default is 5, default showdown is 8
-    mult = 2,
-    boss = {
-        min = 1
-    },
-    pos = {
-        x = 0,
-        y = 3,
-    },
-    atlas = 'blinds',
-    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
-    debuff = {
-        suit = 'cere_Leaves',
-    },
-}
-
-local the_french = Ceres.CONFIG.suits.enabled and Ceres.CONFIG.suits.crowns.enabled and SMODS.Blind{
-    key = 'the_french',
-    boss_colour = Ceres.C.the_french,
-    dollars = 5, -- default is 5, default showdown is 8
-    mult = 2,
-    boss = {
-        min = 1
-    },
-    pos = {
-        x = 0,
-        y = 4,
-    },
-    atlas = 'blinds',
-    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
-    debuff = {
-        suit = 'cere_Crowns',
-    },
-}
-
-
 -- updating new moon blind when cards in deck are modified
 
 local new_moon_updated = false
@@ -134,7 +76,7 @@ function update_new_moon()
     local suits = {}
     local values = {}
     for k, v in pairs(G.playing_cards) do
-        if v.ability.effect ~= 'Stone Card' then
+        if v.ability.effect ~= 'Stone Card' and v.base.suit ~= 'cere_Nothings' then
             suits[v.base.suit] = (suits[v.base.suit] or 0) + 1
             values[v.base.value] = (values[v.base.value] or 0) + 1
         end

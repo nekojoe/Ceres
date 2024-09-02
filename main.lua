@@ -3,7 +3,7 @@
 --- MOD_ID: ceres
 --- MOD_PREFIX: cere
 --- MOD_AUTHOR: [nekojoe]
---- MOD_DESCRIPTION: please read the read me
+--- MOD_DESCRIPTION: ensure folder is name 'Ceres'
 --- BADGE_COLOUR: 13afce
 --- PRIORITY: 10
 --- VERSION: 1.0.5b
@@ -57,20 +57,29 @@ Ceres.DEFAULT_CONFIG = {
         discover_all = { enabled = false },
     }
 }
-Ceres.MOD_PATH = lovely.mod_dir .. '/Ceres/'
-Ceres.DEV = false
-Ceres.COMPAT = {
-    talisman = (SMODS.Mods['Talisman'] or {}).can_load,
-    cryptid = (SMODS.Mods['Cryptid'] or {}).can_load,
-    cere = (SMODS.Mods['Ceres'] or {}).can_load,
-}
 
 function love.conf(t)
 	t.console = true
 end
-if Ceres.DEV then
-    _RELEASE_MODE = false
+
+if nativefs.getInfo(lovely.mod_dir .. '/Ceres/') then
+    Ceres.MOD_PATH = lovely.mod_dir .. '/Ceres/'
+elseif nativefs.getInfo(lovely.mod_dir .. '/Ceres-main/') then
+    Ceres.MOD_PATH = lovely.mod_dir .. '/Ceres-main/'
 end
+
+if not Ceres.MOD_PATH then
+    print('CERES ERR - RENAME FOLDER')
+end
+
+Ceres.DEV = false
+Ceres.COMPAT = {
+    talisman = (SMODS.Mods['Talisman'] or {}).can_load,
+    cryptid = (SMODS.Mods['Cryptid'] or {}).can_load,
+    eris = (SMODS.Mods['Eris'] or {}).can_load,
+}
+
+
 
 Ceres.FUNCS = {}
 
@@ -127,16 +136,16 @@ Ceres.C = {
     new_moon = HEX('2c485dcc'),
     divine = G.C.DARK_EDITION,
     eternal = G.C.ETERNAL,
-    the_bill = HEX('EDCE7B'),
-    the_fall = HEX('eb7a34'),
-    the_french = HEX('E5E5E5'),
+    the_void = HEX('464646'),
     cere_perk = G.C.GREEN,
     cere_defective = HEX('FF3D4D'),
     cere_temporary = HEX('47B2FF'),
 }
 
 -- files for loading
-Ceres.FUNCS.load_config(Ceres)
+if Ceres.MOD_PATH then
+    Ceres.FUNCS.load_config(Ceres)
+end
 
 Ceres.ITEMS = {
     card_modifiers = {
@@ -146,7 +155,7 @@ Ceres.ITEMS = {
     },
     consumables = {
         'spectrals',
-        'reversed_tarots',
+        --'reversed_tarots',
         'vouchers',
     },
     jokers = {
@@ -175,11 +184,13 @@ Ceres.ITEMS = {
         'perk',
         'sticker',
         'ui',
-    },
+    }or nil,
     'ui',
 }
 
-Ceres.FUNCS.read_files(Ceres)
+if Ceres.MOD_PATH then
+    Ceres.FUNCS.read_files(Ceres)
+end
 
 -- custom rarity based on Cryptid, which was based on Relic-Jokers
 
