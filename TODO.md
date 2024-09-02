@@ -175,3 +175,21 @@ double down
 - editions
 - seals
 - spectrals
+
+ # consumables
+
+ # Consumable EX
+
+ # Planets EX
+ - level up 3 times
+ # Planets GX
+ - level up 3 times
+ - level up 2 nearest hands
+
+ # Tarots EX
+ - bit harder, come back to these
+
+ # Consumable GX
+
+ # Spectral GX
+ black hole - level up all hands by the average level

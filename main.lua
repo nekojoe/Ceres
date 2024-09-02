@@ -39,9 +39,10 @@ Ceres.DEFAULT_CONFIG = {
         seals = { enabled = true },
         enabled = true
     },
-    suits = { enabled = false },
+    suits = { enabled = true },
     consumables = {
-        reversed_tarots = { enabled = true },
+        consumable_ex = { enabled = true },
+        consumable_gx = { enabled = true },
         vouchers = { enabled = true },
         enabled = true,
     },
@@ -140,7 +141,14 @@ Ceres.C = {
     cere_perk = G.C.GREEN,
     cere_defective = HEX('FF3D4D'),
     cere_temporary = HEX('47B2FF'),
+    planet_ex = HEX('AF60EF'),
+    planet_gx = HEX('DC3E5C'),
 }
+
+local loc_colour_ref = loc_colour
+function loc_colour(_c, _default)
+    return Ceres.C[_c] or loc_colour_ref(_c, _default)
+end
 
 -- files for loading
 if Ceres.MOD_PATH then
@@ -155,7 +163,8 @@ Ceres.ITEMS = {
     },
     consumables = {
         'spectrals',
-        --'reversed_tarots',
+        --'planet_ex',
+        --'planet_gx',
         'vouchers',
     },
     jokers = {
@@ -186,6 +195,7 @@ Ceres.ITEMS = {
         'ui',
     }or nil,
     'ui',
+    'funcs',
 }
 
 if Ceres.MOD_PATH then
@@ -243,7 +253,7 @@ function get_perk_pool(key)
 
     -- add any non shredded perks to pool
     for k, v in pairs(starting_pool) do
-        if G.GAME.cere_temp.shredded and not G.GAME.cere_temp.shredded[v.key] then
+        if G.GAME.cere.shredded and not G.GAME.cere.shredded[v.key] then
             pool[#pool+1] = v
         end
     end

@@ -36,27 +36,6 @@ return {
 					'common suit or rank',
         		},
 			},
-			['bl_cere_the_bill'] = {
-				['name'] = 'The Bill',
-				['text'] = {
-					'All Coin cards',
-                    'are debuffed',
-				}
-			},
-			['bl_cere_the_fall'] = {
-				['name'] = 'The Fall',
-				['text'] = {
-					'All Leaf cards',
-                    'are debuffed',
-				}
-			},
-			['bl_cere_the_french'] = {
-				['name'] = 'The French',
-				['text'] = {
-					'All Crown cards',
-                    'are debuffed',
-				}
-			},
 			['bl_cere_gun_devil'] = {
 				['name'] = 'Gun Devil',
 				['text'] = {
@@ -65,76 +44,247 @@ return {
 				},
 			}
 		},
-		['reversed_tarot'] = {
-			['c_cere_reversed_fool'] = {
-                ['name'] = 'The Fool Reversal',
-                ['text'] = {
-                    'Creates the last',
-                    '{C:tarot}Tarot Reversal{} used',
-                    'during this run',
-                    '{s:0.8,C:tarot}The Fool Reversal{s:0.8} excluded'
-                }
-            },
-			['c_cere_reversed_magician'] = {
-                ['name'] = 'The Magician Reversal',
-                ['text'] = {
-                    'Enhances {C:attention}#1#{}',
-                    'selected cards ',
-                    'to {C:attention}#2#s'
-                }
-            },
-			['c_cere_reversed_lovers'] = {
-                ['name'] = 'The Lovers Reversal',
-                ['text'] = {
-                    'Converts up to {C:attention}#1#{} selected',
-					'cards to the same {C:attention}random suit{}',
-                }
-            },
-			['c_cere_reversed_chariot'] = {
-                ['name'] = 'The Chariot Reversal',
-                ['text'] = {
-                    'Enhances {C:attention}#1#{} selected',
-                    'card into a',
-                    '{C:attention}#2#'
-                }
-			},
-			['c_cere_reversed_hanged_man'] = {
-                ['name'] = 'The Hanged Man Reversal',
-                ['text'] = {
-					'Add a permanent copy of',
-                    '{C:attention}#1#{} selected card to deck',
-                }
-            },
-			['c_cere_reversed_strength'] = {
-				['name'] = 'Strength Reversal',
-                ['text'] = {
-                    'Decreases rank of',
-                    'up to {C:attention}#1#{} selected',
-                    'cards by {C:attention}1',
-                }
-			},
-			['c_cere_reversed_star'] = {
-				['name'] = 'The Star Reversal',
+		['planet_ex'] = {
+			['c_cere_pluto_ex'] = {
+				['name'] = 'Pluto EX',
 				['text'] = {
-					'Converts up to',
-					'{C:attention}#1#{} selected cards',
-					'to {V:1}#2#{}',
+					'{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up',
+					'{C:attention}High Card{}',
+					'{C:attention}+#4#{} Levels:',
+					'{C:red}+#2#{} Mult and',
+					'{C:blue}+#3#{} chips',
 				},
 			},
-			['c_cere_reversed_sun'] = {
-				['name'] = 'The Sun Reversal',
+			['c_cere_mercury_ex'] = {
+				['name'] = 'Mercury EX',
 				['text'] = {
-					'Converts up to',
-					'{C:attention}#1#{} selected cards',
-					'to {V:1}#2#{}',
+					'{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up',
+					'{C:attention}Pair{}',
+					'{C:attention}+#4#{} Levels:',
+					'{C:red}+#2#{} Mult and',
+					'{C:blue}+#3#{} chips',
 				},
 			},
-			['c_cere_reversed_world'] = {
-				['name'] = 'The World Reversal',
+			['c_cere_uranus_ex'] = {
+				['name'] = 'Uranus EX',
 				['text'] = {
-					'Converts up to',
-					'{C:attention}#1#{} selected cards',
-					'to {V:1}#2#{}',
+					'{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up',
+					'{C:attention}Pair{}',
+					'{C:attention}+#4#{} Levels:',
+					'{C:red}+#2#{} Mult and',
+					'{C:blue}+#3#{} chips',
+				},
+			},
+			['c_cere_venus_ex'] = {
+				['name'] = 'Venus EX',
+				['text'] = {
+					'{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up',
+					'{C:attention}Three of a Kind{}',
+					'{C:attention}+#4#{} Levels:',
+					'{C:red}+#2#{} Mult and',
+					'{C:blue}+#3#{} chips',
+				},
+			},
+			['c_cere_saturn_ex'] = {
+				['name'] = 'Saturn EX',
+				['text'] = {
+					'{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up',
+					'{C:attention}Straight{}',
+					'{C:attention}+#4#{} Levels:',
+					'{C:red}+#2#{} Mult and',
+					'{C:blue}+#3#{} chips',
+				},
+			},
+			['c_cere_jupiter_ex'] = {
+				['name'] = 'Jupiter EX',
+				['text'] = {
+					'{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up',
+					'{C:attention}Flush{}',
+					'{C:attention}+#4#{} Levels:',
+					'{C:red}+#2#{} Mult and',
+					'{C:blue}+#3#{} chips',
+				},
+			},
+			['c_cere_earth_ex'] = {
+				['name'] = 'Earth EX',
+				['text'] = {
+					'{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up',
+					'{C:attention}Full House{}',
+					'{C:attention}+#4#{} Levels:',
+					'{C:red}+#2#{} Mult and',
+					'{C:blue}+#3#{} chips',
+				},
+			},
+			['c_cere_mars_ex'] = {
+				['name'] = 'Mars EX',
+				['text'] = {
+					'{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up',
+					'{C:attention}Four of a Kind{}',
+					'{C:attention}+#4#{} Levels:',
+					'{C:red}+#2#{} Mult and',
+					'{C:blue}+#3#{} chips',
+				},
+			},
+			['c_cere_neptune_ex'] = {
+				['name'] = 'Neptune EX',
+				['text'] = {
+					'{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up',
+					'{C:attention}Straight Flush{}',
+					'{C:attention}+#4#{} Levels:',
+					'{C:red}+#2#{} Mult and',
+					'{C:blue}+#3#{} chips',
+				},
+			},
+			['c_cere_planetx_ex'] = {
+				['name'] = 'Planet EX',
+				['text'] = {
+					'{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up',
+					'{C:attention}Five of a Kind{}',
+					'{C:attention}+#4#{} Levels:',
+					'{C:red}+#2#{} Mult and',
+					'{C:blue}+#3#{} chips',
+				},
+			},
+			['c_cere_ceres_ex'] = {
+				['name'] = 'Ceres EX',
+				['text'] = {
+					'{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up',
+					'{C:attention}Flush House{}',
+					'{C:attention}+#4#{} Levels:',
+					'{C:red}+#2#{} Mult and',
+					'{C:blue}+#3#{} chips',
+				},
+			},
+			['c_cere_eris_ex'] = {
+				['name'] = 'Eris EX',
+				['text'] = {
+					'{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up',
+					'{C:attention}Flush Five{}',
+					'{C:attention}+#4#{} Levels:',
+					'{C:red}+#2#{} Mult and',
+					'{C:blue}+#3#{} chips',
+				},
+			},
+		},
+		['planet_gx'] = {
+			['c_cere_pluto_gx'] = {
+				['name'] = 'Pluto GX',
+				['text'] = {
+					'Level up',
+					'{C:attention}#1#{},',
+					'{C:attention}#2#{},',
+					'{C:attention}#3#{},',
+					'{C:attention}+#4#{} Levels',
+				},
+			},
+			['c_cere_mercury_gx'] = {
+				['name'] = 'Mercury GX',
+				['text'] = {
+					'Level up',
+					'{C:attention}#1#{},',
+					'{C:attention}#2#{},',
+					'{C:attention}#3#{},',
+					'{C:attention}+#4#{} Levels',
+				},
+			},
+			['c_cere_uranus_gx'] = {
+				['name'] = 'Uranus GX',
+				['text'] = {
+					'Level up',
+					'{C:attention}#1#{},',
+					'{C:attention}#2#{},',
+					'{C:attention}#3#{},',
+					'{C:attention}+#4#{} Levels',
+				},
+			},
+			['c_cere_venus_gx'] = {
+				['name'] = 'Venus GX',
+				['text'] = {
+					'Level up',
+					'{C:attention}#1#{},',
+					'{C:attention}#2#{},',
+					'{C:attention}#3#{},',
+					'{C:attention}+#4#{} Levels',
+				},
+			},
+			['c_cere_saturn_gx'] = {
+				['name'] = 'Saturn GX',
+				['text'] = {
+					'Level up',
+					'{C:attention}#1#{},',
+					'{C:attention}#2#{},',
+					'{C:attention}#3#{},',
+					'{C:attention}+#4#{} Levels',
+				},
+			},
+			['c_cere_jupiter_gx'] = {
+				['name'] = 'Jupiter GX',
+				['text'] = {
+					'Level up',
+					'{C:attention}#1#{},',
+					'{C:attention}#2#{},',
+					'{C:attention}#3#{},',
+					'{C:attention}+#4#{} Levels',
+				},
+			},
+			['c_cere_earth_gx'] = {
+				['name'] = 'Earth GX',
+				['text'] = {
+					'Level up',
+					'{C:attention}#1#{},',
+					'{C:attention}#2#{},',
+					'{C:attention}#3#{},',
+					'{C:attention}+#4#{} Levels',
+				},
+			},
+			['c_cere_mars_gx'] = {
+				['name'] = 'Mars GX',
+				['text'] = {
+					'Level up',
+					'{C:attention}#1#{},',
+					'{C:attention}#2#{},',
+					'{C:attention}#3#{},',
+					'{C:attention}+#4#{} Levels',
+				},
+			},
+			['c_cere_neptune_gx'] = {
+				['name'] = 'Neptune GX',
+				['text'] = {
+					'Level up',
+					'{C:attention}#1#{},',
+					'{C:attention}#2#{},',
+					'{C:attention}#3#{},',
+					'{C:attention}+#4#{} Levels',
+				},
+			},
+			['c_cere_planetx_gx'] = {
+				['name'] = 'Planet GX',
+				['text'] = {
+					'Level up',
+					'{C:attention}#1#{},',
+					'{C:attention}#2#{},',
+					'{C:attention}#3#{},',
+					'{C:attention}+#4#{} Levels',
+				},
+			},
+			['c_cere_ceres_gx'] = {
+				['name'] = 'Ceres GX',
+				['text'] = {
+					'Level up',
+					'{C:attention}#1#{},',
+					'{C:attention}#2#{},',
+					'{C:attention}#3#{},',
+					'{C:attention}+#4#{} Levels',
+				},
+			},
+			['c_cere_eris_gx'] = {
+				['name'] = 'Eris GX',
+				['text'] = {
+					'Level up',
+					'{C:attention}#1#{},',
+					'{C:attention}#2#{},',
+					'{C:attention}#3#{},',
+					'{C:attention}+#4#{} Levels',
 				},
 			},
 		},
@@ -590,6 +740,13 @@ return {
 					'to {C:attention}1{} selected',
 					'card in hand',
 				}
+			},
+			['c_cere_eraser'] = {
+				['name'] = 'Eraser',
+				['text'] = {
+                    'Removes {C:attention}suit{} from',
+					'all cards in hand',
+                }
 			},
 		},
 		['Edition'] = {

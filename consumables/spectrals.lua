@@ -223,3 +223,52 @@ local magnet = Ceres.CONFIG.card_modifiers.seals.enabled and SMODS.Consumable{
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
     end,
 }
+
+local eraser = Ceres.CONFIG.suits.enabled and SMODS.Consumable{
+    key = 'eraser',
+    set = 'Spectral',
+    pos = {
+        x = 0,
+        y = 1,
+    },
+    atlas = 'spectrals',
+    cost = 4,
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+
+    can_use = function(self, card)
+        if G.hand and #G.hand.cards > 0 then
+            return true
+        else
+            return false
+        end
+    end,
+
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            play_sound('tarot1')
+            card:juice_up(0.3, 0.5)
+            return true end }))
+        for i=1, #G.hand.cards do
+            local percent = 1.15 - (i-0.999)/(#G.hand.cards-0.998)*0.3
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() G.hand.cards[i]:flip();play_sound('card1', percent);G.hand.cards[i]:juice_up(0.3, 0.3);return true end }))
+        end
+        delay(0.2)
+        for i=1, #G.hand.cards do
+            G.E_MANAGER:add_event(Event({func = function()
+                local card = G.hand.cards[i]
+                local suit_prefix = 'cere_N_'
+                local rank_suffix = card.base.id < 10 and tostring(card.base.id) or
+                                    card.base.id == 10 and 'T' or card.base.id == 11 and 'J' or
+                                    card.base.id == 12 and 'Q' or card.base.id == 13 and 'K' or
+                                    card.base.id == 14 and 'A'
+                card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
+            return true end }))
+        end 
+        for i=1, #G.hand.cards do
+            local percent = 0.85 + (i-0.999)/(#G.hand.cards-0.998)*0.3
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() G.hand.cards[i]:flip();play_sound('tarot2', percent, 0.6);G.hand.cards[i]:juice_up(0.3, 0.3);return true end }))
+        end
+        delay(0.5)
+    end,
+}

@@ -57,20 +57,11 @@ local new_moon = Ceres.CONFIG.run_modifiers.blinds.enabled and SMODS.Blind{
         suit = 'Spades',
         value = 'Ace',
     },
-}
 
--- updating new moon blind when cards in deck are modified
-
-local new_moon_updated = false
-
-local check_for_unlock_ref = check_for_unlock
-function check_for_unlock(args)
-    check_for_unlock_ref(args)
-    if G.playing_cards and not new_moon_updated then
-        new_moon_updated = true
+    set_blind = function(self)
         update_new_moon()
-    end
-end
+    end,
+}
 
 function update_new_moon()
     local suits = {}

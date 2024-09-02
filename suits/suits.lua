@@ -16,7 +16,7 @@ local ui_atlas = SMODS.Atlas{
 
 local nothings = Ceres.CONFIG.suits.enabled and SMODS.Suit {
     key = 'Nothings',
-    card_key = 'NOTHINGS',
+    card_key = 'N',
     hc_atlas = 'suits',
     lc_atlas = 'suits',
     hc_ui_atlas = 'ui_icons',
@@ -30,4 +30,13 @@ local nothings = Ceres.CONFIG.suits.enabled and SMODS.Suit {
     },
     hc_colour = HEX('464646'),
     lc_colour = HEX('464646'),
+
+    in_pool = function(self, args)
+        if args.initial_deck then
+            return false
+        else
+            return true
+        end
+    end
 }
+
