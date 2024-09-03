@@ -32,11 +32,6 @@ local nothings = Ceres.CONFIG.suits.enabled and SMODS.Suit {
     lc_colour = HEX('464646'),
 
     in_pool = function(self, args)
-        if args.initial_deck then
-            return false
-        else
-            return true
-        end
+        return false
     end
 }
-

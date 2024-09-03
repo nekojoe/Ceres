@@ -28,7 +28,7 @@ local traveling_merchant = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.r
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
 
     loc_vars = function(self, info_queue, card)
         return {

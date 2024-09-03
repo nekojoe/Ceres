@@ -26,7 +26,7 @@ local fox_devil = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.r
     },
     atlas = 'rare_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = false,
 
     loc_vars = function(self, info_queue, card)
@@ -62,7 +62,7 @@ local blood_fiend = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities
     },
     atlas = 'rare_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = false,
 
     loc_vars = function(self, info_queue, card)
@@ -137,7 +137,7 @@ local snake_eyes = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
     },
     atlas = 'rare_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = true,
     -- unfortunately thunk isnt consistent with chance jokers using odds in their abilities
     compat = {
@@ -193,7 +193,7 @@ local clock = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.rare.
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
 
     loc_vars = function(self, info_queue, card)
         if G.GAME.cere_clock_card then
@@ -238,7 +238,7 @@ local ben = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rariti
     cost = 11,
     atlas = 'rare_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -308,7 +308,7 @@ local double_down = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
 
     calculate = function(self, card, context)
         if context.repetition and context.cardarea == G.hand and context.poker_hands then
@@ -339,7 +339,7 @@ local yumeko = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.rare
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
 
     loc_vars = function(self, info_queue, card)
         if G.GAME.cere_yumeko_suit then
@@ -395,7 +395,7 @@ local wanted_poster = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rariti
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
 
     loc_vars = function(self, info_queue, card)
         local rarities = {
@@ -469,7 +469,7 @@ local the_solo = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.ra
     cost = 1,
     atlas = 'rare_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -502,7 +502,7 @@ local bismuth_crystal = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.j
     cost = 8,
     atlas = 'rare_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -538,7 +538,7 @@ local poltergeist = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities
     cost = 8,
     atlas = 'rare_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)

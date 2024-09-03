@@ -29,7 +29,7 @@ local makima = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.divi
     cost = 50,
     atlas = 'divine_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -78,7 +78,7 @@ local aizen = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.divin
     },
     atlas = 'divine_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)

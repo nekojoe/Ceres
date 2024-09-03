@@ -25,7 +25,7 @@ local one_up = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.comm
     },
     atlas = 'common_jokers',
     eternal_compat = false,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = false,
 
     loc_vars = function(self, info_queue, card)
@@ -74,7 +74,7 @@ local coin_toss = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.c
     },
     atlas = 'common_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -118,7 +118,7 @@ local warm_up = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.com
     },
     atlas = 'common_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -155,7 +155,7 @@ local diving_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.raritie
     cost = 5,
     atlas = 'common_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -214,7 +214,7 @@ local accountant = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
     cost = 6,
     atlas = 'common_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -258,7 +258,7 @@ local museum = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.comm
     cost = 6,
     atlas = 'common_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -299,7 +299,7 @@ local large_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities
     cost = 6,
     atlas = 'common_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -336,7 +336,7 @@ local backup_plan = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities
     cost = 6,
     atlas = 'common_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -371,7 +371,7 @@ local club_sandwich = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rariti
     cost = 6,
     atlas = 'common_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -414,7 +414,7 @@ local scratchcard = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities
     cost = 6,
     atlas = 'common_jokers',
     eternal_compat = true,
-    pcerehable_compat = true,
+    perishable_compat = true,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -440,6 +440,55 @@ local scratchcard = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities
                     message = localize('$') .. money,
                     dollars = money,
                     colour = G.C.MONEY
+                }
+            end
+        end          
+    end,
+}
+
+local jack_box = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
+    key = 'jack_box',
+    rarity = 1,
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    pos = {
+        x = 5,
+        y = 1,
+    },
+    config = {
+        extra = 25,
+    },
+    cost = 5,
+    atlas = 'common_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        local tot = 0
+        if G.deck then
+            for _, _card in pairs(G.deck.cards) do
+                if _card:get_id() == 11 then
+                    tot = tot + card.ability.extra
+                end
+            end
+        end
+        return {vars = {card.ability.extra, tot}}
+    end,
+
+    calculate = function(self, card, context)
+        if context.joker_main then
+            local tot = 0
+            for _, _card in pairs(G.deck.cards) do
+                if _card:get_id() == 11 then
+                    tot = tot + card.ability.extra
+                end
+            end
+            if tot > 0 then
+                return {
+                    message = localize{type='variable',key='a_chips',vars={tot}},
+                    chip_mod = tot, 
+                    colour = G.C.CHIPS
                 }
             end
         end          

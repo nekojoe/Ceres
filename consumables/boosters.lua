@@ -6,7 +6,7 @@ local booster_atlas = SMODS.Atlas{
     atlas_table = 'ASSET_ATLAS',
 }
 
-local booster_one = Ceres.CONFIG.perks.enabled and SMODS.Booster{
+local perk_booster_one = Ceres.CONFIG.perks.enabled and SMODS.Booster{
     key = "perk_normal_1",
     kind = "Perk",
     atlas = "booster_atlas",
@@ -44,7 +44,7 @@ local booster_one = Ceres.CONFIG.perks.enabled and SMODS.Booster{
     group_key = "k_perk_pack"
 }
 
-local booster_two = Ceres.CONFIG.perks.enabled and SMODS.Booster{
+local perk_booster_two = Ceres.CONFIG.perks.enabled and SMODS.Booster{
     key = "perk_normal_2",
     kind = "Perk",
     atlas = "booster_atlas",
@@ -82,7 +82,7 @@ local booster_two = Ceres.CONFIG.perks.enabled and SMODS.Booster{
     group_key = "k_perk_pack"
 }
 
-local booster_jumbo = Ceres.CONFIG.perks.enabled and SMODS.Booster{
+local perk_booster_jumbo = Ceres.CONFIG.perks.enabled and SMODS.Booster{
     key = "perk_jumbo",
     kind = "Perk",
     atlas = "booster_atlas",
@@ -120,7 +120,7 @@ local booster_jumbo = Ceres.CONFIG.perks.enabled and SMODS.Booster{
     group_key = "k_perk_pack"
 }
 
-local booster_mega = Ceres.CONFIG.perks.enabled and SMODS.Booster{
+local perk_booster_mega = Ceres.CONFIG.perks.enabled and SMODS.Booster{
     key = "perk_mega",
     kind = "Perk",
     atlas = "booster_atlas",
@@ -148,6 +148,44 @@ local booster_mega = Ceres.CONFIG.perks.enabled and SMODS.Booster{
     ease_background_colour = function(self)
         ease_colour(G.C.DYN_UI.MAIN, Ceres.C.cere_temporary)
         ease_background_colour{new_colour = Ceres.C.cere_temporary, special_colour = G.C.BLACK, contrast = 2}
+    end,
+
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {set = 'Other', key = 'cere_perk_card'}
+		return { vars = {card.config.center.config.choose, card.ability.extra} }
+	end,
+
+    group_key = "k_perk_pack"
+}
+
+local tarot_booster_one = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.tarot.enabled and SMODS.Booster{
+    key = "tarot_normal_1",
+    kind = "Joker",
+    atlas = "booster_atlas",
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        extra = 3,
+        choose = 1
+    },
+    cost = 4,
+    weight = 0.2,
+    discovered = false or Ceres.CONFIG.misc.discover_all,
+
+    create_card = function(self, card)
+        local card = create_card('Base', G.pack_cards, nil, nil, true, true, nil, 'cere')
+        local perk = poll_perk()
+        local edition = nil
+        card:set_perk(perk)
+        card:set_edition(nil, true, true)
+        return card
+    end,
+
+    ease_background_colour = function(self)
+        ease_colour(G.C.DYN_UI.MAIN, G.C.GREEN)
+        ease_background_colour{new_colour = G.C.GREEN, special_colour = G.C.BLACK, contrast = 2}
     end,
 
     loc_vars = function(self, info_queue, card)

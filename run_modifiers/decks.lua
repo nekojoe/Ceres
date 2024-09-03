@@ -49,6 +49,8 @@ local soul = Ceres.CONFIG.run_modifiers.decks.enabled and SMODS.Back{
             local card = create_card('Joker', G.jokers, true, nil, nil, nil, nil, 'sou')
             card:set_eternal(true)
             card:add_to_deck()
+            card.sell_cost = 0
+            card.sell_cost_label = card.sell_cost
             G.jokers:emplace(card)
             check_for_unlock{type = 'spawn_legendary'}
         return true end }))

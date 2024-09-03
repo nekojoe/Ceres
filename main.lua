@@ -31,6 +31,7 @@ Ceres.DEFAULT_CONFIG = {
             legendary = { enabled = true },
             divine = { enabled = true },
         },
+        tarot = { enabled = true },
         enabled = true,
     },
     card_modifiers = {
@@ -46,7 +47,7 @@ Ceres.DEFAULT_CONFIG = {
         vouchers = { enabled = true },
         enabled = true,
     },
-    perks = { enabled = true },
+    perks = { enabled = false },
     run_modifiers = {
         blinds = { enabled = true },
         stakes = { enabled = true },
@@ -79,8 +80,6 @@ Ceres.COMPAT = {
     cryptid = (SMODS.Mods['Cryptid'] or {}).can_load,
     eris = (SMODS.Mods['Eris'] or {}).can_load,
 }
-
-
 
 Ceres.FUNCS = {}
 
@@ -160,23 +159,22 @@ Ceres.ITEMS = {
         'editions',
         'enhancements',
         'seals',
+        'perks',
     },
     consumables = {
         'spectrals',
-        --'planet_ex',
-        --'planet_gx',
+        'planet_ex',
+        'planet_gx',
         'vouchers',
+        'boosters',
     },
     jokers = {
         'common',
         'uncommon',
         'rare',
+        --'tarot',
         'legendary',
         'divine',
-    },
-    perks = {
-        'perk_boosters',
-        'perks',
     },
     run_modifiers = {
         'blinds',

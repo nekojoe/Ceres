@@ -82,6 +82,8 @@ uh
 
 # general jokers
 
+all in, reduce hands to 1 get more money
+
 Jack of All Trades
 ShadoMBulb(Digital EntoMologist)
 OP
@@ -167,8 +169,7 @@ maybe diver
 
 # fixes
 
-clock
-double down
+club sandwich
 
 # POLISHED OFF STUFF (FOR NOW)
 
@@ -193,3 +194,19 @@ double down
 
  # Spectral GX
  black hole - level up all hands by the average level
+
+ # Tarot Jokers
+
+Fool - draw cards to deck after play
+Magician - when hand is draw, give each card a random enchanment
+Empress - add temp ace of hearts with enhancement to hand at start of round
+Wheel - playing hand gives gift
+Hermit - gain 1 hand, 1 discard, 1 hand size, $1
+Death - when hand is played, destroy the rightmost card in hand
+Temperance - money maybe based on cards left in deck
+Star - reduce blind by 10% of max each hand
+Moon - all cards drawn flipped, cards give x mult, or just flat x mult from joker
+judgement - create a temp copy of first scoring card each hand
+World - create a random other tarot joker when blind is selected (temporary)
+
+# way to flip

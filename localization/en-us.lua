@@ -19,12 +19,14 @@ return {
 			['k_perk'] =  'Perk',
             ['k_hud_advantage'] = "Advantage",
             ['k_hud_health'] = "Health",
+            ['b_reverse'] = "REVERSE",
             ['b_exploit'] = "Exploit",
             ['b_hit'] = "Hit",
             ['b_stand'] = "Stand",
             ['ph_blind_health'] = "Blind Health",
             ['k_discard'] = "Discard",
             ['k_draw'] = "Draw",
+            ['k_tarot_joker'] = "Joker - Tarot",
 		},
 	},
 	['descriptions'] = {
@@ -373,6 +375,14 @@ return {
 					'{C:attention}repeat rank{} in hand',
 				},
 			},
+			['j_cere_jack_box'] = {
+                ['name'] = "Jack in the Box",
+                ['text'] = {
+                    "{C:chips}+#1#{} Chips for each",
+                    "remaining {C:attention}Jack{} in {C:attention}deck{}",
+                    "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
+                }
+            },
 			-- uncommon
 			['j_cere_chainsaw_devil'] = {
 				['name'] = 'Chainsaw Devil',
@@ -574,6 +584,75 @@ return {
 					'Blinds are {C:attention}#1#%{} more',
                     "{C:inactive}(Must have room)",
                 },
+			},
+			-- tarot
+			['j_cere_empress_joker'] = {
+				['name'] = 'The Empress III',
+				['text'] = {
+                    'When {C:attention}first{} hand is drawn, create a {C:cere_temporary}Temporary{},',
+					'{C:attention}Glass{} Ace of {C:hearts}Hearts{}, with a {C:red}Red Seal{}, in hand',
+					' ',
+					'{C:inactive}A beautiful, lush forest and winding stream',
+					'{C:inactive}surround The Empress, signifying her connection',
+					'{C:inactive}with Mother Earth and life itself.',
+                },
+			},
+			['j_cere_empress_joker_reversed'] = {
+				['name'] = 'The Empress III Reversed',
+				['text'] = {
+                    'When {C:attention}first{} hand is drawn, create a {C:cere_temporary}Temporary{},',
+					'{C:attention}Steel{} Ace of {C:hearts}Hearts{}, with a {C:red}Red Seal{}, in hand',
+					' ',
+					'{C:inactive}A beautiful, lush forest and winding stream',
+					'{C:inactive}surround The Empress, signifying her connection',
+					'{C:inactive}with Mother Earth and life itself.',
+                },
+			},
+			['j_cere_strength_joker'] = {
+				['name'] = 'Strength XI',
+				['text'] = {
+                    'When hand is played, {C:attention}discard{} all cards left in hand, retrigger',
+					'each {C:attention}scoring{} card once for every {C:attention}#1#{} cards discarded this way',
+					' ',
+					'{C:inactive}The woman wears a white robe, showing her purity of spirit,',
+					'{C:inactive}and a belt and crown of flowers that represent the fullest,',
+					'{C:inactive}most beautiful expression of nature. Over her head is the',
+					'{C:inactive}symbol of infinity, representing her potential and wisdom.',
+                },
+			},
+			['j_cere_strength_joker_reversed'] = {
+				['name'] = 'Strength XI Reversed',
+				['text'] = {
+                    'When hand is played, {C:attention}discard{} all cards left in hand, retrigger',
+					'each {C:attention}scoring{} card once for every card discarded this way',
+					' ',
+					'{C:inactive}The woman wears a white robe, showing her purity of spirit,',
+					'{C:inactive}and a belt and crown of flowers that represent the fullest,',
+					'{C:inactive}most beautiful expression of nature. Over her head is the',
+					'{C:inactive}symbol of infinity, representing her potential and wisdom.',
+                },
+			},
+			['j_cere_judgement_joker'] = {
+				['name'] = 'Judgement XX',
+				['text'] = {
+                    'When hand is played, create a {C:cere_temporary}Temporary{} copy of',
+					'{C:attention}first{} scoring card, and draw it to {C:attention}hand',
+					' ',
+					'{C:inactive}Archangel Gabriel blows his trumpet. The people',
+					'{C:inactive}respond to his call, ready to be judged and find',
+					'{C:inactive}out if they will be accepted into the heavens.',
+				},
+			},
+			['j_cere_judgement_joker_reversed'] = {
+				['name'] = 'Judgement XX Reversed',
+				['text'] = {
+                    'When hand is played, create a {C:cere_temporary}Temporary{} copy of',
+					'{C:attention}first{} card in hand, and draw it to {C:attention}hand',
+					' ',
+					'{C:inactive}Archangel Gabriel blows his trumpet. The people',
+					'{C:inactive}respond to his call, ready to be judged and find',
+					'{C:inactive}out if they will be accepted into the heavens.',
+				},
 			},
 			-- legendary
 			['j_cere_traveling_merchant'] = {
@@ -968,6 +1047,20 @@ return {
 				['text'] = {
 					'Spend to trigger',
 					'{C:green,E:1}Perk{} card effects',
+				},
+			},
+			['cere_reversable'] = {
+				['name'] = 'Reversable',
+				['text'] = {
+					'Reverse this card to',
+					'change its {C:attention}effect{}',
+				},
+			},
+			['cere_togglable'] = {
+				['name'] = 'Togglable',
+				['text'] = {
+					'Only triggers in',
+					'{C:attention}rightmost{} slot',
 				},
 			},
 		},
