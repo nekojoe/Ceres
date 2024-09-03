@@ -6,7 +6,7 @@
 --- MOD_DESCRIPTION: ensure folder is name 'Ceres'
 --- BADGE_COLOUR: 13afce
 --- PRIORITY: 10
---- VERSION: 1.0.5b
+--- VERSION: 1.0.6b
 
 ----------------------------------------------
 ---------------- MOD CODE --------------------
