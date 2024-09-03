@@ -62,15 +62,15 @@ local blood_fiend = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities
     },
     atlas = 'rare_jokers',
     eternal_compat = true,
-    perishable_compat = true,
-    blueprint_compat = false,
+    perishable_compat = false,
+    blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra, card.ability.x_mult}}
     end,
 
     calculate = function(self, card, context)
-        if not (context.blueprint or context.control_devil) then
+        if not context.blueprint then
             if context.cards_destroyed then
                 local hearts = 0
                 for k, v in ipairs(context.glass_shattered) do
@@ -122,60 +122,7 @@ local blood_fiend = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities
     end,
 }
 
-local snake_eyes = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.rare.enabled and SMODS.Joker{
-    key = 'snake_eyes',
-    rarity = 3,
-    unlocked = false or Ceres.CONFIG.misc.unlock_all.enabled, -- smth luck related
-    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
-    pos = {
-        x = 3,
-        y = 0,
-    },
-    cost = 8,
-    config = {
-        extra = 1,
-    },
-    atlas = 'rare_jokers',
-    eternal_compat = true,
-    perishable_compat = true,
-    blueprint_compat = true,
-    -- unfortunately thunk isnt consistent with chance jokers using odds in their abilities
-    compat = {
-        '8 Ball',
-        'Misprint',
-        'Business Card',
-        'Space Joker',
-        'Hallucination',
-        'Gros Michel',
-        'Cavendish',
-        'Reserved Parking',
-        'Bloodstone',
-    },
 
-    calculate = function(self, card, context)
-        -- retriggering any lucky/glass cards
-        if context.repetition and context.cardarea == G.play then
-            if context.other_card.ability.name == 'Lucky Card' or context.other_card.ability.name == 'Glass Card' then
-                return {
-                    message = localize('k_again_ex'),
-                    repetitions = card.ability.extra,
-                    card = card
-                }
-            end
-        -- retriggering any chance jokers, if only thunk was consistent with the whole odds thing
-        elseif context.retrigger_joker_check and not context.retrigger_joker then
-            for _, joker in pairs(self.compat) do
-                if context.other_card.ability.name == joker then
-                    return {
-                        message = localize('k_again_ex'),
-                        repetitions = card.ability.extra,
-                        card = card
-                    }
-                end
-            end
-        end
-    end,
-}
 
 local clock = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.rare.enabled and SMODS.Joker{
     key = 'calling_the_clock',
@@ -395,7 +342,7 @@ local wanted_poster = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rariti
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = true,
-    perishable_compat = true,
+    perishable_compat = false,
 
     loc_vars = function(self, info_queue, card)
         local rarities = {

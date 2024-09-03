@@ -80,6 +80,39 @@ local chainsaw_devil = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jo
     end,
 }
 
+local snake_eyes = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.rare.enabled and SMODS.Joker{
+    key = 'snake_eyes',
+    rarity = 2,
+    unlocked = false or Ceres.CONFIG.misc.unlock_all.enabled, -- smth luck related
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    pos = {
+        x = 3,
+        y = 0,
+    },
+    cost = 6,
+    config = {
+        extra = 1,
+    },
+    atlas = 'rare_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = true,
+    -- unfortunately thunk isnt consistent with chance jokers using odds in their abilities
+
+    calculate = function(self, card, context)
+        -- retriggering any lucky/glass cards
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card.ability.name == 'Lucky Card' or context.other_card.ability.name == 'Glass Card' then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.extra,
+                    card = card
+                }
+            end
+        end
+    end,
+}
+
 local professor = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncommon.enabled and SMODS.Joker{
     key = 'professor',
     config = {
@@ -234,7 +267,7 @@ local miku = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncomm
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = true,
-    perishable_compat = true,
+    perishable_compat = false,
 
     loc_vars = function(self, info_queue, card)
         return {
@@ -288,7 +321,7 @@ local marlboro_reds = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rariti
     unlocked = true,
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
-    eternal_compat = true,
+    eternal_compat = false,
     perishable_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -677,8 +710,8 @@ local ghost = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncom
     unlocked = true,
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
-    eternal_compat = false,
-    perishable_compat = true,
+    eternal_compat = true,
+    perishable_compat = false,
 
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra, card.ability.Xmult_mod}}
@@ -719,7 +752,7 @@ local blacksmith = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     blueprint_compat = true,
     eternal_compat = false,
-    perishable_compat = true,
+    perishable_compat = false,
 
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra, card.ability.extra == 1 and '' or 's'}}

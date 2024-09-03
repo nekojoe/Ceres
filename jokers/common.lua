@@ -214,7 +214,7 @@ local accountant = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
     cost = 6,
     atlas = 'common_jokers',
     eternal_compat = true,
-    perishable_compat = true,
+    perishable_compat = false,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -258,7 +258,7 @@ local museum = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.comm
     cost = 6,
     atlas = 'common_jokers',
     eternal_compat = true,
-    perishable_compat = true,
+    perishable_compat = false,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -299,7 +299,7 @@ local large_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities
     cost = 6,
     atlas = 'common_jokers',
     eternal_compat = true,
-    perishable_compat = true,
+    perishable_compat = false,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)
@@ -371,7 +371,7 @@ local club_sandwich = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rariti
     cost = 6,
     atlas = 'common_jokers',
     eternal_compat = true,
-    perishable_compat = true,
+    perishable_compat = false,
     blueprint_compat = true,
 
     loc_vars = function(self, info_queue, card)

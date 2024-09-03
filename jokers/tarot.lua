@@ -451,13 +451,43 @@ local strength_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarit
     end,
 
     set_card_type_badge = function(self, card, badges)
-		badges[#badges + 1] = create_badge(localize('k_tarot_joker'), G.C.SECONDARY_SET['Tarot'], nil, 1.2)
+		badges[#badges + 1] = create_badge(localize('k_tarot'), G.C.SECONDARY_SET['Tarot'], nil, 1.2)
+		badges[#badges + 1] = create_badge(localize('k_rare'), G.C.RARITY[3], nil, 1.2)
 	end,
 
     calculate = function(self, card, context)
         if context.before and not context.blueprint then
-            card.ability.discard = 0
-            
+            if not card.ability.reversed then
+                card.ability.discard = math.floor(#G.hand.cards / card.ability.extra)
+                G.E_MANAGER:add_event(Event({ func = function()
+                    local any_selected = nil
+                    local _cards = {}
+                    for k, v in ipairs(G.hand.cards) do
+                        _cards[#_cards+1] = v
+                    end
+                    for i = 1, 2 do
+                        if G.hand.cards[i] then 
+                            local selected_card, card_key = pseudorandom_element(_cards, pseudoseed('hook'))
+                            G.hand:add_to_highlighted(selected_card, true)
+                            table.remove(_cards, card_key)
+                            any_selected = true
+                            play_sound('card1', 1)
+                        end
+                    end
+                    if any_selected then G.FUNCS.discard_cards_from_highlighted(nil, true) end
+                return true end })) 
+                delay(0.7)
+            end
+        end
+        if context.repetition and not context.blueprint then
+            if not card.ability.reversed and card.ability.discard > 0 then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.discard,
+                    card = card
+                }
+            end
+        end  
     end,
 
     load = function(self, card, card_table, other_card)

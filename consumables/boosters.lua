@@ -158,7 +158,7 @@ local perk_booster_mega = Ceres.CONFIG.perks.enabled and SMODS.Booster{
     group_key = "k_perk_pack"
 }
 
-local tarot_booster_one = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.tarot.enabled and SMODS.Booster{
+local tarot_booster_one = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.tarot.enabled and SMODS.Booster{
     key = "tarot_normal_1",
     kind = "Joker",
     atlas = "booster_atlas",
