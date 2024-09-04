@@ -52,7 +52,7 @@ local one_up = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.comm
         x = 1,
         y = 0,
     },
-    cost = 4,
+    cost = 3,
     config = {
         dollars = 5,
     },
@@ -537,6 +537,9 @@ local fool_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
         x = 1,
         y = 2,
     },
+    config = {
+        odds = 4,
+    },
     cost = 5,
     atlas = 'common_jokers',
     eternal_compat = true,
@@ -545,15 +548,18 @@ local fool_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
 
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS['c_fool']
+        return {vars = {G.GAME.probabilities.normal or 1, card.ability.odds}}
     end,
 
     calculate = function(self, card, context)
         if context.end_of_round and not (context.individual or context.repetition) and G.GAME.current_round.hands_played == G.GAME.round_resets.hands then
-            if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.SECONDARY_SET.Tarot})
-                local _card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, 'c_fool')
-                _card:add_to_deck()
-                G.consumeables:emplace(_card)
+            if pseudorandom(pseudoseed('fool_joker')) < G.GAME.probabilities.normal/card.ability.odds then
+                if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.SECONDARY_SET.Tarot})
+                    local _card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, 'c_fool')
+                    _card:add_to_deck()
+                    G.consumeables:emplace(_card)
+                end
             end
         end          
     end,
@@ -568,9 +574,58 @@ local gameplay_update = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rari
         x = 2,
         y = 2,
     },
-    cost = 5,
+    cost = 1,
     atlas = 'common_jokers',
     eternal_compat = true,
     perishable_compat = true,
     blueprint_compat = false,
+}
+
+local ceres_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
+    key = 'ceres_joker',
+    rarity = 1,
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    pos = {
+        x = 3,
+        y = 2,
+    },
+    cost = 1,
+    atlas = 'common_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = false,
+}
+
+local flying_ace = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
+    key = 'flying_ace',
+    rarity = 1,
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    pos = {
+        x = 0,
+        y = 0,
+    },
+    config = {
+        extra = 3,
+    },
+    cost = 5,
+    atlas = 'common_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        return { vars = {card.ability.extra}}
+    end,
+
+    calculate = function(self, card, context)
+        if context.destroying_card and #context.full_hand == 1 and context.full_hand[1]:get_id() == 14 and G.GAME.current_round.hands_played == 0 then
+            ease_dollars(card.ability.extra)
+            G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra
+            G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+            card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('$')..card.ability.extra, colour = G.C.MONEY})
+            return true
+        end          
+    end,
 }

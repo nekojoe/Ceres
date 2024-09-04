@@ -64,7 +64,7 @@ local example_perk = SMODS.Perk{
     end,
 }
 
-local booster_one = Ceres.CONFIG.perks.enabled and SMODS.Booster{
+local booster_one = Ceres.CONFIG.card_modifiers.perks.enabled and SMODS.Booster{
     key = "perk_normal_1",
     kind = "Perk",
     atlas = "booster_atlas",

@@ -144,14 +144,9 @@ end
 G.FUNCS.reverse_card = function(e)
     local card = e.config.ref_table
     card.ability.reversed = not card.ability.reversed
+    card:highlight(false)
     card:juice_up(0.7)
     play_sound('timpani')
-    G.E_MANAGER:add_event(Event({
-        func = function()
-            card:highlight(false)
-            return true
-        end
-    })) 
     local center = card.config.center
     if center.reverse and type(center.reverse) == 'function' then
         center:reverse(card)

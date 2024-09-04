@@ -10,7 +10,7 @@ local uncommon_joker_atlas = SMODS.Atlas{
 
 -- custom uncommon jokers
 
-local chainsaw_devil = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncommon.enabled and SMODS.Joker{
+local chainsaw_devil = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncommon.enabled and SMODS.Joker{
     key = 'chainsaw_devil',
     rarity = 2,
     unlocked = true,
@@ -86,21 +86,25 @@ local snake_eyes = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
     unlocked = false or Ceres.CONFIG.misc.unlock_all.enabled, -- smth luck related
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     pos = {
-        x = 3,
-        y = 0,
+        x = 4,
+        y = 2,
     },
     cost = 6,
     config = {
         extra = 1,
     },
-    atlas = 'rare_jokers',
+    atlas = 'uncommon_jokers',
     eternal_compat = true,
     perishable_compat = true,
     blueprint_compat = true,
-    -- unfortunately thunk isnt consistent with chance jokers using odds in their abilities
+
+    
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS['m_lucky']
+        info_queue[#info_queue+1] = G.P_CENTERS['m_glass']
+    end,
 
     calculate = function(self, card, context)
-        -- retriggering any lucky/glass cards
         if context.repetition and context.cardarea == G.play then
             if context.other_card.ability.name == 'Lucky Card' or context.other_card.ability.name == 'Glass Card' then
                 return {
@@ -786,7 +790,7 @@ local blacksmith = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
                 update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
             end
         end
-        if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
+        if context.end_of_round and not (context.individual or context.repetition or context.blueprint) and G.GAME.blind:get_type() == 'Boss'then
             card.ability.extra = card.ability.extra + 1
             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.C.SECONDARY_SET.Planet})
         end
@@ -840,3 +844,104 @@ function Card:update(dt)
         end
     end
 end
+
+local collectors_book = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncommon.enabled and SMODS.Joker{
+    key = 'collectors_book',
+    rarity = 2,
+    pos = {
+        x = 3,
+        y = 2,
+    },
+    config = {
+        extra = 0.1,
+        Xmult_mod = 1,
+        used = {}
+    },
+    atlas = 'uncommon_jokers',
+    cost = 6,
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = false,
+
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra, card.ability.Xmult_mod}}
+    end,
+
+    calculate = function(self, card, context)
+        if context.using_consumeable and not context.blueprint then
+            local new = true
+            for _, consumable in pairs(card.ability.used) do
+                if context.consumeable.ability.name == consumable then
+                    new = false
+                end
+            end
+            if new then
+                card.ability.used[#card.ability.used+1] = context.consumeable.ability.name
+                card.ability.Xmult_mod = card.ability.Xmult_mod + card.ability.extra
+                G.E_MANAGER:add_event(Event({
+                    func = function() card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.C.MULT}); return true
+                    end
+                }))
+            end
+        end
+        if context.joker_main and card.ability.Xmult_mod > 1 then
+            return {
+                message = localize{type='variable',key='a_xmult',vars={card.ability.Xmult_mod}},
+                colour = G.C.RED,
+                Xmult_mod = card.ability.Xmult_mod,
+            }
+        end
+    end,
+}
+
+local roulette = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncommon.enabled and SMODS.Joker{
+    key = 'roulette',
+    rarity = 2,
+    pos = {
+        x = 0,
+        y = 0,
+    },
+    config = {
+        odds = 2,
+        Xmult_mod = 2,
+    },
+    atlas = 'uncommon_jokers',
+    cost = 6,
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = false,
+
+    loc_vars = function(self, info_queue, card)
+        return {vars = {G.GAME.probabilities.normal or 1, card.ability.odds, card.ability.Xmult_mod}}
+    end,
+
+    calculate = function(self, card, context)
+        if context.using_consumeable and not context.blueprint then
+            local new = true
+            for _, consumable in pairs(card.ability.used) do
+                if context.consumeable.ability.name == consumable then
+                    new = false
+                end
+            end
+            if new then
+                card.ability.used[#card.ability.used+1] = context.consumeable.ability.name
+                card.ability.Xmult_mod = card.ability.Xmult_mod + card.ability.extra
+                G.E_MANAGER:add_event(Event({
+                    func = function() card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.C.MULT}); return true
+                    end
+                }))
+            end
+        end
+        if context.joker_main and card.ability.Xmult_mod > 1 then
+            return {
+                message = localize{type='variable',key='a_xmult',vars={card.ability.Xmult_mod}},
+                colour = G.C.RED,
+                Xmult_mod = card.ability.Xmult_mod,
+            }
+        end
+    end,
+}

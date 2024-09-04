@@ -6,7 +6,7 @@ local perk_atlas = SMODS.Atlas{
 	atlas_table = 'ASSET_ATLAS',
 }
 
-local prototype = Ceres.CONFIG.perks.enabled and SMODS.Perk{
+local prototype = Ceres.CONFIG.card_modifiers.perks.enabled and SMODS.Perk{
     key = 'prototype',
 	atlas = 'perks',
     pos = {
@@ -32,7 +32,7 @@ local prototype = Ceres.CONFIG.perks.enabled and SMODS.Perk{
     end,
 }
 
-local dirty_napkin = Ceres.CONFIG.perks.enabled and SMODS.Perk{
+local dirty_napkin = Ceres.CONFIG.card_modifiers.perks.enabled and SMODS.Perk{
     key = 'dirty_napkin',
 	atlas = 'perks',
     pos = {
@@ -58,7 +58,7 @@ local dirty_napkin = Ceres.CONFIG.perks.enabled and SMODS.Perk{
     end,
 }
 
-local reward_card = Ceres.CONFIG.perks.enabled and SMODS.Perk{
+local reward_card = Ceres.CONFIG.card_modifiers.perks.enabled and SMODS.Perk{
 	key = 'reward_card',
 	atlas = 'perks',
 	pos = {
@@ -81,7 +81,7 @@ local reward_card = Ceres.CONFIG.perks.enabled and SMODS.Perk{
     end,
 }
 
-local business_card = Ceres.CONFIG.perks.enabled and SMODS.Perk{
+local business_card = Ceres.CONFIG.card_modifiers.perks.enabled and SMODS.Perk{
     key = 'business_card',
 	atlas = 'perks',
     pos = {
@@ -104,7 +104,7 @@ local business_card = Ceres.CONFIG.perks.enabled and SMODS.Perk{
     end,
 }
 
-local plus_two = Ceres.CONFIG.perks.enabled and SMODS.Perk{
+local plus_two = Ceres.CONFIG.card_modifiers.perks.enabled and SMODS.Perk{
     key = 'plus_two',
 	atlas = 'perks',
     pos = {

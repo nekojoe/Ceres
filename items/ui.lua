@@ -620,7 +620,7 @@ end
 local create_UIBox_buttons_ref = create_UIBox_buttons
 function create_UIBox_buttons()
     local ret = create_UIBox_buttons_ref()
-    if Ceres.CONFIG.perks.enabled then
+    if Ceres.CONFIG.card_modifiers.perks.enabled then
         local exploit_button = {n=G.UIT.C, config={id = 'exploit_button', align = "tm", minw = 2.5, padding = 0.3, r = 0.1, hover = true, colour = G.C.GREEN, button = "exploit_cards_from_highlighted", one_press = true, shadow = true, func = 'can_exploit'}, nodes={
         {n=G.UIT.R, config={align = "bcm", padding = 0}, nodes={
             {n=G.UIT.T, config={text = localize('b_exploit'), scale = 0.45, colour = G.C.UI.TEXT_LIGHT, focus_args = {button = 'x', orientation = 'bm'}, func = 'set_button_pip'}}
@@ -639,7 +639,7 @@ end
 
 -- OVERWRITES
 
-if Ceres.CONFIG.perks.enabled then
+if Ceres.CONFIG.card_modifiers.perks.enabled then
 function create_UIBox_HUD()
     local scale = 0.4
     local stake_sprite = get_stake_sprite(G.GAME.stake or 1, 0.5)

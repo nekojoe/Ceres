@@ -6,7 +6,7 @@ local booster_atlas = SMODS.Atlas{
     atlas_table = 'ASSET_ATLAS',
 }
 
-local perk_booster_one = Ceres.CONFIG.perks.enabled and SMODS.Booster{
+local perk_booster_one = Ceres.CONFIG.card_modifiers.perks.enabled and SMODS.Booster{
     key = "perk_normal_1",
     kind = "Perk",
     atlas = "booster_atlas",
@@ -44,7 +44,7 @@ local perk_booster_one = Ceres.CONFIG.perks.enabled and SMODS.Booster{
     group_key = "k_perk_pack"
 }
 
-local perk_booster_two = Ceres.CONFIG.perks.enabled and SMODS.Booster{
+local perk_booster_two = Ceres.CONFIG.card_modifiers.perks.enabled and SMODS.Booster{
     key = "perk_normal_2",
     kind = "Perk",
     atlas = "booster_atlas",
@@ -82,7 +82,7 @@ local perk_booster_two = Ceres.CONFIG.perks.enabled and SMODS.Booster{
     group_key = "k_perk_pack"
 }
 
-local perk_booster_jumbo = Ceres.CONFIG.perks.enabled and SMODS.Booster{
+local perk_booster_jumbo = Ceres.CONFIG.card_modifiers.perks.enabled and SMODS.Booster{
     key = "perk_jumbo",
     kind = "Perk",
     atlas = "booster_atlas",
@@ -120,7 +120,7 @@ local perk_booster_jumbo = Ceres.CONFIG.perks.enabled and SMODS.Booster{
     group_key = "k_perk_pack"
 }
 
-local perk_booster_mega = Ceres.CONFIG.perks.enabled and SMODS.Booster{
+local perk_booster_mega = Ceres.CONFIG.card_modifiers.perks.enabled and SMODS.Booster{
     key = "perk_mega",
     kind = "Perk",
     atlas = "booster_atlas",
@@ -158,7 +158,7 @@ local perk_booster_mega = Ceres.CONFIG.perks.enabled and SMODS.Booster{
     group_key = "k_perk_pack"
 }
 
-local tarot_booster_one = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.tarot.enabled and SMODS.Booster{
+local tarot_booster_one = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.tarot.enabled and SMODS.Booster{
     key = "tarot_normal_1",
     kind = "Joker",
     atlas = "booster_atlas",

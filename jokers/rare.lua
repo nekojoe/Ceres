@@ -21,7 +21,7 @@ local fox_devil = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.r
     },
     cost = 8,
     config = {
-        increase = 25,
+        increase = 10,
         decrease = 25,
     },
     atlas = 'rare_jokers',
@@ -335,6 +335,7 @@ local wanted_poster = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rariti
     config = {
         Xmult_mod = 1,
         rarity = 1,
+        extra = 0.75,
     },
     atlas = 'rare_jokers',
     cost = 8,
@@ -352,6 +353,7 @@ local wanted_poster = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rariti
         }
         return {
             vars = {
+                card.ability.extra,
                 rarities[card.ability.rarity],
                 card.ability.Xmult_mod,
                 colours = {
@@ -373,14 +375,15 @@ local wanted_poster = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rariti
             local rand_joker = pseudorandom_element(valid_jokers, pseudoseed('wanted'))
             rand_joker.getting_sliced = true
             G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+            local new_mult = card.ability.Xmult_mod + card.ability.extra
             G.E_MANAGER:add_event(Event({func = function()
                 G.GAME.joker_buffer = 0
-                card.ability.Xmult_mod = card.ability.Xmult_mod + 1
+                card.ability.Xmult_mod = card.ability.Xmult_mod + card.ability.extra
                 card:juice_up(0.8, 0.8)
                 rand_joker:start_dissolve({HEX("57ecab")}, nil, 1.6)
                 play_sound('slice1', 0.96+math.random()*0.08)
             return true end }))
-            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.Xmult_mod + 1}}, colour = G.C.RED, no_juice = true})
+            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_xmult', vars = {new_mult}}, colour = G.C.RED, no_juice = true})
             local valid_rarities = {}
             for i = 1, 3 do
                 if i ~= card.ability.rarity then

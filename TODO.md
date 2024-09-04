@@ -82,10 +82,16 @@ uh
 
 # general jokers
 
+favourable odds
+chance for lucky
 
+Meteor
+dysy
+OP
+ — Today at 04:19
+Meteor (uncommon): X in 5 chance to upgrade level of played poker hand, X is the number of played stone card in that hand.
 
-Gameplay update 2025 joker - Makes all Ceres mod jokers twice as common
-
+Stone card works better for hand with lesser card, and this joker allows you to upgrade your hand a lot faster with stone card. 5 stone card will always upgrade highcard.
 
 all in, reduce hands to 1 get more money
 
@@ -97,9 +103,7 @@ Joker that turns all jacks into wild jacks
 
 marlboro golds, money for playing hand decrease 
 legendary gives hand and discard on use of either
-Gains x0.1 Mult for every unique Consumable used (not retroactive). collectors book
 1 in 2 chance to retrigger any card
-upgrade all hands by x levels for each boss blind defeated with this joker when sold
 
 roulette
 mult doubles chance to reset

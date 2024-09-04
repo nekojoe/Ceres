@@ -65,7 +65,7 @@ Ceres.PAGE_FUNCS.card_modifiers = function()
 		{label = 'Seals', toggle_ref = ref_table.seals, remove_enable = true,},
 		--{label = 'Enhancements', toggle_ref = ref_table.enhancements, remove_enable = true,},
 		{label = 'Editions', toggle_ref = ref_table.editions, remove_enable = true,},
-		{label = 'Perks', toggle_ref = Ceres.CONFIG.perks, remove_enable = true,} or nil,
+		{label = 'Perks', toggle_ref = ref_table.perks, remove_enable = true,} or nil,
 	}
 	return _buttons, 'main'
 end
@@ -73,7 +73,6 @@ end
 Ceres.PAGE_FUNCS.consumables = function()
 	local ref_table = Ceres.CONFIG.consumables
 	local _buttons = {
-		{label = 'Tarot Reversals', toggle_ref = ref_table.reversed_tarots, remove_enable = true,},
 		{label = 'Vouchers', toggle_ref = ref_table.vouchers, remove_enable = true,},
 	}
 	return _buttons, 'main'
@@ -94,6 +93,7 @@ Ceres.PAGE_FUNCS.misc = function()
 	local _buttons = {
 		{label = 'Unlock All', toggle_ref = ref_table.unlock_all, remove_enable = true,},
 		{label = 'Discover All', toggle_ref = ref_table.discover_all, remove_enable = true,},
+		{label = 'Useless Jokers', toggle_ref = ref_table.useless_jokers, remove_enable = true,},
 	}
 	return _buttons, 'main'
 end

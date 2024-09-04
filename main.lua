@@ -6,7 +6,7 @@
 --- MOD_DESCRIPTION: ensure folder is name 'Ceres'
 --- BADGE_COLOUR: 13afce
 --- PRIORITY: 10
---- VERSION: 1.0.6b
+--- VERSION: 1.1.0b
 
 ----------------------------------------------
 ---------------- MOD CODE --------------------
@@ -38,6 +38,7 @@ Ceres.DEFAULT_CONFIG = {
         editions = { enabled = true },
         enhancements = { enabled = false },
         seals = { enabled = true },
+        perks = { enabled = false },
         enabled = true
     },
     suits = { enabled = true },
@@ -47,7 +48,6 @@ Ceres.DEFAULT_CONFIG = {
         vouchers = { enabled = true },
         enabled = true,
     },
-    perks = { enabled = false },
     run_modifiers = {
         blinds = { enabled = true },
         stakes = { enabled = true },
@@ -164,8 +164,8 @@ Ceres.ITEMS = {
     },
     consumables = {
         'spectrals',
-        'planet_ex',
-        'planet_gx',
+        --'planet_ex',
+        --'planet_gx',
         'vouchers',
         'boosters',
     },

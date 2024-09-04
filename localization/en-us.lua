@@ -394,16 +394,31 @@ return {
                 ['name'] = "Fool Joker",
                 ['text'] = {
                     "If no {C:attention}hands{} left at end",
-					'of round, create a copy',
-					'of {C:tarot}The Fool{}',
+					'of round, {C:green}#1# in #2#{} chance to',
+					'create a copy of {C:tarot}The Fool{}',
                     "{C:inactive}(Must have room)",
                 }
             },
 			['j_cere_gameplay_update'] = {
                 ['name'] = "Gameplay Update 2025",
                 ['text'] = {
+                    "{C:dark_edition,E:1}Modded{} Jokers appear",
+					'{C:attention}twice{} as often'
+                }
+            },
+			['j_cere_ceres_joker'] = {
+                ['name'] = "Ceres",
+                ['text'] = {
                     "{C:planet,E:1}Ceres{} Jokers appear",
 					'{C:attention}twice{} as often'
+                }
+            },
+			['j_cere_flying_ace'] = {
+                ['name'] = "Flying Ace",
+                ['text'] = {
+                    "If {C:attention}first hand{} of round",
+                    "is a single {C:attention}Ace{}, destroy",
+                    "it and gain {C:money}$#1#{}",
                 }
             },
 			-- uncommon
@@ -413,6 +428,13 @@ return {
 					'A strangely friendly',
 					'Devil, his behaviour',
 					'seems quite {C:attention}erratic{}',
+				},
+			},
+			['j_cere_snake_eyes'] = {
+				['name'] = 'Snake Eyes',
+				['text'] = {
+					'Retrigger all {C:attention}Lucky{}',
+					'and {C:attention}Glass{} cards',
 				},
 			},
 			['j_cere_professor'] = {
@@ -512,7 +534,7 @@ return {
                 ['text'] = {
                     "When sold, upgrade all {C:attention}poker{}",
                     "{C:attention}hands{} by {C:attention}#1#{} level#2#. Amount",
-					'increases each round'
+					'increases each {C:attention}ante{}'
                 }
             },
 			['j_cere_cursed_purse'] = {
@@ -521,6 +543,23 @@ return {
                     "{C:attention}+#1#{} Joker slot",
                     "{C:red}debuff{} Joker to the",
 					'{C:attention}left{} of this Joker',
+                }
+            },
+			['j_cere_collectors_book'] = {
+                ['name'] = "Collector's Book",
+                ['text'] = {
+                    "Gains {X:mult,C:white} X#1# {} Mult every time",
+                    "a {C:attention}unique{} consumable is used",
+                    "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
+                }
+            },
+			['j_cere_roulette'] = {
+                ['name'] = "Roulette",
+                ['text'] = {
+                    "When {C:attention}Blind{} is selected,",
+                    "{C:attention}double{} this Joker's {C:red}Mult",
+                    "{C:green}#1# in #2#{} chance to {C:attention}reset{}",
+                    "{C:inactive}(Currently {X:mult,C:white} X#3# {C:inactive} Mult)"
                 }
             },
 			-- rare
@@ -539,14 +578,6 @@ return {
 					'every destroyed card',
 					'with {C:hearts}Heart{} suit',
 					'{C:inactive}(Currently {}{X:mult,C:white} X#2# {} {C:inactive}Mult){}'
-				},
-			},
-			['j_cere_snake_eyes'] = {
-				['name'] = 'Snake Eyes',
-				['text'] = {
-					'Retrigger all {C:attention}Jokers{}',
-					'and {C:attention}cards{} with {C:green}chance{}',
-					'related effects',
 				},
 			},
 			['j_cere_calling_the_clock'] = {
@@ -586,10 +617,10 @@ return {
 				['name'] = 'Wanted Poster',
                 ['text'] = {
 					"When {C:attention}Blind{} is selected,",
-                    "destroy a random {V:1}#1#{}",
-                    "Joker and gain {X:mult,C:white} X1 {} Mult",
+                    "destroy a random {V:1}#2#{}",
+                    "Joker and gain {X:mult,C:white} X#1# {} Mult",
                     '{s:0.8}Rarity changes when upgraded',
-                    '{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)',
+                    '{C:inactive}(Currently {X:mult,C:white} X#3# {C:inactive} Mult)',
 				}
 			},
 			['j_cere_the_solo'] = {
