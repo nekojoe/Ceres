@@ -10,6 +10,39 @@ local common_joker_atlas = SMODS.Atlas{
 
 -- custom common jokers
 
+local jester = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
+    key = 'jester',
+    rarity = 1,
+    unlocked = true,
+    discovered = true,
+    pos = {
+        x = 0,
+        y = 2,
+    },
+    config = {
+        extra = 25,
+    },
+    cost = 2,
+    atlas = 'common_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
+    end,
+
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                    message = localize{type='variable',key='a_chips',vars={card.ability.extra}},
+                    chip_mod = card.ability.extra, 
+                    colour = G.C.CHIPS
+                }
+        end          
+    end,
+}
+
 local one_up = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
     key = 'one_up',
     rarity = 1,
@@ -493,4 +526,51 @@ local jack_box = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.co
             end
         end          
     end,
+}
+
+local fool_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
+    key = 'fool_joker',
+    rarity = 1,
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    pos = {
+        x = 1,
+        y = 2,
+    },
+    cost = 5,
+    atlas = 'common_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS['c_fool']
+    end,
+
+    calculate = function(self, card, context)
+        if context.end_of_round and not (context.individual or context.repetition) and G.GAME.current_round.hands_played == G.GAME.round_resets.hands then
+            if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.SECONDARY_SET.Tarot})
+                local _card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, 'c_fool')
+                _card:add_to_deck()
+                G.consumeables:emplace(_card)
+            end
+        end          
+    end,
+}
+
+local gameplay_update = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
+    key = 'gameplay_update',
+    rarity = 1,
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    pos = {
+        x = 2,
+        y = 2,
+    },
+    cost = 5,
+    atlas = 'common_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = false,
 }

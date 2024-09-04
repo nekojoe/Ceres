@@ -349,7 +349,6 @@ local wanted_poster = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rariti
             'Common',
             'Uncommon',
             'Rare',
-            'Legendary',
         }
         return {
             vars = {
@@ -383,7 +382,7 @@ local wanted_poster = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rariti
             return true end }))
             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.Xmult_mod + 1}}, colour = G.C.RED, no_juice = true})
             local valid_rarities = {}
-            for i = 1, 4 do
+            for i = 1, 3 do
                 if i ~= card.ability.rarity then
                     valid_rarities[#valid_rarities+1] = i
                 end
@@ -401,7 +400,33 @@ local wanted_poster = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rariti
     end,
 }
 
-local the_solo = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.rare.enabled and SMODS.Joker{
+local the_null = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.rare.enabled and Ceres.CONFIG.misc.useless_jokers.enabled and SMODS.Joker{
+    key = 'the_null',
+    rarity = 3,
+    unlocked = false or Ceres.CONFIG.misc.unlock_all.enabled, -- win a run without playing high card
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    pos = {
+        x = 1,
+        y = 2,
+    },
+    config = {
+        extra = 0,
+    },
+    cost = 1,
+    atlas = 'rare_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
+    end,
+
+    calculate = function(self, card, context)
+    end,
+}
+
+local the_solo = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.rare.enabled and Ceres.CONFIG.misc.useless_jokers.enabled and SMODS.Joker{
     key = 'the_solo',
     rarity = 3,
     unlocked = false or Ceres.CONFIG.misc.unlock_all.enabled, -- win a run without playing high card

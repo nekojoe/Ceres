@@ -88,13 +88,18 @@ local card_sleeve = Ceres.CONFIG.card_modifiers.editions.enabled and SMODS.Consu
     end,
 }
 
-local function get_divine_pool(_type, _rarity, _legendary, _append)
+local divine_pool = {
+    'j_cere_makima',
+    'j_cere_aizen',
+}
+
+function get_divine_pool(_type, _rarity, _legendary, _append)
     --create the pool
     G.ARGS.TEMP_POOL = EMPTY(G.ARGS.TEMP_POOL)
     local _pool, _starting_pool, _pool_key, _pool_size = G.ARGS.TEMP_POOL, nil, '', 0
 
     local rarity = 'cere_divine'
-    local _starting_pool, _pool_key = con_ess_pool, 'Joker'..'cere_divine'
+    local _starting_pool, _pool_key = divine_pool, 'Joker'..'cere_divine'
 
     --cull the pool
     for k, v in ipairs(_starting_pool) do

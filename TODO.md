@@ -82,6 +82,11 @@ uh
 
 # general jokers
 
+
+
+Gameplay update 2025 joker - Makes all Ceres mod jokers twice as common
+
+
 all in, reduce hands to 1 get more money
 
 Jack of All Trades
@@ -169,7 +174,10 @@ maybe diver
 
 # fixes
 
-club sandwich
+club sandwich if first and last scoring cards are clubs
++1 mult and +2 mult for each non club
+
+fox devil numbers
 
 # POLISHED OFF STUFF (FOR NOW)
 

@@ -16,6 +16,7 @@ return {
 		},
 		['dictionary'] = {
             ['k_perk_pack'] = "Perk Pack",
+            ['k_tarot_joker_pack'] = "Tarot Joker Pack",
 			['k_perk'] =  'Perk',
             ['k_hud_advantage'] = "Advantage",
             ['k_hud_health'] = "Health",
@@ -383,6 +384,28 @@ return {
                     "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
                 }
             },
+			['j_cere_jester'] = {
+                ['name'] = "Jester",
+                ['text'] = {
+                    "{C:blue,s:1.1}+#1#{} Chips"
+                }
+            },
+			['j_cere_fool_joker'] = {
+                ['name'] = "Fool Joker",
+                ['text'] = {
+                    "If no {C:attention}hands{} left at end",
+					'of round, create a copy',
+					'of {C:tarot}The Fool{}',
+                    "{C:inactive}(Must have room)",
+                }
+            },
+			['j_cere_gameplay_update'] = {
+                ['name'] = "Gameplay Update 2025",
+                ['text'] = {
+                    "{C:planet,E:1}Ceres{} Jokers appear",
+					'{C:attention}twice{} as often'
+                }
+            },
 			-- uncommon
 			['j_cere_chainsaw_devil'] = {
 				['name'] = 'Chainsaw Devil',
@@ -492,6 +515,14 @@ return {
 					'increases each round'
                 }
             },
+			['j_cere_cursed_purse'] = {
+                ['name'] = "Cursed Purse",
+                ['text'] = {
+                    "{C:attention}+#1#{} Joker slot",
+                    "{C:red}debuff{} Joker to the",
+					'{C:attention}left{} of this Joker',
+                }
+            },
 			-- rare
 			['j_cere_fox_devil'] = {
 				['name'] = 'Fox Devil',
@@ -585,6 +616,14 @@ return {
                     "{C:inactive}(Must have room)",
                 },
 			},
+			['j_cere_the_null'] = {
+				['name'] = 'The Null',
+				['text'] = {
+                    '{X:mult,C:white} X#1# {} Mult if played',
+                    'hand contains',
+                    'no cards',
+                },
+			},
 			-- tarot
 			['j_cere_empress_joker'] = {
 				['name'] = 'The Empress III',
@@ -623,8 +662,8 @@ return {
 			['j_cere_strength_joker_reversed'] = {
 				['name'] = 'Strength XI Reversed',
 				['text'] = {
-                    'When hand is played, {C:attention}discard{} all cards left in hand, retrigger',
-					'each {C:attention}scoring{} card once for every card discarded this way',
+                    'When hand is played, {C:attention}destroy{} all but first {C:attention}scoring{} card,',
+					'retrigger each card in {C:attention}hand{} once for every card destroyed',
 					' ',
 					'{C:inactive}The woman wears a white robe, showing her purity of spirit,',
 					'{C:inactive}and a belt and crown of flowers that represent the fullest,',
@@ -976,6 +1015,13 @@ return {
                     "{C:attention}#2#{C:green} Perk{} cards"
                 }
             },
+			['p_cere_tarot_normal_1'] = {
+			    ['name'] = "Tarot Joker Pack",
+			    ['text'] = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:joker} Tarot Jokers{}"
+                }
+			},
 			-- seals
 			['cere_green_seal_seal'] = {
 				['name'] = "Green Seal",

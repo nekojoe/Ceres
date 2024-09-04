@@ -792,3 +792,51 @@ local blacksmith = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
         end
     end,
 }
+
+local cursed_purse = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncommon.enabled and SMODS.Joker{
+    key = 'cursed_purse',
+    rarity = 2,
+    pos = {
+        x = 2,
+        y = 2,
+    },
+    config = {
+        extra = 1,
+    },
+    atlas = 'uncommon_jokers',
+    cost = 6,
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
+    end,
+
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff and G.jokers then G.jokers:change_size(card.ability.extra) end
+    end,
+
+    remove_from_deck = function(self, card, from_debuff)
+        if not from_debuff and G.jokers then G.jokers:change_size(-card.ability.extra) end
+    end,
+
+}
+
+local card_update_ref = Card.update
+function Card:update(dt)
+    card_update_ref(self, dt)
+    if self.ability.name == 'j_cere_cursed_purse' and G.jokers then
+        for i = 1, #G.jokers.cards do
+            if G.jokers.cards[i].from_cursed_purse then G.jokers.cards[i]:set_debuff(false) end
+            if G.jokers.cards[i] == self then
+                if i ~= 1 then
+                    G.jokers.cards[i-1]:set_debuff(true)
+                    G.jokers.cards[i-1].from_cursed_purse = true
+                end
+            end
+        end
+    end
+end

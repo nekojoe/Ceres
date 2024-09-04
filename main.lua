@@ -57,6 +57,7 @@ Ceres.DEFAULT_CONFIG = {
     misc = {
         unlock_all = { enabled = true }, -- has to be until i get round to unlock checks
         discover_all = { enabled = false },
+        useless_jokers = { enabled = true },
     }
 }
 

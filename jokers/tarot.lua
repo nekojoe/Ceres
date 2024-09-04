@@ -22,6 +22,14 @@ function Card:draw(layer)
                 self.children.reverse_button.states.visible = false
             end
         end
+        if self.children.booster_reverse_button and self.sprite_facing == 'front' then
+            if self.highlighted then
+                self.children.booster_reverse_button.states.visible = true
+                self.children.booster_reverse_button:draw()
+            else
+                self.children.booster_reverse_button.states.visible = false
+            end
+        end
     end
     card_draw_ref(self, layer)
     if self.sprite_facing == 'front' and self.ability.reversed then
@@ -58,7 +66,7 @@ function create_reverse_card_ui(card)
     }))
 end
 
-function create_booster_reverse_card_ui_(card)
+function create_booster_reverse_card_ui(card)
     G.E_MANAGER:add_event(Event({
         trigger = 'after',
         delay = 0.43,
@@ -66,7 +74,7 @@ function create_booster_reverse_card_ui_(card)
         blockable = false,
         func = (function()
             local t = {
-                n=G.UIT.ROOT, config = {ref_table = card, minw = 1.1, maxw = 1.3, padding = 0.1, align = 'bm', colour = G.C.GOLD, shadow = true, r = 0.08, minh = 0.94, button = 'reverse_card', hover = true}, nodes={
+                n=G.UIT.ROOT, config = {ref_table = card, minw = 1.1, maxw = 1.3, padding = 0.1, align = 'tm', colour = G.C.GOLD, shadow = true, r = 0.08, minh = 0.94, button = 'reverse_card', hover = true}, nodes={
                     {n=G.UIT.T, config={text = 'REVERSE',colour = G.C.WHITE, scale = 0.5}}
                 }
             }
@@ -87,9 +95,63 @@ function create_booster_reverse_card_ui_(card)
     }))
 end
 
+function get_tarot_joker_key()
+end
+
+local tarot_joker_pool = {
+    'j_cere_empress_joker',
+    'j_cere_strength_joker',
+    'j_cere_judgement_joker',
+}
+
+function get_tarot_joker()
+    --create the pool
+    G.ARGS.TEMP_POOL = EMPTY(G.ARGS.TEMP_POOL)
+    local _pool, _starting_pool, _pool_key, _pool_size = G.ARGS.TEMP_POOL, nil, '', 0
+
+    local rarity = 'cere_divine'
+    local _starting_pool, _pool_key = tarot_joker_pool, 'Joker'..'cere_tarot_joker'
+
+    --cull the pool
+    for k, v in ipairs(_starting_pool) do
+        local add = nil
+        if not (G.GAME.used_jokers[v] and not next(find_joker("Showman"))) then
+            add = true
+        end
+
+        if add then 
+            _pool[#_pool + 1] = v
+            _pool_size = _pool_size + 1
+        else
+            _pool[#_pool + 1] = 'UNAVAILABLE'
+        end
+    end
+
+    --if pool is empty
+    if _pool_size == 0 then
+        _pool[#_pool + 1] = "j_joker"
+    end
+
+    local center = pseudorandom_element(_pool, pseudoseed(_pool_key))
+    local it = 1
+    while center == 'UNAVAILABLE' do
+        it = it + 1
+        center = pseudorandom_element(_pool, pseudoseed(_pool_key..'_resample'..it))
+    end
+    return center
+end
+
 G.FUNCS.reverse_card = function(e)
     local card = e.config.ref_table
     card.ability.reversed = not card.ability.reversed
+    card:juice_up(0.7)
+    play_sound('timpani')
+    G.E_MANAGER:add_event(Event({
+        func = function()
+            card:highlight(false)
+            return true
+        end
+    })) 
     local center = card.config.center
     if center.reverse and type(center.reverse) == 'function' then
         center:reverse(card)
@@ -190,6 +252,7 @@ local empress_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rariti
 
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
+            if card.children.booster_reverse_button then card.children.booster_reverse_button = nil end
             create_reverse_card_ui(card)
         end
     end,
@@ -242,10 +305,6 @@ local empress_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rariti
             desc_nodes[#desc_nodes + 1] = res.main_end
         end
     end,
-
-    set_card_type_badge = function(self, card, badges)
-		badges[#badges + 1] = create_badge(localize('k_tarot_joker'), G.C.SECONDARY_SET['Tarot'], nil, 1.2)
-	end,
 
     calculate = function(self, card, context)
         if context.first_hand_drawn and not context.blueprint then
@@ -394,6 +453,9 @@ local strength_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarit
         reversed = false,
         extra = 2,
         discard = 0,
+        destroy = 2,
+        to_destroy = {},
+        retriggers = 0,
     },
     cost = 10,
     atlas = 'tarot_joker',
@@ -402,11 +464,12 @@ local strength_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarit
     blueprint_compat = false,
 
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra}}
+        return {vars = {card.ability.extra, card.ability.destroy}}
     end,
 
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
+            if card.children.booster_reverse_button then card.children.booster_reverse_button = nil end
             create_reverse_card_ui(card)
         end
     end,
@@ -450,42 +513,45 @@ local strength_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarit
         end
     end,
 
-    set_card_type_badge = function(self, card, badges)
-		badges[#badges + 1] = create_badge(localize('k_tarot'), G.C.SECONDARY_SET['Tarot'], nil, 1.2)
-		badges[#badges + 1] = create_badge(localize('k_rare'), G.C.RARITY[3], nil, 1.2)
-	end,
-
     calculate = function(self, card, context)
         if context.before and not context.blueprint then
             if not card.ability.reversed then
                 card.ability.discard = math.floor(#G.hand.cards / card.ability.extra)
-                G.E_MANAGER:add_event(Event({ func = function()
-                    local any_selected = nil
-                    local _cards = {}
-                    for k, v in ipairs(G.hand.cards) do
-                        _cards[#_cards+1] = v
-                    end
-                    for i = 1, 2 do
-                        if G.hand.cards[i] then 
-                            local selected_card, card_key = pseudorandom_element(_cards, pseudoseed('hook'))
-                            G.hand:add_to_highlighted(selected_card, true)
-                            table.remove(_cards, card_key)
-                            any_selected = true
-                            play_sound('card1', 1)
-                        end
-                    end
-                    if any_selected then G.FUNCS.discard_cards_from_highlighted(nil, true) end
-                return true end })) 
+                local any_selected = nil
+                for i = 1, #G.hand.cards do
+                    local _card = G.hand.cards[i]
+                    G.hand.highlighted[#G.hand.highlighted+1] = _card
+                    _card:highlight(true)
+                    any_selected = true
+                    play_sound('card1', 1)
+                end
+                if any_selected then G.FUNCS.discard_cards_from_highlighted(nil, true) end
                 delay(0.7)
+            else
+                if #card.ability.to_destroy > 0 then
+                    for i = #card.ability.to_destroy, 1, -1 do
+                        card:juice_up(0.7)
+                        card.ability.to_destroy[i]:start_dissolve()
+                    end
+                end
             end
         end
         if context.repetition and not context.blueprint then
-            if not card.ability.reversed and card.ability.discard > 0 then
+            if context.cardarea == G.play and not card.ability.reversed and card.ability.discard > 0 then
                 return {
                     message = localize('k_again_ex'),
                     repetitions = card.ability.discard,
                     card = card
                 }
+            end
+            if context.cardarea == G.hand and card.ability.reversed and card.ability.retriggers > 0 then
+                if context.card_effects and (next(context.card_effects[1]) or #context.card_effects > 1) then
+                    return {
+                        message = localize('k_again_ex'),
+                        repetitions = card.ability.retriggers,
+                        card = card
+                    }
+                end
             end
         end  
     end,
@@ -515,6 +581,7 @@ local judgement_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rari
 
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
+            if card.children.booster_reverse_button then card.children.booster_reverse_button = nil end
             create_reverse_card_ui(card)
         end
     end,
@@ -574,10 +641,6 @@ local judgement_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rari
             _card:start_materialize()
         end
     end,
-
-    set_card_type_badge = function(self, card, badges)
-		badges[#badges + 1] = create_badge(localize('k_tarot_joker'), G.C.SECONDARY_SET['Tarot'], nil, 1.2)
-	end,
 
     load = function(self, card, card_table, other_card)
         create_reverse_card_ui(card)
