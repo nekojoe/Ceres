@@ -229,7 +229,7 @@ local magnet = Ceres.CONFIG.card_modifiers.seals.enabled and SMODS.Consumable{
     end,
 }
 
-local eraser = Ceres.CONFIG.suits.enabled and SMODS.Consumable{
+local eraser = false and Ceres.CONFIG.suits.enabled and SMODS.Consumable{
     key = 'eraser',
     set = 'Spectral',
     pos = {

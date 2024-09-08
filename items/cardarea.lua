@@ -3,11 +3,11 @@
 local cardarea_add_to_highlighted_ref = CardArea.add_to_highlighted
 function CardArea:add_to_highlighted(card, silent)
     if self == G.hand then
-        if #G.perks.highlighted > 0 then
-            G.perks:unhighlight_all()
+        if #G.cere_perks.highlighted > 0 then
+            G.cere_perks:unhighlight_all()
         end
     end
-    if self == G.perks then
+    if self == G.cere_perks then
         if #self.highlighted > 0 then
             self:unhighlight_all()
         end
@@ -21,7 +21,7 @@ end
 local cardarea_emplace_ref = CardArea.emplace
 function CardArea:emplace(card, location, stay_flipped)
     if card.ability and card.ability.set == 'Perk' and self == G.hand and not from_ref then
-        G.perks:emplace(card, location, stay_flipped)
+        G.cere_perks:emplace(card, location, stay_flipped)
         G.E_MANAGER:add_event(Event({
 			trigger = 'immediate',
 			func = function()
@@ -36,12 +36,12 @@ end
 
 local cardarea_move_ref = CardArea.move
 function CardArea:move(dt)
-    if self == G.perks then 
-        local desired_y = G.TILE_H - G.perks.T.h - 1.9*((not G.deck_preview and (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.DRAW_TO_HAND)) and 2 or 0)
-        G.perks.T.y = 15*G.real_dt*desired_y + (1-15*G.real_dt)*G.perks.T.y
-        if math.abs(desired_y - G.perks.T.y) < 0.01 then G.perks.T.y = desired_y end
+    if self == G.cere_perks then 
+        local desired_y = G.TILE_H - G.cere_perks.T.h - 1.9*((not G.deck_preview and (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.DRAW_TO_HAND)) and 2 or 0)
+        G.cere_perks.T.y = 15*G.real_dt*desired_y + (1-15*G.real_dt)*G.cere_perks.T.y
+        if math.abs(desired_y - G.cere_perks.T.y) < 0.01 then G.cere_perks.T.y = desired_y end
         if G.STATE == G.STATES.TUTORIAL then 
-            G.perks.T.y = G.perks.T.y - (3 + 0.6)
+            G.cere_perks.T.y = G.cere_perks.T.y - (3 + 0.6)
         end
         Moveable.move(self, dt)
         self:align_cards()
@@ -52,7 +52,7 @@ end
 
 local cardarea_draw_ref = CardArea.draw
 function CardArea:draw()
-    if self == G.perks then
+    if self == G.cere_perks then
         if not self.states.visible then return end 
         if G.VIEWING_DECK and (self==G.deck or self==G.hand or self==G.play) then return end
         local state = G.TAROT_INTERRUPT or G.STATE

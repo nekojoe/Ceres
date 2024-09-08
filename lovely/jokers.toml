@@ -3,37 +3,6 @@ version = "1.0.0"
 dump_lua = true
 priority = 0
 
-# strength tarot joker
-
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "local percent = 0.3"
-position = "before"
-payload = '''-- for the strength tarot joker
-local strength_jokers = SMODS.find_card('j_cere_strength_joker')
-local found_flipped_strength = nil
-if strength_jokers then
-    for _, joker in pairs(strength_jokers) do
-        if joker.ability.reversed then
-            found_flipped_strength = joker
-            break
-        end
-    end
-end
-if found_flipped_strength and #G.play.cards > 1 then
-    found_flipped_strength.ability.retriggers = 0
-    for i = #G.play.cards, 2, -1 do
-        if G.play.cards[i] then
-            table.insert(found_flipped_strength.ability.to_destroy, G.play.cards[i])
-            table.remove(G.play.cards, i)
-        end
-        found_flipped_strength.ability.retriggers = found_flipped_strength.ability.retriggers + 1
-    end
-end
-new_text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)'''
-match_indent = true
-
 # gameplay update joker 
 
 [[patches]]

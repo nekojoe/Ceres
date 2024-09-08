@@ -2,7 +2,7 @@
 
 G.FUNCS.can_exploit = function(e)
     local advantage = G.GAME.current_round.advantage_left or 0
-    if #G.perks.highlighted == 1 and advantage > 0 then
+    if #G.cere_perks.highlighted == 1 and advantage > 0 then
         e.config.colour = G.C.GREEN
         e.config.button = 'exploit_cards_from_highlighted'
     else
@@ -12,7 +12,7 @@ G.FUNCS.can_exploit = function(e)
 end
 
 G.FUNCS.exploit_cards_from_highlighted = function(e)
-    if G.exploit and G.exploit.cards[1] then return end
+    if G.cere_exploit and G.cere_exploit.cards[1] then return end
     --check the hand first
 
     stop_use()
@@ -33,8 +33,8 @@ G.FUNCS.exploit_cards_from_highlighted = function(e)
     ease_advantage(-1)
     delay(0.4)
 
-        for i=1, #G.perks.highlighted do
-            draw_card(G.perks, G.exploit, i*100/#G.hand.highlighted, 'up', nil, G.perks.highlighted[i], nil, true)
+        for i=1, #G.cere_perks.highlighted do
+            draw_card(G.perks, G.cere_exploit, i*100/#G.hand.highlighted, 'up', nil, G.cere_perks.highlighted[i], nil, true)
         end
 
         G.E_MANAGER:add_event(Event({
@@ -70,7 +70,7 @@ G.FUNCS.exploit_cards_from_highlighted = function(e)
 end
 
 G.FUNCS.evaluate_exploit = function(e)
-    local exploited_card = G.exploit.cards[1]
+    local exploited_card = G.cere_exploit.cards[1]
     delay(0.2)
     highlight_card(exploited_card,1,'up')
 
@@ -81,13 +81,13 @@ G.FUNCS.evaluate_exploit = function(e)
     local hand_text_set = false
     for i=1, #G.jokers.cards do
         --calculate any joker effects
-        local effects = eval_card(G.jokers.cards[i], {cardarea = G.exploit, exploited_card = exploited_card})
+        local effects = eval_card(G.jokers.cards[i], {cardarea = G.cere_exploit, exploited_card = exploited_card})
         if effects.jokers then
             card_eval_status_text(G.jokers.cards[i], 'jokers', nil, percent, nil, effects.jokers)
             percent = percent + percent_delta
         end
     end
-    eval_perk(exploited_card, {cardarea = G.exploit, exploited_card = exploited_card})
+    eval_perk(exploited_card, {cardarea = G.cere_exploit, exploited_card = exploited_card})
     card_eval_perk_text(exploited_card, exploited_card.ability.message, exploited_card.ability.colour)
     delay(0.4)
     --un-highlight all cards
@@ -143,6 +143,7 @@ function card_eval_perk_text(card, message, colour)
     }))
 end
 
+if not Ceres.COMPAT.loyaltycard then
 function ease_advantage(mod, instant)
     local _mod = function(mod)
         local advantage_UI = G.HUD:get_UIE_by_ID('advantage_UI_count')
@@ -180,32 +181,33 @@ function ease_advantage(mod, instant)
         }))
     end
 end
+end
 
 G.FUNCS.draw_from_exploit = function(e)
-    local count = #G.exploit.cards
+    local count = #G.cere_exploit.cards
     local it = 1
-    for k, v in ipairs(G.exploit.cards) do
+    for k, v in ipairs(G.cere_exploit.cards) do
         if v.shredded then
             G.GAME.cere.shredded[G.GAME.cere.shredded+1] = v.ability.name
             card:dissolve()
         elseif v.burnt then
-            draw_card(G.exploit,G.burnt, it*100/count,'down', false, v, 0.07)
+            draw_card(G.cere_exploit,G.cere_burnt, it*100/count,'down', false, v, 0.07)
             v.burnt = nil
         elseif v.to_hand then
-            draw_card(G.exploit,G.perks, i*100/count,'up', true, v, 0.07)
+            draw_card(G.cere_exploit,G.cere_perks, i*100/count,'up', true, v, 0.07)
         elseif v.to_deck then
-            draw_card(G.exploit, G.deck, i*100/count,'down', false, v, 0.07)
+            draw_card(G.cere_exploit, G.deck, i*100/count,'down', false, v, 0.07)
         else
-            draw_card(G.exploit,G.discard, it*100/count,'down', false, v, 0.07)
+            draw_card(G.cere_exploit,G.discard, it*100/count,'down', false, v, 0.07)
         end
     end
 end
 
-G.FUNCS.draw_from_burnt_to_discard = function(e)
-    local count = #G.burnt.cards
+G.FUNCS.cere_draw_from_burnt_to_discard = function(e)
+    local count = #G.cere_burnt.cards
     local it = 1
-    for k, v in ipairs(G.burnt.cards) do
-        draw_card(G.burnt,G.discard, it*100/count,'down', false, v)
+    for k, v in ipairs(G.cere_burnt.cards) do
+        draw_card(G.cere_burnt,G.discard, it*100/count,'down', false, v)
         it = it + 1
     end
 end

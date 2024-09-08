@@ -1,10 +1,10 @@
 return {
 	['misc'] = {
 		['suits_plural'] = {
-			['cere_Nothings'] = 'Nothings',
+			['cere_all_trades'] = 'All Trades',
 		},
 		['suits_singular'] = {
-			['cere_Nothings'] = 'Nothing',
+			['cere_all_trades'] = 'Everything',
 		},
 		['labels'] = {
 			['cere_colourblind'] = 'Colourblind',
@@ -425,9 +425,8 @@ return {
 			['j_cere_chainsaw_devil'] = {
 				['name'] = 'Chainsaw Devil',
 				['text'] = {
-					'A strangely friendly',
-					'Devil, his behaviour',
-					'seems quite {C:attention}erratic{}',
+					'{C:attention}Small{} and {C:attention}Large{} Blinds',
+					'payout {X:money,C:white} X#1# {} Money'
 				},
 			},
 			['j_cere_snake_eyes'] = {
@@ -532,9 +531,9 @@ return {
 			['j_cere_blacksmith'] = {
                 ['name'] = "Blacksmith",
                 ['text'] = {
-                    "When sold, upgrade all {C:attention}poker{}",
-                    "{C:attention}hands{} by {C:attention}#1#{} level#2#. Amount",
-					'increases each {C:attention}ante{}'
+                    "When sold, upgrade {C:attention}most played{}",
+                    "poker hand by {C:attention}#1#{} level#2#. Amount",
+					'increases each {C:attention}round{}'
                 }
             },
 			['j_cere_cursed_purse'] = {
@@ -652,7 +651,7 @@ return {
 				['text'] = {
                     '{X:mult,C:white} X#1# {} Mult if played',
                     'hand contains',
-                    'no cards',
+                    '{C:attention}no cards{}',
                 },
 			},
 			-- tarot
@@ -768,6 +767,32 @@ return {
                     "stays in hand"
                 }
 			},
+		},
+		['cere_reversed_tarot'] = {
+			['c_cere_reversed_lovers'] = {
+                ['name'] = "The Lovers Reversed",
+                ['text'] = {
+                    "Remove the suit from",
+					'{C:attention}#1#{} selected card',
+                }
+            },
+			['c_cere_reversed_strength'] = {
+                ['name'] = "Strength Reversed",
+                ['text'] = {
+                    "Decreases rank of",
+                    "up to {C:attention}#1#{} selected",
+                    "cards by {C:attention}1"
+                }
+            },
+			['c_cere_reversed_wheel_of_fortune'] = {
+                ['name'] = "Wheel of Fortune Reversed",
+                ['text'] = {
+                    "{C:green}#1# in #2#{} chance to add",
+                    "{C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, or",
+                    "{C:dark_edition}Polychrome{} edition",
+                    "to a random card in {C:attention}hand"
+                }
+            },
 		},
 		['Back'] = {
 			['b_cere_scratch'] = {
@@ -1066,7 +1091,7 @@ return {
 			['makima_info'] = {
 				['name'] = 'Makima',
 				['text'] = {
-					'A {C:cere_dark_red}corpse{}',
+					'A {C:dark_red}corpse{}',
 					'is talking',
 				},
 			},

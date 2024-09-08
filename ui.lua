@@ -40,7 +40,6 @@ Ceres.PAGE_FUNCS.main = function()
     	{label = 'Consumables', toggle_ref = ref_table.consumables, button_ref = 'cere_change_page', ref_page = 'consumables'},
     	{label = 'Card Modifiers', toggle_ref = ref_table.card_modifiers, button_ref = 'cere_change_page', ref_page = 'card_modifiers'},
     	{label = 'Run Modifiers', toggle_ref = ref_table.run_modifiers, button_ref = 'cere_change_page', ref_page = 'run_modifiers'},
-		{label = 'Suits', toggle_ref = ref_table.suits, remove_enable = true,},
 		{label = 'Miscellaneous', button_ref = 'cere_change_page', ref_page = 'misc', remove_enable = true,},
   	}
 	return _buttons, false

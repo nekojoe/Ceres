@@ -462,13 +462,13 @@ local the_solo = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.ra
     end,
 }
 
-local bismuth_crystal = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.rare.enabled and SMODS.Joker{
+local bismuth_crystal = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.rare.enabled and SMODS.Joker{
     key = 'bismuth_crystal',
     rarity = 3,
     unlocked = false or Ceres.CONFIG.misc.unlock_all.enabled, -- play hand of 5 stone
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     pos = {
-        x = 0,
+        x = 3,
         y = 0,
     },
     config = {

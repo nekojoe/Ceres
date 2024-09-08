@@ -23,7 +23,7 @@ end
 
 local draw_from_hand_to_discard_ref = G.FUNCS.draw_from_hand_to_discard
 G.FUNCS.draw_from_hand_to_discard = function(e)
-    local count = #G.perks.cards
+    local count = #G.cere_perks.cards
     for i=1, count do
         draw_card(G.perks,G.discard, i*100/count,'down', nil, nil, 0.07)
     end
@@ -35,7 +35,7 @@ function draw_card(from, to, percent, dir, sort, card, delay, mute, stay_flipped
     if card then
         -- drawing cards from deck to perk area
         if from == G.deck and to == G.hand and card.ability.set == 'Perk' then
-            to = G.perks
+            to = G.cere_perks
             dir = 'up'
             sort = true
         end
@@ -58,12 +58,12 @@ end
 local controller_queue_R_cursor_press_ref = Controller.queue_R_cursor_press
 function Controller:queue_R_cursor_press(x, y)
     if self.locks.frame then return end
-    if not G.SETTINGS.paused and G.perks and G.perks.highlighted[1] then 
+    if not G.SETTINGS.paused and G.cere_perks and G.cere_perks.highlighted[1] then 
         if (G.play and #G.play.cards > 0) or
         (self.locked) or 
         (self.locks.frame) or
         (G.GAME.STOP_USE and G.GAME.STOP_USE > 0) then return end
-        G.perks:unhighlight_all()
+        G.cere_perks:unhighlight_all()
     end
     controller_queue_R_cursor_press_ref(self, x, y)
 end

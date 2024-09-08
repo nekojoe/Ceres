@@ -221,7 +221,7 @@ local fool_joker = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers
 
 local draw_card_ref = draw_card
 function draw_card(from, to, percent, dir, sort, card, delay, mute, stay_flipped, vol, discarded_only)
-    if from == G.play and to == G.discard and SMODS.find_card('j_cere_fool_joker') then
+    if from == G.play and to == G.discard and #SMODS.find_card('j_cere_fool_joker') > 0 then
         to = G.deck
     end
     draw_card_ref(from, to, percent, dir, sort, card, delay, mute, stay_flipped, vol, discarded_only)

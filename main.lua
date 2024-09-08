@@ -6,7 +6,7 @@
 --- MOD_DESCRIPTION: ensure folder is name 'Ceres'
 --- BADGE_COLOUR: 13afce
 --- PRIORITY: 10
---- VERSION: 1.1.0b
+--- VERSION: 1.2.0b
 
 ----------------------------------------------
 ---------------- MOD CODE --------------------
@@ -38,13 +38,13 @@ Ceres.DEFAULT_CONFIG = {
         editions = { enabled = true },
         enhancements = { enabled = false },
         seals = { enabled = true },
-        perks = { enabled = false },
+        perks = { enabled = true },
         enabled = true
     },
-    suits = { enabled = true },
     consumables = {
         consumable_ex = { enabled = true },
         consumable_gx = { enabled = true },
+        reversed_tarot = { enabled = true },
         vouchers = { enabled = true },
         enabled = true,
     },
@@ -80,6 +80,7 @@ Ceres.COMPAT = {
     talisman = (SMODS.Mods['Talisman'] or {}).can_load,
     cryptid = (SMODS.Mods['Cryptid'] or {}).can_load,
     eris = (SMODS.Mods['Eris'] or {}).can_load,
+    loyaltycard = (SMODS.Mods['LoyaltyCard'] or {}).can_load,
 }
 
 Ceres.FUNCS = {}
@@ -143,6 +144,7 @@ Ceres.C = {
     cere_temporary = HEX('47B2FF'),
     planet_ex = HEX('AF60EF'),
     planet_gx = HEX('DC3E5C'),
+    reversed_tarot = HEX('ffcf40')
 }
 
 local loc_colour_ref = loc_colour
@@ -168,6 +170,7 @@ Ceres.ITEMS = {
         --'planet_gx',
         'vouchers',
         'boosters',
+        --'reversed_tarots',
     },
     jokers = {
         'common',
@@ -182,10 +185,10 @@ Ceres.ITEMS = {
         'decks',
         'stakes',
     },
-    suits = {
-        'suits',
-    },
-    items = not Ceres.COMPAT.eris and {
+    --suits = {
+        --'suits',
+    --},
+    items = not Ceres.COMPAT.loyaltycard and {
         'card',
         'cardarea',
         'funcs',
@@ -218,7 +221,6 @@ SMODS.current_mod.config_tab = function()
         {label = 'Consumables', toggle_ref = ref_table.consumables, button_ref = 'cere_change_page', ref_page = 'consumables'},
         {label = 'Card Modifiers', toggle_ref = ref_table.card_modifiers, button_ref = 'cere_change_page', ref_page = 'card_modifiers'},
         {label = 'Run Modifiers', toggle_ref = ref_table.run_modifiers, button_ref = 'cere_change_page', ref_page = 'run_modifiers'},
-		{label = 'Suits', toggle_ref = ref_table.suits, remove_enable = true,},
         {label = 'Miscellaneous', button_ref = 'cere_change_page', ref_page = 'misc', remove_enable = true,},
     }
     return {

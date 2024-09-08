@@ -222,3 +222,24 @@ judgement - create a temp copy of first scoring card each hand
 World - create a random other tarot joker when blind is selected (temporary)
 
 # way to flip
+
+# reversed
+
+Reverse fool - gives you a random reverse tarot
+Reverse magician - turn up to 2 card into unlucky cards ( +10 mult and +1$ when triggered, 1/4 chance to give -20 mult, 1/10 chance to set your money to 0
+Reverse high priestess - remove up to 2 levels of 2 random hands, upgrades most played hand by levels removed
+Reverse Emperor - turn up to 2 tarot cards held in consumable slots into their Reverse versions
+Reverse heirophant - turn up to 2 cards into minus cards (idk what a minus card would do tho)
+Reverse Lovers - turn 1 card into a blank card
+Reverse chariot - turn 1 card into a platinum card (x1.25 mult when triggered)
+Reverse Justice - turn 1 card into a Brick card?? Idk
+Reverse hermit - -20$, a random joker gains a random edition
+Reverse WoF - removes all enhancements and stickers from a random joker (that has edition/sticker)
+Reverse strength - decrease rank of up to 2 cards by 1
+Reversed hanged man - add 2 random cards with random enhancements and editions
+Reverse death - actually don't know
+Reverse temperance - +20$. -3€ for every joker you have
+Reverse Devil - turn 1 card into a  titanium card (2$ when discarded)
+Reverse tower - turn 1 card into an earth (idk what to call it)card (+15 mult, no rank or suit)
+Reverse star/moon/sun/world - destroy up to 3 cards with the (suit) suit
+Reverse Judgement - destroy the leftmost joker and obtain triple its sell value

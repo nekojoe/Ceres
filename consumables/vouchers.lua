@@ -194,7 +194,11 @@ local overflow_norm = Ceres.CONFIG.consumables.vouchers.enabled and SMODS.Vouche
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     redeem = function(self)
-        G.GAME.modifiers.cere_boosters = (G.GAME.modifiers.cere_boosters or 0) + 1
+        if Ceres.COMPAT.cryptid then
+            G.GAME.modifiers.cry_booster_packs = (G.GAME.modifiers.cry_booster_packs or 2) + 1
+        else
+            G.GAME.modifiers.cere_boosters = (G.GAME.modifiers.cere_boosters or 0) + 1
+        end
     end
 }
 
@@ -213,6 +217,10 @@ local overflow_plus = Ceres.CONFIG.consumables.vouchers.enabled and SMODS.Vouche
     },
 
     redeem = function(self)
-        G.GAME.modifiers.cere_boosters = (G.GAME.modifiers.cere_boosters or 0) + 1
+        if Ceres.COMPAT.cryptid then
+            G.GAME.modifiers.cry_booster_packs = (G.GAME.modifiers.cry_booster_packs or 2) + 1
+        else
+            G.GAME.modifiers.cere_boosters = (G.GAME.modifiers.cere_boosters or 0) + 1
+        end
     end
 }

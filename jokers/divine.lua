@@ -87,7 +87,7 @@ local aizen = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.divin
     end,
 
     calculate = function(self, card, context)
-        if context.individual and context.cardarea == G.hand then
+        if not context.end_of_round and context.individual and context.cardarea == G.hand then
             if context.other_card.debuff then
                 return {
                     message = localize('k_debuffed'),

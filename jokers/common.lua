@@ -256,7 +256,7 @@ local accountant = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
 
     calculate = function(self, card, context)
         if context.before and not context.blueprint then
-            if #context.full_hand == 3 then
+            if #context.full_hand == end_of_round then
                 card.ability.mult_mod = card.ability.mult_mod + card.ability.extra
                 ease_dollars(card.ability.extra)
                 G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra
@@ -560,6 +560,8 @@ local fool_joker = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
                     _card:add_to_deck()
                     G.consumeables:emplace(_card)
                 end
+            else
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_nope_ex'), colour = G.C.SECONDARY_SET.Tarot})
             end
         end          
     end,

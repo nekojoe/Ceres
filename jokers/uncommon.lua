@@ -21,61 +21,25 @@ local chainsaw_devil = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarit
     },
     cost = 7,
     config = {
-        mult_min = 16,
-        mult_max = 36,
-        x_mult_min = 1.1,
-        x_mult_max = 1.4,
-        x_mult_chance = 0.2,
-        chips_min = 57,
-        chips_max = 73,
-        chips_chance = 0.6,
-        money_min = 1,
-        money_max = 3,
-        money_chance = 0.2,
-        woof_chance = 0.7,
+        extra = 2,
     },
     atlas = 'uncommon_jokers',
     eternal_compat = true,
     perishable_compat = true,
-    blueprint_compat = true,
+    blueprint_compat = false,
 
-    calculate = function(self, card, context)
-        if context.joker_main then
-            local mult = pseudorandom('pochita') > self.config.chips_chance
-            if not mult then
-                local temp_chips = pseudorandom('pochita', self.config.chips_min, self.config.chips_max)
-                return {
-                    message = localize{type = 'variable', key = 'a_chips', vars = {temp_chips}},
-                    chip_mod = temp_chips,
-                }
-            else
-                local x_mult = pseudorandom('pochita') < self.config.x_mult_chance
-                if x_mult then
-                    local temp_x_mult = pseudorandom('pochita', self.config.x_mult_min, self.config.x_mult_max)
-                    return {
-                        message = localize{type = 'variable', key = 'a_xmult', vars = {temp_x_mult}},
-                        Xmult_mod = temp_x_mult,
-                    }
-                else
-                    local temp_mult = pseudorandom('pochita', self.config.mult_min, self.config.mult_max)
-                    return {
-                        message = localize{type = 'variable', key = 'a_mult', vars = {temp_mult}},
-                        mult_mod = temp_mult,
-                    }
-                end
-            end
-        elseif context.after and not context.blueprint and not context.control_devil then
-            if pseudorandom('pochita') < self.config.woof_chance then
-                return {
-                    message = 'Woof!',
-                }
-            end
-        end
+    loc_vars = function(self, info_queue, card)
+        return { vars = {card.ability.extra}}
     end,
 
-    calc_dollar_bonus = function(self, card)
-        if pseudorandom('pochita') < self.config.money_chance then
-            return pseudorandom('pochita', self.config.money_min, self.config.money_max)
+    calculate = function(self, card, context)
+        if context.first_hand_drawn and not context.blueprint and not G.GAME.blind:get_type() == 'Boss' then
+            G.GAME.blind.dollars = G.GAME.blind.dollars * card.ability.extra
+            G.GAME.current_round.dollars_to_be_earned = G.GAME.blind.dollars > 0 and (string.rep(localize('$'), self.dollars)..'') or ('')
+        end
+        if context.end_of_round and not (context.individual or context.repetition) and not context.blueprint then
+            G.HUD_blind:recalculate()
+            card_eval_status_text(card, 'extra', nil, nil, nil, {message = 'X'..card.ability.extra..' Reward', colour = G.C.MONEY})
         end
     end,
 }
@@ -636,15 +600,15 @@ local insurance_fraud = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rari
     end,
 }
 
-local seasoning = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncommon.enabled and SMODS.Joker{
+local seasoning = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncommon.enabled and SMODS.Joker{
     key = 'seasoning',
     rarity = 2,
     pos = {
-        x = 0,
-        y = 0,
+        x = 5,
+        y = 2,
     },
     config = {
-        extra = 3,
+        extra = 2,
     },
     atlas = 'uncommon_jokers',
     cost = 6,
@@ -659,41 +623,45 @@ local seasoning = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.
     end,
 
     calculate = function(self, card, context)
-        if context.individual and context.other_card and not context.repetition and not context.blueprint and context.cardarea == G.play then
-            if card.ability.extra > 0 then
-                local seal = SMODS.poll_seal({guaranteed = true})
-                local enhancement =  pseudorandom_element(G.P_CENTER_POOLS.Enhanced, pseudoseed('seasoning'))
-                local edition = poll_edition('seasoning', nil, true, true)
-                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() context.other_card:flip();play_sound('card1', percent);context.other_card:juice_up(0.3, 0.3);return true end }))
-                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.175,func = function() 
-                    context.other_card:set_seal(seal, true, true)
-                    context.other_card:set_ability(enhancement)
-                    context.other_card:set_edition(edition, true, true)
-                    return true 
-                end 
-                }))
-                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() context.other_card:flip();play_sound('tarot2', percent, 0.6);context.other_card:juice_up(0.3, 0.3);return true end }))
-                card.ability.extra = card.ability.extra - 1
-                card_eval_status_text(context.other_card, 'extra', nil, nil, nil, {message = 'Seasoned!', colour = G.C.RED})
-            else
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot1')
-                        card.T.r = -0.2
-                        card:juice_up(0.3, 0.4)
-                        card.states.drag.is = true
-                        card.children.center.pinch.x = true
-                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
-                            func = function()
-                                    G.jokers:remove_card(card)
-                                    card:remove()
-                                    card = nil
-                                return true; end})) 
-                        return true
-                    end
-                })) 
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = 'Empty!', colour = G.C.RED})
+        if context.before and not context.blueprint then
+            for i = 1, #context.scoring_hand do
+                if card.ability.extra > 0 then
+                    local seal = SMODS.poll_seal({guaranteed = true})
+                    local enhancement =  pseudorandom_element(G.P_CENTER_POOLS.Enhanced, pseudoseed('seasoning'))
+                    local edition = poll_edition('seasoning', nil, true, true)
+                    card_eval_status_text(context.scoring_hand[i], 'extra', nil, nil, nil, {message = 'Seasoned!', colour = G.C.RED})
+                    context.scoring_hand[i]:flip()
+                    play_sound('card1')
+                    context.scoring_hand[i]:juice_up(0.3, 0.3)
+                    context.scoring_hand[i]:set_seal(seal, true, true)
+                    context.scoring_hand[i]:set_ability(enhancement)
+                    context.scoring_hand[i]:set_edition(edition, true, true)
+                    delay(0.5)
+                    context.scoring_hand[i]:flip()
+                    context.scoring_hand[i]:juice_up(0.3, 0.3)
+                    card.ability.extra = card.ability.extra - 1
+                end
             end
+        end
+        if card.ability.extra < 1 and not card.empty then
+            card.empty = true
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    play_sound('tarot1')
+                    card.T.r = -0.2
+                    card:juice_up(0.3, 0.4)
+                    card.states.drag.is = true
+                    card.children.center.pinch.x = true
+                    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                        func = function()
+                                G.jokers:remove_card(card)
+                                card:remove()
+                                card = nil
+                            return true; end})) 
+                    return true
+                end
+            })) 
+            card_eval_status_text(card, 'extra', nil, nil, nil, {message = 'Empty!', colour = G.C.RED})
         end
     end,
 }
@@ -765,32 +733,21 @@ local blacksmith = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.
     calculate = function(self, card, context)
         if context.selling_self then
             if card.ability.extra > 0 then
-                update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
-                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
-                    play_sound('tarot1')
-                    card:juice_up(0.8, 0.5)
-                    G.TAROT_INTERRUPT_PULSE = true
-                    return true end }))
-                update_hand_text({delay = 0}, {mult = '+', StatusText = true})
-                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
-                    play_sound('tarot1')
-                    card:juice_up(0.8, 0.5)
-                    return true end }))
-                update_hand_text({delay = 0}, {chips = '+', StatusText = true})
-                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
-                    play_sound('tarot1')
-                    card:juice_up(0.8, 0.5)
-                    G.TAROT_INTERRUPT_PULSE = nil
-                    return true end }))
-                update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level='+'..card.ability.extra})
-                delay(1.3)
-                for k, v in pairs(G.GAME.hands) do
-                    level_up_hand(card, k, true, card.ability.extra)
+                local  _hand, _tally = nil, 0
+                for k, v in ipairs(G.handlist) do
+                    if G.GAME.hands[v].visible and G.GAME.hands[v].played > _tally then
+                        _hand = v
+                        _tally = G.GAME.hands[v].played
+                    end
                 end
-                update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+                if _hand then
+                    update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(_hand, 'poker_hands'),chips = G.GAME.hands[_hand].chips, mult = G.GAME.hands[_hand].mult, level=G.GAME.hands[_hand].level})
+                    level_up_hand(card, _hand, nil, card.ability.extra)
+                    update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+                end
             end
         end
-        if context.end_of_round and not (context.individual or context.repetition or context.blueprint) and G.GAME.blind:get_type() == 'Boss'then
+        if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
             card.ability.extra = card.ability.extra + 1
             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.C.SECONDARY_SET.Planet})
         end
@@ -815,6 +772,23 @@ local cursed_purse = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.raritie
     eternal_compat = true,
     perishable_compat = true,
 
+    update = function(self, card, dt)
+        if G.jokers then
+            for i = 1, #G.jokers.cards do
+                if G.jokers.cards[i].from_cursed_purse then 
+                    G.jokers.cards[i]:set_debuff(false)
+                    G.jokers.cards[i].from_cursed_purse = false
+                end
+                if G.jokers.cards[i] == card then
+                    if i ~= 1 then
+                        G.jokers.cards[i-1]:set_debuff(true)
+                        G.jokers.cards[i-1].from_cursed_purse = true
+                    end
+                end
+            end
+        end
+    end,
+
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra}}
     end,
@@ -826,24 +800,7 @@ local cursed_purse = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.raritie
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff and G.jokers then G.jokers:change_size(-card.ability.extra) end
     end,
-
 }
-
-local card_update_ref = Card.update
-function Card:update(dt)
-    card_update_ref(self, dt)
-    if self.ability.name == 'j_cere_cursed_purse' and G.jokers then
-        for i = 1, #G.jokers.cards do
-            if G.jokers.cards[i].from_cursed_purse then G.jokers.cards[i]:set_debuff(false) end
-            if G.jokers.cards[i] == self then
-                if i ~= 1 then
-                    G.jokers.cards[i-1]:set_debuff(true)
-                    G.jokers.cards[i-1].from_cursed_purse = true
-                end
-            end
-        end
-    end
-end
 
 local collectors_book = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.uncommon.enabled and SMODS.Joker{
     key = 'collectors_book',
