@@ -759,12 +759,35 @@ return {
 			},
 		},
 		['Enhanced'] = {
-			['m_cere_cobalt'] = {
-				['name'] = 'Cobalt Card',
+			['m_cere_sketch'] = {
+				['name'] = 'Sketch Card',
 				['text'] = {
                     "{X:chips,C:white} X#1# {} Chips",
                     "while this card",
                     "stays in hand"
+                }
+			},
+			['m_cere_postcard'] = {
+				['name'] = 'Postcard',
+				['text'] = {
+                    "{C:money}$#1#{} when discarded",
+                }
+			},
+			['m_cere_platinum'] = {
+				['name'] = 'Platinum Card',
+				['text'] = {
+                    "{C:money}$#1#{} while",
+                    "this card stays",
+                    "in hand"
+                }
+			},
+			['m_cere_stained_glass'] = {
+				['name'] = 'Stained Glass Card',
+				['text'] = {
+                    "{X:chips,C:white} X#1# {} Chips",
+                    "{X:mult,C:white} X#2# {} Mult",
+                    "{C:green}#3# in #4#{} chance to",
+                    "destroy card"
                 }
 			},
 		},
@@ -915,11 +938,11 @@ return {
 					'card in hand',
 				}
 			},
-			['c_cere_eraser'] = {
-				['name'] = 'Eraser',
+			['c_cere_paintbucket'] = {
+				['name'] = 'Paint Bucket',
 				['text'] = {
-                    'Removes {C:attention}suit{} from',
-					'all cards in hand',
+                    "Converts all cards",
+                    "in hand to all {C:attention}suits{}"
                 }
 			},
 		},
@@ -927,16 +950,14 @@ return {
 			['e_cere_colourblind'] = {
 				['name'] = "Colourblind",
 				['text'] = {
-					"{X:chips,C:white} X#1# {} Chips",
-					'{X:mult,C:white} X#2# {} Mult',
+					'{C:mult}#1#{} Mult',
+					"{X:chips,C:white} X#2# {} Chips",
         		}
 			},
 			['e_cere_mint_condition'] = {
 				['name'] = "Mint Condition",
 				['text'] = {
-					'When earning money,',
-					'gain {C:money}$#1#{} if this',
-					'card is in hand'
+					'{X:money,C:white} $#1# {}',
 				}
 			},
 		},

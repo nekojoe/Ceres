@@ -229,8 +229,8 @@ local magnet = Ceres.CONFIG.card_modifiers.seals.enabled and SMODS.Consumable{
     end,
 }
 
-local eraser = false and Ceres.CONFIG.suits.enabled and SMODS.Consumable{
-    key = 'eraser',
+local paintbucket = Ceres.CONFIG.card_modifiers.suits.enabled and SMODS.Consumable{
+    key = 'paintbucket',
     set = 'Spectral',
     pos = {
         x = 0,
@@ -262,7 +262,7 @@ local eraser = false and Ceres.CONFIG.suits.enabled and SMODS.Consumable{
         for i=1, #G.hand.cards do
             G.E_MANAGER:add_event(Event({func = function()
                 local card = G.hand.cards[i]
-                local suit_prefix = 'cere_N_'
+                local suit_prefix = 'cere_A_'
                 local rank_suffix = card.base.id < 10 and tostring(card.base.id) or
                                     card.base.id == 10 and 'T' or card.base.id == 11 and 'J' or
                                     card.base.id == 12 and 'Q' or card.base.id == 13 and 'K' or

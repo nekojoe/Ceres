@@ -64,7 +64,8 @@ Ceres.PAGE_FUNCS.card_modifiers = function()
 		{label = 'Seals', toggle_ref = ref_table.seals, remove_enable = true,},
 		--{label = 'Enhancements', toggle_ref = ref_table.enhancements, remove_enable = true,},
 		{label = 'Editions', toggle_ref = ref_table.editions, remove_enable = true,},
-		{label = 'Perks', toggle_ref = ref_table.perks, remove_enable = true,} or nil,
+		{label = 'Suits', toggle_ref = ref_table.suits, remove_enable = true,},
+		--{label = 'Perks', toggle_ref = ref_table.perks, remove_enable = true,} or nil,
 	}
 	return _buttons, 'main'
 end

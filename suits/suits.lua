@@ -14,7 +14,7 @@ local ui_atlas = SMODS.Atlas{
     atlas_table = 'ASSET_ATLAS',
 }
 
-local everything = Ceres.CONFIG.suits.enabled and SMODS.Suit {
+local everything = Ceres.CONFIG.card_modifiers.suits.enabled and SMODS.Suit {
     key = 'all_trades',
     card_key = 'A',
     hc_atlas = 'suits',
@@ -31,7 +31,11 @@ local everything = Ceres.CONFIG.suits.enabled and SMODS.Suit {
     hc_colour = HEX('464646'),
     lc_colour = HEX('464646'),
 
-    -- in_pool = function(self, args)
-    --     return false
-    -- end
+    in_pool = function(self, args)
+        if args and args.initial_deck then
+            return false
+        else
+            return true
+        end
+    end
 }

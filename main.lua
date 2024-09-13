@@ -36,9 +36,10 @@ Ceres.DEFAULT_CONFIG = {
     },
     card_modifiers = {
         editions = { enabled = true },
-        enhancements = { enabled = false },
+        enhancements = { enabled = true },
         seals = { enabled = true },
-        perks = { enabled = true },
+        suits = { enabled = true },
+        perks = { enabled = false },
         enabled = true
     },
     consumables = {
@@ -166,17 +167,16 @@ Ceres.ITEMS = {
     },
     consumables = {
         'spectrals',
-        --'planet_ex',
-        --'planet_gx',
+        'planet_ex',
+        'planet_gx',
         'vouchers',
         'boosters',
-        --'reversed_tarots',
+        'reversed_tarots',
     },
     jokers = {
         'common',
         'uncommon',
         'rare',
-        --'tarot',
         'legendary',
         'divine',
     },
@@ -185,9 +185,9 @@ Ceres.ITEMS = {
         'decks',
         'stakes',
     },
-    --suits = {
-        --'suits',
-    --},
+    suits = {
+        'suits',
+    },
     items = not Ceres.COMPAT.loyaltycard and {
         'card',
         'cardarea',

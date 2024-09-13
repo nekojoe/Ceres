@@ -82,9 +82,7 @@ uh
 
 # general jokers
 
-favourable odds
-chance for lucky
-
+glitched joker, does random thing
 Meteor
 dysy
 OP
@@ -120,6 +118,10 @@ seperate toml files
 colourblind broke
 
 # other shit
+
+antique cards, chance to break, give mone ywhen sscored
+sketch - not sure
+
 
 # tags
 Roulette Tag - wheel of fortune effect but 3 times

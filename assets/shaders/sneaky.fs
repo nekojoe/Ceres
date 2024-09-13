@@ -1,14 +1,22 @@
 #if defined(VERTEX) || __VERSION__ > 100 || defined(GL_FRAGMENT_PRECISION_HIGH)
-	#define PRECISION highp
+    #define PRECISION highp
 #else
-	#define PRECISION mediump
+    #define PRECISION mediump
 #endif
 
-// Look ionized.fs for explanation
-extern PRECISION vec2 reversed;
+// !! change this variable name to your Shader's name
+// YOU MUST USE THIS VARIABLE IN THE vec4 effect AT LEAST ONCE
+
+// Values of this variable:
+// self.ARGS.send_to_shader[1] = math.min(self.VT.r*3, 1) + (math.sin(G.TIMERS.REAL/28) + 1) + (self.juice and self.juice.r*20 or 0) + self.tilt_var.amt
+// self.ARGS.send_to_shader[2] = G.TIMERS.REAL
+extern PRECISION vec2 sneaky;
 
 extern PRECISION number dissolve;
 extern PRECISION number time;
+// [Note] sprite_pos_x _y is not a pixel position!
+//        To get pixel position, you need to multiply  
+//        it by sprite_width _height (look flipped.fs)
 // (sprite_pos_x, sprite_pos_y, sprite_width, sprite_height) [not normalized]
 extern PRECISION vec4 texture_details;
 // (width, height) for atlas texture [not normalized]
@@ -24,29 +32,17 @@ vec4 dissolve_mask(vec4 tex, vec2 texture_coords, vec2 uv);
 // This is what actually changes the look of card
 vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords )
 {
-
+    // Take pixel color (rgba) from `texture` at `texture_coords`, equivalent of texture2D in GLSL
+    vec4 tex = Texel(texture, texture_coords);
     // Position of a pixel within the sprite
 	vec2 uv = (((texture_coords)*(image_details)) - texture_details.xy*texture_details.ba)/texture_details.ba;
-    
-    float sprite_width = texture_details.z / image_details.x; // Normalized width
-    float sprite_pos_x = texture_details.x * sprite_width; // Normalized pos_x
 
-    float newX = sprite_pos_x + sprite_width - (texture_coords.x - sprite_pos_x);
+    tex.a = tex.a * 0.5;
 
-    float sprite_height = texture_details.a / image_details.y; // Normalized height
-    float sprite_pos_y = texture_details.y * sprite_height; // Normalized pos_y
-
-    float newY = sprite_pos_y + sprite_height - (texture_coords.y - sprite_pos_y);
-    // Take pixel color (rgba) from `texture` at `texture_coords`, equivalent of texture2D in GLSL
-    vec4 tex = Texel(texture, vec2(newX, newY));
-
-    // Does not do anything. Required for shader to not crash.
-    if (uv.x > 2. * uv.x) {
-        uv = reversed;
-    }
+    number one = sneaky.x / sneaky.x;
 
     // required
-	return dissolve_mask(tex*colour, texture_coords, uv);
+    return dissolve_mask(tex*colour*one, texture_coords, uv);
 }
 
 vec4 dissolve_mask(vec4 tex, vec2 texture_coords, vec2 uv)

@@ -6,49 +6,70 @@ local enhancement_atlas = SMODS.Atlas{
     atlas_table = 'ASSET_ATLAS',
 }
 
-local illusion = false and Ceres.CONFIG.card_modifiers.enhancements.enabled and SMODS.Enhancement{
-    key = 'illusion',
+local sketch = Ceres.CONFIG.card_modifiers.enhancements.enabled and SMODS.Enhancement{
+    key = 'sketch',
     pos = {
         x = 0,
         y = 0,
     },
     atlas = 'enhancement_atlas',
-    config = {
-        extra = 1.5,
-        chip_odds = 2,
-    },
+    config = {},
 
     loc_vars = function(self, info_queue)
-        return {vars = {G.GAME.probabilities.normal, self.config.extra,  self.config.chip_odds,  self.config.retrigger_odds}}
+        return {vars = {}}
     end,
 
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition_only then
-            if pseudorandom('illu') < (G.GAME.probabilities.normal / self.config.chip_odds) then
-                effect.cere_x_chips = (effect.cere_x_chips or 1) * self.config.extra
-            end
-        end
     end
 }
 
-local cobalt = Ceres.CONFIG.card_modifiers.enhancements.enabled and SMODS.Enhancement{
-    key = 'cobalt',
+local postcard = Ceres.CONFIG.card_modifiers.enhancements.enabled and SMODS.Enhancement{
+    key = 'postcard',
     pos = {
         x = 1,
         y = 0,
     },
     atlas = 'enhancement_atlas',
-    config = {
-        extra = 2,
-    },
+    config = {},
 
     loc_vars = function(self, info_queue)
-        return {vars = {self.config.extra}}
+        return {vars = {}}
     end,
 
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.hand and not context.repetition_only then
-            effect.cere_x_chips = (effect.cere_x_chips or 1) * self.config.extra
-        end
+    end
+}
+
+local titanium = Ceres.CONFIG.card_modifiers.enhancements.enabled and SMODS.Enhancement{
+    key = 'titanium',
+    pos = {
+        x = 2,
+        y = 0,
+    },
+    atlas = 'enhancement_atlas',
+    config = {},
+
+    loc_vars = function(self, info_queue)
+        return {vars = {}}
+    end,
+
+    calculate = function(self, card, context, effect)
+    end
+}
+
+local stained_glass = Ceres.CONFIG.card_modifiers.enhancements.enabled and SMODS.Enhancement{
+    key = 'stained_glass',
+    pos = {
+        x = 3,
+        y = 0,
+    },
+    atlas = 'enhancement_atlas',
+    config = {},
+
+    loc_vars = function(self, info_queue)
+        return {vars = {}}
+    end,
+
+    calculate = function(self, card, context, effect)
     end
 }

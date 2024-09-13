@@ -1,4 +1,5 @@
 local colourblind_shader = SMODS.Shader({key = 'colourblind', path = 'colourblind.fs'})
+local sneaky_shader = SMODS.Shader({key = 'sneaky', path = 'sneaky.fs'})
 local mint_shader = SMODS.Shader({key = 'mint', path = 'mint.fs'})
 
 local colourblind = Ceres.CONFIG.card_modifiers.editions.enabled and SMODS.Edition({
@@ -7,8 +8,8 @@ local colourblind = Ceres.CONFIG.card_modifiers.editions.enabled and SMODS.Editi
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     shader = 'colourblind',
     config = {
-        x_mult = 1.25,
-        cere_x_chips = 1.25,
+        mult = -10,
+        cere_x_chips = 2,
     },
     in_shop = true,
     weight = 3,
@@ -16,8 +17,8 @@ local colourblind = Ceres.CONFIG.card_modifiers.editions.enabled and SMODS.Editi
     apply_to_float = false,
     loc_vars = function(self, info_queue, card)
         return { vars = {
+            (card and card.edition and card.edition.mult) or self.config.mult,
             (card and card.edition and card.edition.cere_x_chips) or self.config.cere_x_chips,
-            (card and card.edition and card.edition.x_mult) or self.config.x_mult,
         }}
     end,
 
@@ -26,18 +27,53 @@ local colourblind = Ceres.CONFIG.card_modifiers.editions.enabled and SMODS.Editi
     end
 })
 
+local sneaky = Ceres.CONFIG.card_modifiers.editions.enabled and SMODS.Edition({
+    key = "sneaky",
+    unlocked = false or Ceres.CONFIG.misc.unlock_all.enabled,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    shader = 'sneaky',
+    config = {
+        extra = 4,
+        odds = 3
+    },
+    in_shop = true,
+    weight = 3,
+    extra_cost = 5,
+    apply_to_float = false,
+    loc_vars = function(self, info_queue, card)
+        return { vars = {
+            (card and card.edition and card.edition.odds) or self.config.odds,
+            (card and card.edition and card.edition.extra) or self.config.extra,
+        }}
+    end,
+
+    calculate = function(self, card, context)
+        if pseudorandom(pseudoseed('sneaky')) < G.GAME.probabilities.normal/3 then
+            return {
+                Xmult_mod = 4,
+                colour = G.C.RED,
+                card = card
+            }
+        end
+    end,
+
+    get_weight = function(self)
+        return (G.GAME.cere_edition_rate or 1) * self.weight
+    end,
+})
+
 local mint = Ceres.CONFIG.card_modifiers.editions.enabled and SMODS.Edition({
     key = "mint_condition",
     unlocked = false or Ceres.CONFIG.misc.unlock_all.enabled,
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     shader = 'mint',
-    config = { extra = 2},
+    config = { p_dollars = 3},
     in_shop = true,
     weight = 10,
     extra_cost = 4,
     apply_to_float = false,
     loc_vars = function(self, info_queue, card)
-        return { vars = {(card and card.edition and card.edition.extra) or self.config.extra}}
+        return { vars = {(card and card.edition and card.edition.p_dollars) or self.config.p_dollars}}
     end,
 
     get_weight = function(self)
@@ -64,22 +100,5 @@ function Card:draw(layer)
     if self.sprite_facing == 'front' and self.edition and self.edition.type == 'cere_mint_condition' then
         glass.role.draw_major = self
         glass:draw_shader('dissolve', nil, nil, nil, self.children.center)
-    end
-end
-
-local ease_dollars_ref = ease_dollars
-function ease_dollars(mod, instant)
-    local inc = 0
-    if mod > 0 then
-        for _, card in pairs(G.hand.cards) do
-            if card.edition and card.edition.type == 'cere_mint_condition' then
-                inc = inc + card.edition.extra
-            end
-        end
-    end
-    ease_dollars_ref(mod, instant)
-    if inc > 0 then
-        delay(0.5)
-        ease_dollars_ref(inc, instant)
     end
 end
