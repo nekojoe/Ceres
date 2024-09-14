@@ -1,10 +1,10 @@
 return {
 	['misc'] = {
 		['suits_plural'] = {
-			['cere_all_trades'] = 'All Trades',
+			['cere_all_suits'] = 'All Suits',
 		},
 		['suits_singular'] = {
-			['cere_all_trades'] = 'Everything',
+			['cere_all_suits'] = 'All Suit',
 		},
 		['labels'] = {
 			['cere_colourblind'] = 'Colourblind',
@@ -421,6 +421,16 @@ return {
                     "it and gain {C:money}$#1#{}",
                 }
             },
+			['j_cere_wish'] = {
+                ['name'] = "Wish",
+                ['text'] = {
+					"Each {C:money}$75{}-{C:money}$90{} spent has a {C:green}1 in 2{}",
+					"chance to spawn a {C:legendary,E:1}Legendary{} Joker.",
+					"If a {C:legendary,E:1}Legendary{} Joker isn't spawned,",
+					"then the next will be {C:attention}guaranteed{}",
+                    "{C:inactive}(Currently {C:money}$#1#{C:inactive}, #2#)",
+                }
+            },
 			-- uncommon
 			['j_cere_chainsaw_devil'] = {
 				['name'] = 'Chainsaw Devil',
@@ -761,11 +771,7 @@ return {
 		['Enhanced'] = {
 			['m_cere_sketch'] = {
 				['name'] = 'Sketch Card',
-				['text'] = {
-                    "{X:chips,C:white} X#1# {} Chips",
-                    "while this card",
-                    "stays in hand"
-                }
+				['text'] = {}
 			},
 			['m_cere_postcard'] = {
 				['name'] = 'Postcard',
@@ -795,16 +801,8 @@ return {
 			['c_cere_reversed_lovers'] = {
                 ['name'] = "The Lovers Reversed",
                 ['text'] = {
-                    "Remove the suit from",
-					'{C:attention}#1#{} selected card',
-                }
-            },
-			['c_cere_reversed_strength'] = {
-                ['name'] = "Strength Reversed",
-                ['text'] = {
-                    "Decreases rank of",
-                    "up to {C:attention}#1#{} selected",
-                    "cards by {C:attention}1"
+                    "Converts {C:attention}#1#{} selected",
+                    "card into {V:1}all suits{}",
                 }
             },
 			['c_cere_reversed_wheel_of_fortune'] = {
@@ -815,6 +813,22 @@ return {
                     "{C:dark_edition}Polychrome{} edition",
                     "to a random card in {C:attention}hand"
                 }
+            },
+			['c_cere_reversed_strength'] = {
+                ['name'] = "Strength Reversed",
+                ['text'] = {
+                    "Decreases rank of",
+                    "up to {C:attention}#1#{} selected",
+                    "cards by {C:attention}1"
+                }
+            },
+			['c_cere_reversed_devil'] = {
+                ['name'] = "The Devil Reversed",
+                ['text'] = {
+					"Enhances {C:attention}#1#{} selected",
+					"card into a",
+					"{C:attention}Postcard"
+				}
             },
 		},
 		['Back'] = {
@@ -954,10 +968,17 @@ return {
 					"{X:chips,C:white} X#2# {} Chips",
         		}
 			},
+			['e_cere_sneaky'] = {
+				['name'] = "Sneaky",
+				['text'] = {
+					'{C:green}#1# in #2#{} chance',
+					"for {X:mult,C:white} X#3# {} Mult",
+        		}
+			},
 			['e_cere_mint_condition'] = {
 				['name'] = "Mint Condition",
 				['text'] = {
-					'{X:money,C:white} $#1# {}',
+					'{C:money}$#1#{}',
 				}
 			},
 		},

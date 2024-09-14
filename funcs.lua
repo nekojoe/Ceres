@@ -45,3 +45,15 @@ G.FUNCS.get_poker_hand_info = function(_cards)
 
     return text, loc_disp_text, poker_hands, scoring_hand, disp_text
 end
+
+-- additional calc joker check for money gain/loss
+
+local ease_dollars_ref = ease_dollars
+function ease_dollars(mod, instant)
+    if G.jokers then
+        for i = 1, #G.jokers.cards do
+            G.jokers.cards[i]:calculate_joker({delta_money = true, mod = mod})
+        end
+    end
+    ease_dollars_ref(mod, instant)
+end

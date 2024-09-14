@@ -172,6 +172,16 @@ if scoring_hand and scoring_hand[i] and scoring_hand[i].edition then
 		edition = true,
 		cere_x_dollars = true})
 	end
+	if edi.cere_chance_x_mult then
+		if pseudorandom(pseudoseed('cere_chance')) < G.GAME.probabilities.normal/edi.cere_chance_x_mult.odds then
+			mult = mod_mult(mult * edi.cere_chance_x_mult.x_mult)
+			update_hand_text({delay = 0}, {mult = mult})
+			card_eval_status_text(trg, 'extra', nil, percent, nil,
+			{message = 'X'.. edi.cere_chance_x_mult.x_mult ..' Mult',
+			edition = true,
+			cere_chance_x_mult = true})
+		end
+	end
 end'''
 
 [[patches]]

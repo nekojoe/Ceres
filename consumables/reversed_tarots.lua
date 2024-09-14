@@ -37,12 +37,12 @@ local undiscoverd_atlas = SMODS.UndiscoveredSprite{
     },
 }
 
-local reversed_lovers = reversed_tarot_enabled and SMODS.Consumable{
+local reversed_lovers = Ceres.CONFIG.card_modifiers.suits.enabled and SMODS.Consumable{
     key = "reversed_lovers",
     set = "cere_reversed_tarot",
     config = {
         max_highlighted = 1,
-        suit_conv = 'cere_Nothings'
+        suit_conv = 'cere_all_suits'
     },
     pos = {
         x = 6,
@@ -54,7 +54,7 @@ local reversed_lovers = reversed_tarot_enabled and SMODS.Consumable{
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
 
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.max_highlighted}}
+        return {vars = {card.ability.max_highlighted, colours = {Ceres.C.all_suits}}}
     end,
 }
 
@@ -174,4 +174,47 @@ local reversed_strength = reversed_tarot_enabled and SMODS.Consumable{
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
         delay(0.5)
     end,
+}
+
+local reversed_devil = reversed_tarot_enabled and SMODS.Consumable{
+    key = "reversed_devil",
+    set = "cere_reversed_tarot",
+    config = {
+        max_highlighted = 1,
+        mod_conv = 'm_cere_postcard'
+    },
+    pos = {
+        x = 5,
+        y = 1,
+    },
+    cost = 3,
+    atlas = "reversed_tarot",
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS['m_cere_postcard']
+        return {vars = {card.ability.max_highlighted}}
+    end,
+
+    -- use = function(self, card, area, copier)
+    --     G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+    --         play_sound('tarot1')
+    --         card:juice_up(0.3, 0.5)
+    --         return true end }))
+    --     for i=1, #G.hand.highlighted do
+    --         local percent = 1.15 - (i-0.999)/(#G.hand.highlighted-0.998)*0.3
+    --         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() G.hand.highlighted[i]:flip();play_sound('card1', percent);G.hand.highlighted[i]:juice_up(0.3, 0.3);return true end }))
+    --     end
+    --     delay(0.2)
+    --     for i=1, #G.hand.highlighted do
+    --         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() G.hand.highlighted[i]:set_ability(G.P_CENTERS[self.ability.consumeable.mod_conv]);return true end }))
+    --     end 
+    --     for i=1, #G.hand.highlighted do
+    --         local percent = 0.85 + (i-0.999)/(#G.hand.highlighted-0.998)*0.3
+    --         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() G.hand.highlighted[i]:flip();play_sound('tarot2', percent, 0.6);G.hand.highlighted[i]:juice_up(0.3, 0.3);return true end }))
+    --     end
+    --     G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
+    --     delay(0.5)
+    -- end,
 }

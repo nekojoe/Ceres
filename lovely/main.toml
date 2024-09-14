@@ -63,4 +63,15 @@ payload = '''if center.name == "Large Joker" and (center.discovered or self.bypa
 end'''
 match_indent = true
 
+# colours yippee
 
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''self.C.DARK_EDITION[2] = math.min(self.C.DARK_EDITION[3], self.C.DARK_EDITION[1])'''
+position = "after"
+payload = '''
+if Ceres then
+    Ceres.C.all_suits[1] = 70/255 + (136/255 * math.abs(math.sin(self.TIMERS.REAL/1.3)))
+end'''
+match_indent = true

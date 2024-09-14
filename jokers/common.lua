@@ -631,3 +631,67 @@ local flying_ace = false and Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers
         end          
     end,
 }
+
+local wish = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarities.common.enabled and SMODS.Joker{
+    key = 'wish',
+    rarity = 1,
+    unlocked = true,
+    discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
+    pos = {
+        x = 4,
+        y = 2,
+    },
+    config = {
+        wishes = 0,
+        guaranteed = false
+    },
+    cost = 0,
+    atlas = 'common_jokers',
+    eternal_compat = true,
+    perishable_compat = true,
+    blueprint_compat = true,
+
+    loc_vars = function(self, info_queue, card)
+        return { vars = {card.ability.wishes, card.ability.guaranteed and "guaranteed" or "not guaranteed"}}
+    end,
+
+    calculate = function(self, card, context)
+        if context.delta_money then
+            if context.mod < 0 then
+                local mod = context.mod * - 1
+                local spawn = 0
+                for i = 1, mod do
+                    card.ability.wishes = card.ability.wishes + 1
+                    if card.ability.wishes > 74 then
+                        local chance = (90 - card.ability.wishes) / 15
+                        if pseudorandom(pseudoseed('wish')) > chance then
+                            spawn = spawn + 1
+                            card.ability.wishes = 0
+                        end
+                    end
+                end
+                if spawn then
+                    for i = 1, spawn do
+                        if card.ability.guaranteed or pseudorandom(pseudoseed('wish')) < 1/2 then
+                            -- spawn legendary
+                            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                                play_sound('timpani')
+                                local _card = create_card('Joker', G.jokers, true, nil, nil, nil, nil, "wish")
+                                _card:add_to_deck()
+                                G.jokers:emplace(_card)
+                                check_for_unlock{type = 'spawn_legendary'}
+                                card:juice_up(0.3, 0.5)
+                                return true end }))
+                            delay(0.6)
+                            card.ability.guaranteed = false
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Yep!", colour = G.C.GREEN})
+                        else
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Nope!", colour = G.C.RED})
+                            card.ability.guaranteed = true
+                        end
+                    end
+                end
+            end
+        end
+    end,
+}

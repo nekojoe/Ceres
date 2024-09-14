@@ -145,7 +145,8 @@ Ceres.C = {
     cere_temporary = HEX('47B2FF'),
     planet_ex = HEX('AF60EF'),
     planet_gx = HEX('DC3E5C'),
-    reversed_tarot = HEX('ffcf40')
+    reversed_tarot = HEX('ffcf40'),
+    all_suits = {70/255, 70/255, 70/255, 1},
 }
 
 local loc_colour_ref = loc_colour

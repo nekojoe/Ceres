@@ -6,6 +6,8 @@ as mods too
 
 # Todo:
 
+wish, spend 75-90 get ass
+
 camo joker, wildcards cant be debuffed
 investor joker, after small blind lose money, gain more after defeating boss blind
 add own blinds

@@ -33,28 +33,22 @@ local sneaky = Ceres.CONFIG.card_modifiers.editions.enabled and SMODS.Edition({
     discovered = false or Ceres.CONFIG.misc.discover_all.enabled,
     shader = 'sneaky',
     config = {
-        extra = 4,
-        odds = 3
+        cere_chance_x_mult = {
+            x_mult = 4,
+            odds = 3
+        }
     },
     in_shop = true,
     weight = 3,
     extra_cost = 5,
     apply_to_float = false,
+    disable_base_shader = true,
     loc_vars = function(self, info_queue, card)
         return { vars = {
-            (card and card.edition and card.edition.odds) or self.config.odds,
-            (card and card.edition and card.edition.extra) or self.config.extra,
+            G.GAME and G.GAME.probabilities.normal or 1,
+            (card and card.edition and card.edition.cere_chance_x_mult.odds) or self.config.cere_chance_x_mult.odds,
+            (card and card.edition and card.edition.cere_chance_x_mult.x_mult) or self.config.cere_chance_x_mult.x_mult,
         }}
-    end,
-
-    calculate = function(self, card, context)
-        if pseudorandom(pseudoseed('sneaky')) < G.GAME.probabilities.normal/3 then
-            return {
-                Xmult_mod = 4,
-                colour = G.C.RED,
-                card = card
-            }
-        end
     end,
 
     get_weight = function(self)

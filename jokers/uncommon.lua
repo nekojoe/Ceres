@@ -21,7 +21,7 @@ local chainsaw_devil = Ceres.CONFIG.jokers.enabled and Ceres.CONFIG.jokers.rarit
     },
     cost = 7,
     config = {
-        extra = 2,
+        extra = 3,
     },
     atlas = 'uncommon_jokers',
     eternal_compat = true,

@@ -14,8 +14,8 @@ local ui_atlas = SMODS.Atlas{
     atlas_table = 'ASSET_ATLAS',
 }
 
-local everything = Ceres.CONFIG.card_modifiers.suits.enabled and SMODS.Suit {
-    key = 'all_trades',
+local all_suits = Ceres.CONFIG.card_modifiers.suits.enabled and SMODS.Suit {
+    key = 'all_suits',
     card_key = 'A',
     hc_atlas = 'suits',
     lc_atlas = 'suits',
@@ -28,8 +28,8 @@ local everything = Ceres.CONFIG.card_modifiers.suits.enabled and SMODS.Suit {
         x = 0,
         y = 0,
     },
-    hc_colour = HEX('464646'),
-    lc_colour = HEX('464646'),
+    hc_colour = Ceres.C.all_suits,
+    lc_colour = Ceres.C.all_suits,
 
     in_pool = function(self, args)
         if args and args.initial_deck then
@@ -39,3 +39,9 @@ local everything = Ceres.CONFIG.card_modifiers.suits.enabled and SMODS.Suit {
         end
     end
 }
+
+local card_is_suit_ref = Card.is_suit
+function Card:is_suit(suit, bypass_debuff, flush_calc)
+    if self.base.suit == 'cere_all_suits' then return true end
+    return card_is_suit_ref(self, suit, bypass_debuff, flush_calc)
+end
